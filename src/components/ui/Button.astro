@@ -1,0 +1,88 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+type Variant = 'primary' | 'whatsapp' | 'heritage' | 'dark' | 'ghost' | 'ghost-light' | 'outline';
+type Size = 'sm' | 'md' | 'lg';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'class'> {
+  variant?: Variant;
+  size?: Size;
+  href?: string;
+  icon?: string;
+  /** Icon after the label (arrows). Directional icons flip in RTL. */
+  iconEnd?: string;
+  /** Opens the inquiry modal (optionally with a plot preselected). Falls back to href without JS. */
+  inquiry?: string | boolean;
+  magnetic?: boolean;
+  external?: boolean;
+  full?: boolean;
+  class?: string;
+  type?: 'button' | 'submit';
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  icon,
+  iconEnd,
+  inquiry,
+  magnetic = false,
+  external = false,
+  full = false,
+  class: className = '',
+  type = 'button',
+  ...rest
+} = Astro.props;
+
+const base =
+  'btn-fill group/btn inline-flex items-center justify-center gap-2 rounded-lg font-label text-label-badge uppercase transition-[transform,box-shadow,background-color,color,border-color] duration-300 ease-(--ease-out-expo) select-none whitespace-nowrap';
+
+const sizes: Record<Size, string> = {
+  sm: 'min-h-10 px-space-md py-2',
+  md: 'min-h-11 px-space-lg py-3',
+  lg: 'min-h-12 px-space-xl py-3.5',
+};
+
+const variants: Record<Variant, string> = {
+  primary: 'bg-terracotta text-white shadow-md hover:shadow-xl hover:-translate-y-0.5 [--btn-fill:var(--color-terracotta-hover)]',
+  whatsapp: 'bg-whatsapp text-whatsapp-ink shadow-md hover:shadow-xl hover:-translate-y-0.5 [--btn-fill:rgb(255_255_255/0.22)]',
+  heritage:
+    'bg-dark-brown-elevated/80 text-secondary-fixed border border-secondary-fixed/40 backdrop-blur-sm hover:border-secondary-fixed [--btn-fill:var(--color-dark-brown-elevated)]',
+  dark: 'bg-dark-brown-surface text-surface-bright shadow-sm hover:shadow-lg [--btn-fill:var(--color-dark-brown-elevated)]',
+  outline: 'border border-border-sand-medium text-on-surface hover:border-secondary [--btn-fill:var(--color-surface-container)]',
+  ghost: 'px-0! min-h-11 text-on-surface hover:text-secondary [--btn-fill:transparent]',
+  'ghost-light': 'px-0! min-h-11 text-secondary-fixed hover:text-surface-bright [--btn-fill:transparent]',
+};
+
+const classes = [base, sizes[size], variants[variant], full ? 'w-full' : '', className].join(' ');
+const inquiryAttr = inquiry === undefined || inquiry === false ? undefined : inquiry === true ? '' : inquiry;
+const Tag = href ? 'a' : 'button';
+const newTabText = Astro.currentLocale === 'ur' ? '(نئی ٹیب میں کھلے گا)' : '(opens in a new tab)';
+---
+
+<Tag
+  class={classes}
+  href={href}
+  type={Tag === 'button' ? type : undefined}
+  data-inquiry={inquiryAttr}
+  data-magnetic={magnetic ? '' : undefined}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  {...rest}
+>
+  {icon && <Icon name={icon} size={18} />}
+  <span><slot /></span>
+  {
+    iconEnd && (
+      <Icon
+        name={iconEnd}
+        size={16}
+        flip={iconEnd.startsWith('arrow')}
+        class="transition-transform duration-300 group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1"
+      />
+    )
+  }
+  {external && <span class="sr-only">{newTabText}</span>}
+</Tag>

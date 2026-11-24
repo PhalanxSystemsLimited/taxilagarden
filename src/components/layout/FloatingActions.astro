@@ -1,0 +1,101 @@
+---
+/** Floating WhatsApp concierge pill + back-to-top button. */
+import Icon from '../ui/Icon.astro';
+import { waLink } from '../../data/site';
+import { getDict } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+---
+
+<a
+  href={waLink()}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="wa-float fixed bottom-5 end-5 z-40 inline-flex min-h-12 items-center gap-space-sm rounded-full bg-brand-whatsapp px-4 py-3 text-whatsapp-ink shadow-lg transition-[transform,box-shadow,opacity] duration-500 ease-(--ease-out-expo) hover:-translate-y-0.5 hover:shadow-xl sm:px-space-lg"
+  data-wa-float
+  aria-label={`${t.common.chatOnWhatsapp} ${t.common.opensInNewTab}`}
+>
+  <span class="wa-ring absolute inset-0 rounded-full" aria-hidden="true"></span>
+  <Icon name="chat" size={22} />
+  <span class="hidden font-label text-label-badge uppercase sm:inline">{t.common.whatsappSales}</span>
+</a>
+
+<button
+  type="button"
+  class="fixed bottom-24 end-5 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full border border-border-sand-medium bg-surface-cream-card/95 text-secondary shadow-tier2 backdrop-blur transition-[opacity,transform,visibility] duration-500 ease-(--ease-out-expo) hover:text-gold-antique-hover invisible translate-y-4 opacity-0 data-[show]:visible data-[show]:translate-y-0 data-[show]:opacity-100"
+  aria-label={t.common.backToTop}
+  data-back-to-top
+>
+  <Icon name="arrow_upward" size={22} />
+</button>
+
+<style>
+  .wa-float {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+  .wa-float.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .wa-float.is-in:hover {
+    transform: translateY(-2px);
+  }
+  .wa-ring {
+    box-shadow: 0 0 0 0 rgb(37 211 102 / 0.55);
+  }
+  .wa-float.is-pulsing .wa-ring {
+    animation: wa-pulse 1.6s var(--ease-out-power3) 2;
+  }
+  @keyframes wa-pulse {
+    0% { box-shadow: 0 0 0 0 rgb(37 211 102 / 0.55); }
+    100% { box-shadow: 0 0 0 18px rgb(37 211 102 / 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wa-float { opacity: 1; transform: none; }
+  }
+</style>
+
+<script>
+  const wa = document.querySelector<HTMLElement>('[data-wa-float]');
+  const top = document.querySelector<HTMLButtonElement>('[data-back-to-top]');
+
+  // WhatsApp pill: appears after a short delay, pulses every ~8s until the user interacts.
+  if (wa) {
+    window.setTimeout(() => wa.classList.add('is-in'), 1400);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let pulseTimer: number | undefined;
+    if (!reduce) {
+      pulseTimer = window.setInterval(() => {
+        wa.classList.remove('is-pulsing');
+        void wa.offsetWidth;
+        wa.classList.add('is-pulsing');
+      }, 8000);
+    }
+    const stop = () => {
+      clearInterval(pulseTimer);
+      wa.classList.remove('is-pulsing');
+    };
+    wa.addEventListener('pointerenter', stop, { once: true });
+    wa.addEventListener('click', stop, { once: true });
+    wa.addEventListener('focus', stop, { once: true });
+  }
+
+  // Back to top after one screen
+  if (top) {
+    const update = () => top.toggleAttribute('data-show', window.scrollY > window.innerHeight);
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+    top.addEventListener('click', () => {
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (t: number) => void } }).__lenis;
+      if (lenis) lenis.scrollTo(0);
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.querySelector<HTMLElement>('#main')?.focus({ preventScroll: true });
+    });
+  }
+</script>

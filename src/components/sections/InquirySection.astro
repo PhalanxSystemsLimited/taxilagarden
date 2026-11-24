@@ -1,0 +1,57 @@
+---
+/** Stitch "Schedule a Private Guided Site Tour" banner with the WhatsApp inquiry form. */
+import Icon from '../ui/Icon.astro';
+import InquiryForm from '../react/InquiryForm.jsx';
+import { site } from '../../data/site';
+import { plotOptions } from '../../data/plots';
+import { getDict, tl } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const opts = plotOptions.map((o) => ({ value: o.value, label: tl(o.label, lang) }));
+---
+
+<section class="container-x py-space-2xl md:py-space-3xl" id="inquiry" aria-labelledby="inquiry-heading">
+  <div class="rounded-2xl border border-border-sand-medium/70 bg-surface-cream-card p-space-lg shadow-xl sm:p-space-xl lg:p-space-2xl">
+    <div class="grid grid-cols-1 gap-space-xl lg:grid-cols-12 lg:gap-space-2xl">
+      <div class="space-y-space-md lg:col-span-5">
+        <p class="eyebrow" data-reveal="eyebrow">{t.cta.eyebrow}</p>
+        <h2 id="inquiry-heading" class="font-display text-headline-lg-mobile text-on-surface md:text-headline-lg" data-split>{t.cta.title}</h2>
+        <p class="font-body text-body-md text-on-surface-variant" data-reveal>{t.cta.text}</p>
+        <ul class="space-y-space-sm pt-space-sm font-body text-body-sm text-on-surface-variant" data-reveal>
+          <li class="flex items-center gap-space-sm">
+            <Icon name="corporate_fare" size={20} class="text-secondary" />
+            <span>{t.cta.officeLine}</span>
+          </li>
+          <li class="flex items-start gap-space-sm">
+            <Icon name="schedule" size={20} class="mt-0.5 text-secondary" />
+            <span>{t.hours.weekdaysShort} · {t.hours.sunday}</span>
+          </li>
+          <li class="flex items-center gap-space-sm">
+            <Icon name="phone_in_talk" size={20} class="text-secondary" />
+            <span>
+              {t.cta.helpline}:{' '}
+              {
+                site.phones.map((p, i) => (
+                  <>
+                    {i > 0 && ' / '}
+                    <a href={`tel:${p.tel}`} class="font-semibold text-on-surface underline-offset-4 hover:underline" dir="ltr">
+                      {p.display}
+                    </a>
+                  </>
+                ))
+              }
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="rounded-xl border border-border-sand-medium/50 bg-surface-container p-space-md sm:p-space-lg lg:col-span-7" data-reveal>
+        <InquiryForm client:visible strings={t.form} plotOptions={opts} waNumber={site.whatsapp.number} />
+      </div>
+    </div>
+  </div>
+</section>

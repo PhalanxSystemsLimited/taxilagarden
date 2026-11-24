@@ -1,0 +1,94 @@
+---
+/**
+ * PhotoSwipe lightbox. Include once on pages that have [data-pswp] links.
+ * Each [data-pswp-gallery] is one gallery; loose [data-pswp] links (documents) open on their own.
+ * PhotoSwipe itself is loaded on first open.
+ */
+---
+
+<script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import { loadCss } from '../lib/load-css.js';
+
+  const isUr = document.documentElement.lang.startsWith('ur');
+  const labels = isUr
+    ? { closeTitle: 'بند کریں', zoomTitle: 'زوم', arrowPrevTitle: 'پچھلی', arrowNextTitle: 'اگلی', errorMsg: 'تصویر لوڈ نہیں ہو سکی' }
+    : { closeTitle: 'Close', zoomTitle: 'Zoom', arrowPrevTitle: 'Previous', arrowNextTitle: 'Next', errorMsg: 'The image could not be loaded' };
+
+  const setup = (lightbox: PhotoSwipeLightbox) => {
+    lightbox.on('uiRegister', () => {
+      lightbox.pswp?.ui?.registerElement({
+        name: 'caption',
+        order: 9,
+        isButton: false,
+        appendTo: 'root',
+        onInit: (el, pswp) => {
+          el.className = 'pswp__custom-caption';
+          pswp.on('change', () => {
+            const a = pswp.currSlide?.data.element as HTMLElement | undefined;
+            el.textContent = a?.dataset.caption ?? '';
+          });
+        },
+      });
+    });
+    lightbox.on('beforeOpen', () => window.dispatchEvent(new CustomEvent('tghs:lock-scroll')));
+    lightbox.on('destroy', () => window.dispatchEvent(new CustomEvent('tghs:unlock-scroll')));
+    lightbox.init();
+  };
+
+  const common = {
+    // PhotoSwipe core + its CSS load on first open only.
+    pswpModule: () => Promise.all([import('photoswipe'), loadCss('/vendor/photoswipe.css')]).then(([m]) => m.default),
+    bgOpacity: 0.94,
+    maxZoomLevel: 4,
+    secondaryZoomLevel: 2,
+    padding: { top: 40, bottom: 80, left: 16, right: 16 },
+    ...labels,
+  };
+
+  // Galleries
+  document.querySelectorAll<HTMLElement>('[data-pswp-gallery]').forEach((gallery) => {
+    setup(new PhotoSwipeLightbox({ ...common, gallery, children: 'a[data-pswp]' }));
+  });
+
+  // Stand-alone documents (not inside a gallery)
+  document.querySelectorAll<HTMLAnchorElement>('a[data-pswp]').forEach((a) => {
+    if (a.closest('[data-pswp-gallery]')) return;
+    setup(new PhotoSwipeLightbox({ ...common, gallery: a.parentElement!, children: 'a[data-pswp]' }));
+  });
+
+  // "Inspect document" buttons forward to their card's image link
+  document.querySelectorAll<HTMLButtonElement>('[data-pswp-open]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      btn.closest('article')?.querySelector<HTMLAnchorElement>('a[data-pswp]')?.click();
+    });
+  });
+</script>
+
+<style is:global>
+  .pswp {
+    --pswp-bg: #1a1d17;
+    --pswp-icon-color: #ffdf9e;
+    --pswp-icon-color-secondary: #1a1d17;
+  }
+  .pswp__custom-caption {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 16px;
+    margin-inline: auto;
+    max-width: min(42rem, calc(100% - 32px));
+    padding: 10px 16px;
+    border: 1px solid rgb(255 223 158 / 0.3);
+    border-radius: 12px;
+    background: rgb(52 46 37 / 0.9);
+    color: #e8e2d6;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+    backdrop-filter: blur(8px);
+  }
+  .pswp__custom-caption:empty {
+    display: none;
+  }
+</style>

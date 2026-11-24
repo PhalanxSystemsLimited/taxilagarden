@@ -1,0 +1,31 @@
+---
+import Icon from '../ui/Icon.astro';
+import { getDict } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+---
+
+<ul class="grid grid-cols-1 gap-space-lg md:grid-cols-2 lg:grid-cols-4">
+  {
+    t.pillars.map((p) => (
+      <li
+        class="group flex flex-col justify-between rounded-xl border border-border-sand-medium/40 bg-surface-cream-card p-space-lg transition-[border-color,box-shadow,transform] duration-500 ease-(--ease-out-expo) hover:-translate-y-1 hover:border-secondary-fixed hover:shadow-tier2"
+        data-reveal
+      >
+        <div>
+          <div class="mb-space-md flex h-12 w-12 items-center justify-center rounded-lg bg-surface-cream-highlight text-secondary transition-colors duration-500 group-hover:bg-secondary group-hover:text-white">
+            <Icon name={p.icon} size={26} />
+          </div>
+          <h3 class="mb-2 font-display text-headline-sm text-on-surface">{p.title}</h3>
+          <p class="font-body text-body-sm text-on-surface-variant">{p.text}</p>
+        </div>
+        <p class="pt-space-md font-label text-label-badge uppercase text-on-secondary-fixed-variant">{p.tag}</p>
+      </li>
+    ))
+  }
+</ul>

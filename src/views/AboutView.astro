@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import PillarGrid from '../components/sections/PillarGrid.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import { site, waLink } from '../data/site';
+import { getDict, routeHref, tl } from '../lib/i18n';
+import { navLabels } from '../data/navigation';
+import officeImg from '../assets/images/site-office-arcade.jpg';
+import type { Lang } from '../data/types';
+
+const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
+const t = getDict(lang);
+const a = t.about;
+---
+
+<BaseLayout title={a.seoTitle} description={a.seoDescription}>
+  <PageHero lang={lang} eyebrow={a.eyebrow} title={a.title} sub={a.sub} crumb={tl(navLabels.about, lang)} />
+
+  <section class="container-x py-space-2xl md:py-space-3xl" aria-labelledby="story-title">
+    <div class="grid grid-cols-1 gap-space-2xl lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <SectionHeading eyebrow={a.storyEyebrow} title={a.storyTitle} id="story-title" class="mb-space-lg" />
+        <div class="space-y-space-md font-body text-body-md leading-relaxed text-on-surface-variant">
+          {a.body.map((p, i) => <p data-reveal class:list={[i === 0 && 'text-body-lead text-on-surface']}>{p}</p>)}
+        </div>
+      </div>
+
+      <aside class="space-y-space-lg lg:col-span-5">
+        <figure class="relative rounded-2xl border border-secondary/30 bg-primary-container p-space-xl text-surface-bright shadow-xl" data-reveal>
+          <Icon name="format_quote" size={44} class="mb-2 text-gold-antique-light" />
+          <blockquote class="font-display text-headline-sm italic leading-relaxed text-surface-bright">
+            “{a.quote}”
+          </blockquote>
+          <figcaption class="mt-space-md flex items-center gap-2 font-label text-label-badge uppercase text-secondary-fixed">
+            <span class="h-px w-6 bg-current"></span>{a.quoteCite}
+          </figcaption>
+        </figure>
+
+        <article class="overflow-hidden rounded-2xl border border-border-sand-medium/70 bg-surface-cream-card shadow-tier2 lg:sticky lg:top-28" data-reveal>
+          <div class="relative h-56 overflow-hidden sm:h-64" data-reveal-clip>
+            <Image src={officeImg} alt={a.office.imageAlt} width={900} sizes="(min-width: 1024px) 480px, 100vw" class="h-full w-full object-cover" data-parallax="6" loading="lazy" />
+          </div>
+          <div class="p-space-lg">
+            <p class="eyebrow mb-2">{a.office.eyebrow}</p>
+            <p class="font-body text-body-sm text-on-surface-variant">{a.office.text}</p>
+            <div class="mt-space-md rounded-lg border border-border-sand-light bg-surface-container/60 p-space-md">
+              <p class="font-label text-label-badge uppercase text-text-muted-dark">{a.office.salesLabel}</p>
+              <a href={waLink()} target="_blank" rel="noopener noreferrer" class="mt-1 inline-flex min-h-11 items-center gap-2 font-display text-headline-sm text-on-surface hover:text-secondary">
+                <Icon name="chat" size={20} class="text-brand-whatsapp" />
+                <span>{t.common.whatsapp}: <span dir="ltr">{site.whatsapp.display}</span></span>
+              </a>
+            </div>
+            <div class="mt-space-md">
+              <Button variant="primary" href={routeHref('plots', lang)} iconEnd="arrow_forward" full>{t.common.viewPlotInventory}</Button>
+            </div>
+          </div>
+        </article>
+      </aside>
+    </div>
+  </section>
+
+  <section class="border-y border-border-sand-light/60 bg-surface-container-low py-space-2xl" aria-labelledby="pillars-title">
+    <div class="container-x">
+      <SectionHeading eyebrow={t.home.pillars.eyebrow} title={t.home.pillars.title} sub={t.home.pillars.sub} align="center" size="md" id="pillars-title" class="mb-space-2xl" />
+      <PillarGrid lang={lang} />
+    </div>
+  </section>
+
+  <CTABand lang={lang} eyebrow={t.cta.eyebrow} title={t.cta.title} text={t.cta.text} button={t.common.bookSiteVisit} />
+</BaseLayout>

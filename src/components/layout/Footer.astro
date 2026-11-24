@@ -1,0 +1,107 @@
+---
+import Icon from '../ui/Icon.astro';
+import Badge from '../ui/Badge.astro';
+import Button from '../ui/Button.astro';
+import Logo from './Logo.astro';
+import { site, waLink } from '../../data/site';
+import { allNav, navLabels } from '../../data/navigation';
+import { getDict, routeHref, tl } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const year = new Date().getFullYear();
+const socials = Object.entries(site.socials).filter(([, url]) => Boolean(url));
+---
+
+<footer class="relative w-full overflow-hidden bg-primary-container pt-space-3xl pb-space-xl text-on-primary-container">
+  <div class="hairline absolute inset-x-0 top-0 opacity-70"></div>
+  <div class="container-x">
+    <div class="grid grid-cols-1 gap-space-xl border-b border-outline/20 pb-space-2xl md:grid-cols-12">
+      <div class="space-y-space-md md:col-span-5">
+        <Logo lang={lang} tone="dark" />
+        <p class="max-w-md font-body text-body-md text-surface-variant">{t.footer.blurb}</p>
+        <div class="flex flex-wrap items-center gap-space-sm pt-space-xs">
+          <Badge tone="seal-dark" icon="verified">{t.footer.sanctioned}</Badge>
+          <Badge tone="olive" icon="eco" class="bg-nature-olive/30! border border-nature-olive">{t.footer.delivered}</Badge>
+        </div>
+        {
+          socials.length > 0 && (
+            <ul class="flex gap-3 pt-2" aria-label={t.footer.follow}>
+              {socials.map(([key, url]) => (
+                <li>
+                  <a href={url} target="_blank" rel="noopener noreferrer" class="capitalize text-primary-fixed-dim hover:text-white">
+                    {key}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+
+      <nav class="space-y-space-sm md:col-span-3" aria-labelledby="footer-nav-title">
+        <h2 id="footer-nav-title" class="font-label text-label-eyebrow uppercase text-gold-antique-light">{t.footer.quickNav}</h2>
+        <ul class="grid grid-cols-2 gap-x-4 font-body text-body-sm md:grid-cols-1">
+          {
+            allNav.map((key) => (
+              <li>
+                <a href={routeHref(key, lang)} class="inline-flex min-h-10 items-center text-primary-fixed-dim transition-colors hover:text-white">
+                  {tl(navLabels[key], lang)}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="space-y-space-sm md:col-span-4">
+        <h2 class="font-label text-label-eyebrow uppercase text-gold-antique-light">{t.footer.office}</h2>
+        <address class="space-y-2 font-body text-body-sm not-italic text-primary-fixed-dim">
+          <p class="flex items-start gap-space-sm">
+            <Icon name="location_on" size={18} class="mt-0.5 text-secondary-fixed" />
+            <span>{lang === 'ur' ? t.location.schemeAddress : site.address.line}</span>
+          </p>
+          <p class="flex items-start gap-space-sm">
+            <Icon name="schedule" size={18} class="mt-0.5 text-secondary-fixed" />
+            <span>{t.hours.weekdaysShort}<br />{t.hours.sunday}</span>
+          </p>
+          {
+            site.phones.map((p) => (
+              <a href={`tel:${p.tel}`} class="flex min-h-10 items-center gap-space-sm transition-colors hover:text-white">
+                <Icon name="call" size={18} class="text-secondary-fixed" />
+                <span dir="ltr">{p.display}</span>
+              </a>
+            ))
+          }
+          <a href={waLink()} target="_blank" rel="noopener noreferrer" class="flex min-h-10 items-center gap-space-sm transition-colors hover:text-white">
+            <Icon name="chat" size={18} class="text-brand-whatsapp" />
+            <span>{t.common.whatsapp}: <span dir="ltr">{site.whatsapp.display}</span></span>
+          </a>
+          {
+            site.email && (
+              <a href={`mailto:${site.email}`} class="flex min-h-10 items-center gap-space-sm hover:text-white">
+                <Icon name="mail" size={18} class="text-secondary-fixed" />
+                <span>{site.email}</span>
+              </a>
+            )
+          }
+        </address>
+        <div class="pt-2">
+          <Button variant="heritage" size="sm" href={site.mapsUrl} external icon="navigation">{t.common.getDirections}</Button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-between gap-space-md pt-space-lg text-center font-body text-body-sm text-primary-fixed-dim/80 md:flex-row md:text-start">
+      <p>© <span dir="ltr">{year}</span> {t.meta.siteName}. {t.footer.rights}</p>
+      <a href={routeHref('approvals', lang)} class="inline-flex min-h-10 items-center gap-1 transition-colors hover:text-white">
+        <Icon name="verified" size={16} class="text-secondary-fixed" />
+        {t.footer.sanctioned}
+      </a>
+    </div>
+  </div>
+</footer>

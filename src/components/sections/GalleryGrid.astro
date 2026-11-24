@@ -1,0 +1,66 @@
+---
+/**
+ * Gallery: "cards" = Stitch Site Topography cards (fixed height);
+ * "masonry" = full gallery page (natural aspect ratios). Both open in PhotoSwipe.
+ */
+import { Image } from 'astro:assets';
+import type { GalleryItem } from '../../data/gallery';
+import { fullImage } from '../../lib/images';
+import { tl } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  items: GalleryItem[];
+  lang: Lang;
+  layout?: 'cards' | 'masonry';
+  headingLevel?: 'h2' | 'h3';
+}
+const { items, lang, layout = 'cards', headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+const fulls = await Promise.all(items.map((i) => fullImage(i.image, 85)));
+---
+
+<ul
+  class:list={[layout === 'cards' ? 'grid grid-cols-1 gap-space-lg md:grid-cols-3' : 'columns-1 gap-space-lg sm:columns-2 lg:columns-3']}
+  data-pswp-gallery
+>
+  {
+    items.map((item, i) => (
+      <li class:list={[layout === 'masonry' && 'mb-space-lg break-inside-avoid']} data-reveal>
+        <a
+          href={fulls[i]!.src}
+          data-pswp
+          data-pswp-width={item.image.width}
+          data-pswp-height={item.image.height}
+          data-caption={`${tl(item.title, lang)} — ${tl(item.caption, lang)}`}
+          class:list={[
+            'group relative block overflow-hidden rounded-2xl bg-surface-container shadow-md',
+            layout === 'cards' && 'h-[360px]',
+          ]}
+        >
+          <div class="h-full w-full overflow-hidden" data-reveal-clip>
+            <Image
+              src={item.image}
+              alt={tl(item.alt, lang)}
+              width={Math.min(item.image.width, 900)}
+              sizes={layout === 'cards' ? '(min-width: 768px) 33vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
+              class:list={[
+                'w-full transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-105',
+                layout === 'cards' ? 'h-full object-cover' : 'h-auto',
+              ]}
+              loading="lazy"
+            />
+          </div>
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary-container via-primary-container/30 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
+          <div class="absolute inset-x-0 bottom-0 p-space-lg transition-transform duration-500 ease-(--ease-out-expo) md:translate-y-4 md:group-hover:translate-y-0 md:group-focus-visible:translate-y-0">
+            <span class="mb-1 block font-label text-label-badge uppercase text-secondary-fixed">{tl(item.category, lang)}</span>
+            <H class="font-display text-headline-sm text-surface-bright">{tl(item.title, lang)}</H>
+            <p class="mt-1 line-clamp-2 font-body text-body-sm text-surface-variant transition-opacity duration-500 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100">
+              {tl(item.caption, lang)}
+            </p>
+          </div>
+        </a>
+      </li>
+    ))
+  }
+</ul>

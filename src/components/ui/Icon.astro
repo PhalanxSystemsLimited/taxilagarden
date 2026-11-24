@@ -1,0 +1,28 @@
+---
+import { iconInner } from '../../lib/icons';
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  /** Mirror in RTL (for arrows). */
+  flip?: boolean;
+  label?: string;
+}
+const { name, size = 20, class: className = '', flip = false, label } = Astro.props;
+const inner = iconInner(name);
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 -960 960 960"
+  width={size}
+  height={size}
+  fill="currentColor"
+  class:list={['shrink-0', { 'flip-rtl': flip }, className]}
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  focusable="false"
+  set:html={inner}
+/>

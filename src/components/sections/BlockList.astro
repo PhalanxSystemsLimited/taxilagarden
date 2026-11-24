@@ -1,0 +1,24 @@
+---
+import { getDict } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+---
+
+<div class="rounded-2xl border border-secondary-fixed/30 bg-dark-brown-surface p-space-lg text-surface-bright shadow-xl sm:p-space-xl" data-reveal>
+  <ul class="grid grid-cols-1 gap-space-lg sm:grid-cols-2 md:grid-cols-4">
+    {
+      t.blocks.map((b) => (
+        <li class="border-secondary-fixed/15 md:border-s md:ps-space-lg md:first:border-s-0 md:first:ps-0">
+          <span class="block font-label text-label-badge uppercase text-secondary-fixed">{b.tag}</span>
+          <h3 class="mt-1 font-display text-headline-sm text-surface-bright">{b.title}</h3>
+          <p class="mt-1 font-body text-body-sm text-surface-variant">{b.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</div>

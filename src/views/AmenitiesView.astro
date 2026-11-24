@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Icon from '../components/ui/Icon.astro';
+import AmenityGrid from '../components/sections/AmenityGrid.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import { navLabels } from '../data/navigation';
+import { getDict, tl } from '../lib/i18n';
+import type { Lang } from '../data/types';
+
+const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
+const t = getDict(lang);
+const a = t.amenities;
+---
+
+<BaseLayout title={a.seoTitle} description={a.seoDescription}>
+  <PageHero lang={lang} eyebrow={a.eyebrow} title={a.title} sub={a.sub} crumb={tl(navLabels.amenities, lang)} />
+
+  <section class="container-x py-space-2xl" aria-label={a.title}>
+    <p class="mb-space-xl flex items-start gap-2 rounded-xl border border-border-sand-medium/60 bg-surface-cream-highlight/60 p-space-md font-body text-body-sm text-on-surface" data-reveal>
+      <Icon name="info" size={20} class="mt-0.5 text-secondary" />
+      {a.plannedNote}
+    </p>
+    <AmenityGrid lang={lang} />
+  </section>
+
+  <CTABand lang={lang} />
+</BaseLayout>

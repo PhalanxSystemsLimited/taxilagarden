@@ -1,0 +1,80 @@
+---
+/** Stitch bento grid of amenities; unbuilt ones carry a small "Planned" tag. */
+import Icon from '../ui/Icon.astro';
+import { amenities } from '../../data/amenities';
+import { getDict, tl } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+
+const styles = {
+  dark: {
+    card: 'bg-dark-brown-surface text-surface-bright border-secondary-fixed/20',
+    icon: 'bg-surface-cream-highlight/15 text-secondary-fixed',
+    tag: 'bg-secondary-fixed/15 text-secondary-fixed',
+    title: 'text-surface-bright',
+    text: 'text-surface-variant',
+  },
+  olive: {
+    card: 'bg-surface-cream-card border-border-sand-medium/60',
+    icon: 'bg-nature-olive/15 text-nature-olive',
+    tag: 'bg-nature-olive/15 text-nature-olive',
+    title: 'text-on-surface',
+    text: 'text-on-surface-variant',
+  },
+  cream: {
+    card: 'bg-surface-cream-card border-border-sand-medium/60',
+    icon: 'bg-surface-cream-highlight text-secondary',
+    tag: 'bg-surface-cream-highlight text-secondary',
+    title: 'text-on-surface',
+    text: 'text-on-surface-variant',
+  },
+  highlight: {
+    card: 'bg-surface-cream-highlight/50 border-border-sand-medium/60',
+    icon: 'bg-secondary/10 text-secondary',
+    tag: 'bg-secondary/10 text-secondary',
+    title: 'text-on-surface',
+    text: 'text-on-surface-variant',
+  },
+} as const;
+---
+
+<ul class="grid grid-cols-1 gap-space-md md:grid-cols-2 lg:grid-cols-4">
+  {
+    amenities.map((a) => {
+      const s = styles[a.variant];
+      return (
+        <li
+          class:list={[
+            'group flex min-h-[260px] flex-col justify-between rounded-2xl border p-space-lg shadow-sm transition-[transform,box-shadow] duration-500 ease-(--ease-out-expo) hover:-translate-y-1 hover:shadow-tier2',
+            a.wide && 'md:col-span-2 md:p-space-xl',
+            s.card,
+          ]}
+          data-reveal
+        >
+          <div class="flex items-start justify-between gap-3">
+            <div class:list={['flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110', s.icon]}>
+              <Icon name={a.icon} size={28} />
+            </div>
+            <div class="flex flex-wrap justify-end gap-1.5">
+              <span class:list={['rounded-full px-space-sm py-1 font-label text-label-badge uppercase', s.tag]}>{tl(a.category, lang)}</span>
+              {a.planned && (
+                <span class="rounded-full border border-dashed border-text-muted-sand bg-surface/60 px-space-sm py-1 font-label text-label-badge uppercase text-text-muted-dark">
+                  {t.common.planned}
+                </span>
+              )}
+            </div>
+          </div>
+          <div>
+            <h3 class:list={['mt-space-md mb-2 font-display', a.wide ? 'text-headline-md' : 'text-headline-sm', s.title]}>{tl(a.title, lang)}</h3>
+            <p class:list={['font-body text-body-sm leading-relaxed', s.text]}>{tl(a.description, lang)}</p>
+          </div>
+        </li>
+      );
+    })
+  }
+</ul>

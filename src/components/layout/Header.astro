@@ -1,0 +1,314 @@
+---
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+import Logo from './Logo.astro';
+import { site, waLink } from '../../data/site';
+import { headerNav, allNav, navLabels } from '../../data/navigation';
+import { getDict, routeHref, isActive, localizePath, neutralPath, tl } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const path = Astro.url.pathname;
+const otherLang: Lang = lang === 'en' ? 'ur' : 'en';
+const switchHref = localizePath(neutralPath(path), otherLang);
+const primaryPhone = site.phones[0]!;
+---
+
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-transform duration-500 ease-(--ease-out-expo)" data-header>
+  <!-- Top announcement bar (dark) -->
+  <div class="h-10 bg-primary-container text-body-sm">
+    <div class="container-x flex h-full items-center justify-between gap-space-md">
+      <p class="flex min-w-0 items-center gap-space-sm text-primary-fixed-dim">
+        <Icon name="park" size={16} class="text-gold-antique-light" />
+        <span class="hidden truncate sm:inline">{t.common.announcement}</span>
+        <span class="truncate sm:hidden">{t.common.announcementShort}</span>
+      </p>
+      <div class="flex shrink-0 items-center gap-space-md">
+        <a href={`tel:${primaryPhone.tel}`} class="inline-flex min-h-10 items-center gap-space-xs text-secondary-fixed transition-colors hover:text-white">
+          <Icon name="call" size={15} />
+          <span dir="ltr">{primaryPhone.display}</span>
+        </a>
+        <a
+          href={switchHref}
+          hreflang={otherLang}
+          lang={otherLang}
+          class="inline-flex min-h-8 items-center rounded-full bg-dark-brown-elevated px-space-sm py-0.5 font-label text-label-badge text-secondary-fixed transition-colors hover:bg-gold-antique-hover hover:text-white"
+          aria-label={t.common.langSwitchLabel}
+          data-lang-switch
+        >
+          {t.common.langSwitch}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main bar: cream glass (Stitch Tier 3) -->
+  <div class="border-b border-border-sand-light bg-surface/90 backdrop-blur-xl transition-shadow duration-500" data-header-bar>
+    <div class="container-x flex h-20 items-center justify-between gap-space-md transition-[height] duration-500 ease-(--ease-out-expo)" data-header-inner>
+      <Logo lang={lang} />
+
+      <nav class="hidden items-center xl:flex" aria-label={lang === 'ur' ? 'مرکزی' : 'Main'}>
+        <ul class="flex items-center gap-1 font-body text-body-sm">
+          {
+            headerNav.map((item) =>
+              'key' in item ? (
+                <li>
+                  <a
+                    href={routeHref(item.key, lang)}
+                    class:list={[
+                      'nav-link inline-flex min-h-11 items-center rounded-full px-3 transition-colors',
+                      isActive(item.key, path) ? 'font-semibold text-secondary' : 'text-on-surface-variant hover:text-on-surface',
+                    ]}
+                    aria-current={isActive(item.key, path) ? 'page' : undefined}
+                  >
+                    {tl(navLabels[item.key], lang)}
+                  </a>
+                </li>
+              ) : (
+                <li class="relative" data-dropdown>
+                  <button
+                    type="button"
+                    class:list={[
+                      'nav-link inline-flex min-h-11 items-center gap-1 rounded-full px-3 transition-colors',
+                      item.children.some((c) => isActive(c, path)) ? 'font-semibold text-secondary' : 'text-on-surface-variant hover:text-on-surface',
+                    ]}
+                    aria-expanded="false"
+                    aria-controls="project-menu"
+                    data-dropdown-trigger
+                  >
+                    {tl(item.group, lang)}
+                    <Icon name="keyboard_arrow_down" size={18} class="transition-transform duration-300 [[aria-expanded=true]>&]:rotate-180" />
+                  </button>
+                  <ul
+                    id="project-menu"
+                    class="invisible absolute start-0 top-full mt-2 min-w-56 translate-y-2 rounded-xl border border-border-sand-medium/60 bg-surface-cream-card p-2 opacity-0 shadow-tier2 transition-all duration-300 ease-(--ease-out-expo) data-[open]:visible data-[open]:translate-y-0 data-[open]:opacity-100"
+                    data-dropdown-menu
+                  >
+                    {item.children.map((c) => (
+                      <li>
+                        <a
+                          href={routeHref(c, lang)}
+                          class:list={[
+                            'flex min-h-11 items-center rounded-lg px-3 transition-colors hover:bg-surface-container',
+                            isActive(c, path) ? 'font-semibold text-secondary' : 'text-on-surface',
+                          ]}
+                          aria-current={isActive(c, path) ? 'page' : undefined}
+                        >
+                          {tl(navLabels[c], lang)}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ),
+            )
+          }
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-space-sm">
+        <Button variant="whatsapp" size="sm" href={waLink()} external icon="chat" class="max-md:hidden">
+          {t.common.whatsappSales}
+        </Button>
+        <Button variant="primary" size="sm" href={routeHref('contact', lang)} inquiry magnetic class="max-sm:hidden">
+          {t.common.bookVisit}
+        </Button>
+        <button
+          type="button"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary-container text-surface-bright transition-colors hover:bg-dark-brown-elevated xl:hidden"
+          aria-label={t.common.openMenu}
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          data-menu-open
+        >
+          <Icon name="menu" size={22} />
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu: full-screen overlay -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-[60] flex flex-col bg-primary-container text-surface-bright opacity-0 invisible transition-[opacity,visibility] duration-500 data-[open]:visible data-[open]:opacity-100"
+  role="dialog"
+  aria-modal="true"
+  aria-label={t.common.menu}
+  data-mobile-menu
+  data-lenis-prevent
+>
+  <svg class="pointer-events-none absolute inset-0 h-full w-full text-gold-antique-light opacity-10" preserveAspectRatio="none" viewBox="0 0 100 100" aria-hidden="true">
+    <path d="M0,0 C30,40 70,60 100,100 M100,0 C70,40 30,60 0,100" fill="none" stroke="currentColor" stroke-width="0.3"></path>
+  </svg>
+  <div class="container-x relative flex h-20 items-center justify-between">
+    <Logo lang={lang} tone="dark" />
+    <button
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-secondary-fixed/40 text-secondary-fixed transition-colors hover:bg-dark-brown-elevated"
+      aria-label={t.common.closeMenu}
+      data-menu-close
+    >
+      <Icon name="close" size={22} />
+    </button>
+  </div>
+  <nav class="container-x relative flex-1 overflow-y-auto pb-8" aria-label={t.common.menu}>
+    <ul class="mt-4 space-y-1">
+      {
+        allNav.map((key, i) => (
+          <li class="menu-item" style={`--i:${i}`}>
+            <a
+              href={routeHref(key, lang)}
+              class:list={[
+                'flex min-h-12 items-center justify-between border-b border-secondary-fixed/10 py-2 font-display text-headline-md transition-colors',
+                isActive(key, path) ? 'text-secondary-fixed' : 'text-surface-bright hover:text-secondary-fixed',
+              ]}
+              aria-current={isActive(key, path) ? 'page' : undefined}
+            >
+              {tl(navLabels[key], lang)}
+              <Icon name="arrow_forward" size={20} flip class="text-secondary-fixed/60" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="menu-item mt-8 grid gap-3 sm:grid-cols-2" style="--i:9">
+      <Button variant="primary" href={routeHref('contact', lang)} inquiry full icon="calendar_today">{t.common.bookSiteVisit}</Button>
+      <Button variant="whatsapp" href={waLink()} external full icon="chat">{t.common.whatsappSales}</Button>
+    </div>
+    <div class="menu-item mt-6 space-y-1 text-body-sm text-primary-fixed-dim" style="--i:10">
+      {
+        site.phones.map((p) => (
+          <a href={`tel:${p.tel}`} class="flex min-h-11 items-center gap-2 hover:text-white">
+            <Icon name="call" size={18} class="text-secondary-fixed" />
+            <span dir="ltr">{p.display}</span>
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+</div>
+
+<style>
+  .menu-item {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.5s var(--ease-out-expo),
+      transform 0.7s var(--ease-out-expo);
+  }
+  [data-mobile-menu][data-open] .menu-item {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(0.08s + var(--i) * 0.05s);
+  }
+  [data-header].is-scrolled {
+    transform: translateY(-2.5rem);
+  }
+  [data-header].is-scrolled [data-header-bar] {
+    box-shadow: 0 10px 30px -12px rgb(26 29 23 / 0.18);
+  }
+  @media (min-width: 768px) {
+    [data-header].is-scrolled [data-header-inner] {
+      height: 4.25rem;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+  // Sticky header state after 40px
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      header?.classList.toggle('is-scrolled', window.scrollY > 40);
+      ticking = false;
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Project dropdown
+  document.querySelectorAll<HTMLElement>('[data-dropdown]').forEach((dd) => {
+    const trigger = dd.querySelector<HTMLButtonElement>('[data-dropdown-trigger]');
+    const list = dd.querySelector<HTMLElement>('[data-dropdown-menu]');
+    if (!trigger || !list) return;
+    let closeTimer: number | undefined;
+    const set = (open: boolean) => {
+      trigger.setAttribute('aria-expanded', String(open));
+      list.toggleAttribute('data-open', open);
+    };
+    trigger.addEventListener('click', () => set(trigger.getAttribute('aria-expanded') !== 'true'));
+    dd.addEventListener('mouseenter', () => {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      clearTimeout(closeTimer);
+      set(true);
+    });
+    dd.addEventListener('mouseleave', () => {
+      closeTimer = window.setTimeout(() => set(false), 180);
+    });
+    dd.addEventListener('focusout', (e) => {
+      if (!dd.contains(e.relatedTarget as Node)) set(false);
+    });
+    dd.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        set(false);
+        trigger.focus();
+      }
+    });
+    document.addEventListener('click', (e) => {
+      if (!dd.contains(e.target as Node)) set(false);
+    });
+  });
+
+  // Mobile menu: lock scroll, Esc to close, focus trap, return focus
+  const focusables = () =>
+    Array.from(menu?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []).filter((el) => el.offsetParent !== null);
+
+  const setMenu = (open: boolean) => {
+    if (!menu || !openBtn) return;
+    menu.toggleAttribute('data-open', open);
+    openBtn.setAttribute('aria-expanded', String(open));
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    window.dispatchEvent(new CustomEvent(open ? 'tghs:lock-scroll' : 'tghs:unlock-scroll'));
+    if (open) requestAnimationFrame(() => closeBtn?.focus());
+    else openBtn.focus();
+  };
+
+  openBtn?.addEventListener('click', () => setMenu(true));
+  closeBtn?.addEventListener('click', () => setMenu(false));
+  menu?.addEventListener('click', (e) => {
+    const a = (e.target as HTMLElement).closest('a');
+    if (a) setMenu(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu?.hasAttribute('data-open')) setMenu(false);
+  });
+  menu?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const items = focusables();
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (!first || !last) return;
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+  window.matchMedia('(min-width: 1280px)').addEventListener('change', (e) => {
+    if (e.matches && menu?.hasAttribute('data-open')) setMenu(false);
+  });
+</script>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import GalleryGrid from '../components/sections/GalleryGrid.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { gallery } from '../data/gallery';
+import { navLabels } from '../data/navigation';
+import { getDict, tl } from '../lib/i18n';
+import type { Lang } from '../data/types';
+
+const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
+const t = getDict(lang);
+const g = t.gallery;
+---
+
+<BaseLayout title={g.seoTitle} description={g.seoDescription}>
+  <PageHero lang={lang} eyebrow={g.eyebrow} title={g.title} sub={g.sub} crumb={tl(navLabels.gallery, lang)} />
+
+  <section class="container-x py-space-2xl" aria-label={g.title}>
+    <GalleryGrid items={gallery} lang={lang} layout="masonry" headingLevel="h2" />
+  </section>
+
+  <CTABand lang={lang} />
+  <Lightbox />
+</BaseLayout>

@@ -1,0 +1,346 @@
+/* ==========================================================================
+   TGHS — design system (ported from Google Stitch "Gandhara Heritage Estate")
+   Source of truth: stitch_next.js_website_revamp/code.html + DESIGN.md
+   ========================================================================== */
+
+/* Self-hosted fonts (latin subsets only; Urdu uses the arabic subset) */
+@import '@fontsource/playfair-display/latin-500.css';
+@import '@fontsource/playfair-display/latin-600.css';
+@import '@fontsource/playfair-display/latin-400-italic.css';
+@import '@fontsource/manrope/latin-400.css';
+@import '@fontsource/manrope/latin-500.css';
+@import '@fontsource/manrope/latin-600.css';
+@import '@fontsource/manrope/latin-700.css';
+@import '@fontsource/space-grotesk/latin-500.css';
+@import '@fontsource/space-grotesk/latin-600.css';
+@import '@fontsource/space-grotesk/latin-700.css';
+@import '@fontsource/noto-nastaliq-urdu/arabic-400.css';
+
+@import 'tailwindcss';
+
+/* `rtl:` / `ltr:` variants keyed off the <html dir> attribute */
+@custom-variant rtl (&:where([dir='rtl'], [dir='rtl'] *));
+@custom-variant ltr (&:where([dir='ltr'], [dir='ltr'] *));
+
+@theme {
+  /* ---------- Colour: Stitch names (kept 1:1 so markup ports directly) ---------- */
+  --color-surface: #fff9ed;
+  --color-surface-dim: #dfd9ce;
+  --color-surface-bright: #fff9ed;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f9f3e7;
+  --color-surface-container: #f3ede1;
+  --color-surface-container-high: #ede8dc;
+  --color-surface-container-highest: #e8e2d6;
+  --color-surface-variant: #e8e2d6;
+  --color-background: #fff9ed;
+  --color-on-background: #1d1c14;
+  --color-on-surface: #1d1c14;
+  --color-on-surface-variant: #454742;
+  --color-inverse-surface: #333028;
+  --color-inverse-on-surface: #f6f0e4;
+  --color-outline: #767871;
+  --color-outline-variant: #c6c7bf;
+  --color-primary: #010100;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1a1d17;
+  --color-on-primary-container: #83857d;
+  --color-primary-fixed: #e2e3d9;
+  --color-primary-fixed-dim: #c5c7be;
+  --color-secondary: #795902;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #fdd275;
+  --color-secondary-fixed: #ffdf9e;
+  --color-secondary-fixed-dim: #ebc166;
+  --color-on-secondary-fixed-variant: #5b4300;
+  --color-tertiary-container: #3b0a00;
+  --color-on-tertiary-container: #cb684a;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-surface-cream-card: #faf6ee;
+  --color-surface-cream-highlight: #faf1d9;
+  --color-dark-brown-surface: #342e25;
+  --color-dark-brown-elevated: #423a2f;
+  --color-border-sand-medium: #d9c3a0;
+  --color-border-sand-light: #e6dacb;
+  --color-gold-antique-hover: #8f6a1e;
+  --color-gold-antique-light: #d4a94b;
+  --color-nature-olive: #3f5a3c;
+  --color-brand-whatsapp: #25d366;
+  --color-text-muted-sand: #8f7d6b;
+  --color-text-muted-dark: #5c5346;
+
+  /* ---------- Colour: semantic aliases ---------- */
+  --color-canvas: #fff9ed;
+  --color-card: #faf6ee;
+  --color-highlight: #faf1d9;
+  --color-ink: #1d1c14;
+  --color-ink-muted: #454742;
+  --color-night: #1a1d17;
+  --color-brown: #342e25;
+  --color-brown-elevated: #423a2f;
+  --color-gold: #795902;
+  --color-gold-light: #ffdf9e;
+  --color-gold-antique: #d4a94b;
+  --color-gold-deep: #8f6a1e;
+  /* Primary CTA. Stitch uses #CB684A; darkened to the brief's #B5573B for WCAG AA with white text. */
+  --color-terracotta: #b5573b;
+  --color-terracotta-hover: #8f3f27;
+  --color-olive: #3f5a3c;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-ink: #0b3d20;
+  --color-sand: #d9c3a0;
+  --color-sand-light: #e6dacb;
+  --color-muted-sand: #8f7d6b;
+  --color-muted-dark: #5c5346;
+
+  /* ---------- Type families (overridden for Urdu below) ---------- */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-label: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body);
+
+  /* ---------- Type scale (Stitch tokens) ---------- */
+  --text-headline-display: 56px;
+  --text-headline-display--line-height: 64px;
+  --text-headline-display--letter-spacing: -0.02em;
+  --text-headline-display--font-weight: 600;
+  --text-headline-display-mobile: 36px;
+  --text-headline-display-mobile--line-height: 44px;
+  --text-headline-display-mobile--letter-spacing: -0.01em;
+  --text-headline-display-mobile--font-weight: 600;
+  --text-headline-lg: 40px;
+  --text-headline-lg--line-height: 48px;
+  --text-headline-lg--letter-spacing: -0.01em;
+  --text-headline-lg--font-weight: 600;
+  --text-headline-lg-mobile: 28px;
+  --text-headline-lg-mobile--line-height: 36px;
+  --text-headline-lg-mobile--font-weight: 600;
+  --text-headline-md: 28px;
+  --text-headline-md--line-height: 36px;
+  --text-headline-md--font-weight: 500;
+  --text-headline-sm: 22px;
+  --text-headline-sm--line-height: 30px;
+  --text-headline-sm--font-weight: 500;
+  --text-stat-value: 32px;
+  --text-stat-value--line-height: 38px;
+  --text-stat-value--font-weight: 600;
+  --text-body-lead: 18px;
+  --text-body-lead--line-height: 28px;
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+  --text-label-eyebrow: 12px;
+  --text-label-eyebrow--line-height: 16px;
+  --text-label-eyebrow--letter-spacing: 0.15em;
+  --text-label-eyebrow--font-weight: 600;
+  --text-label-badge: 11px;
+  --text-label-badge--line-height: 14px;
+  --text-label-badge--letter-spacing: 0.08em;
+  --text-label-badge--font-weight: 700;
+
+  /* ---------- Spacing (Stitch named scale) ---------- */
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2.5rem;
+  --spacing-space-2xl: 4rem;
+  --spacing-space-3xl: 6rem;
+  --spacing-gutter: 1.5rem;
+  --spacing-gutter-desktop: 2.5rem;
+
+  /* ---------- Depth ---------- */
+  --shadow-tier1: 0 4px 24px -2px rgb(26 29 23 / 0.04);
+  --shadow-tier2: 0 16px 36px -4px rgb(26 29 23 / 0.08);
+  --shadow-lift: 0 24px 48px -12px rgb(26 29 23 / 0.18);
+
+  /* ---------- Easing ---------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-power3: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  --animate-kenburns: kenburns 22s ease-out both;
+  --animate-pulse-ring: pulse-ring 2.4s var(--ease-out-power3) infinite;
+
+  @keyframes kenburns {
+    from { transform: scale(1.14) translate3d(0, 0, 0); }
+    to { transform: scale(1.02) translate3d(0, -1.5%, 0); }
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(0.6); opacity: 0.7; }
+    80%, 100% { transform: scale(2.4); opacity: 0; }
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    @apply bg-background text-on-surface font-body text-body-md antialiased;
+    overflow-x: clip;
+  }
+  /* Urdu: Nastaliq everywhere, generous leading, no letter-spacing (it breaks joins) */
+  html[lang^='ur'] {
+    --font-display: 'Noto Nastaliq Urdu', 'Manrope', serif;
+    --font-body: 'Noto Nastaliq Urdu', 'Manrope', sans-serif;
+    --font-label: 'Noto Nastaliq Urdu', 'Space Grotesk', sans-serif;
+  }
+  html[lang^='ur'] body { line-height: 2; }
+  /* Nastaliq ships in regular weight only (no faux-bold) */
+  html[lang^='ur'] * { font-synthesis-weight: none; }
+  html[lang^='ur'] :where(h1, h2, h3, h4, p, li, label, span, a, button, td, th, blockquote, dd, dt) {
+    letter-spacing: 0 !important;
+  }
+  html[lang^='ur'] :where(h1, h2, h3, h4) { line-height: 1.9 !important; }
+  html[lang^='ur'] :where(p, li, dd, label, blockquote) { line-height: 2.05 !important; }
+  html[lang^='ur'] .uppercase { text-transform: none; }
+  /* Nastaliq needs more room: bump tiny labels and loosen tight leading */
+  html[lang^='ur'] .text-label-badge { font-size: 12.5px; line-height: 1.9; }
+  html[lang^='ur'] .text-label-eyebrow { font-size: 13.5px; line-height: 1.9; }
+  html[lang^='ur'] :where(dt, dd, small) { line-height: 1.95; }
+  html[lang^='ur'] .leading-none:not([class*='rtl:leading']), html[lang^='ur'] .leading-tight { line-height: 1.7 !important; }
+  html[lang^='ur'] .italic { font-style: normal; }
+
+  :where(a, button, [role='button'], input, select, textarea, summary):focus-visible {
+    outline: 2px solid var(--color-gold-antique);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection { background: var(--color-secondary-fixed); color: var(--color-night); }
+  img { max-width: 100%; height: auto; }
+  [hidden] { display: none !important; }
+}
+
+/* ==========================================================================
+   Components / utilities
+   ========================================================================== */
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-12; }
+
+  /* Eyebrow: Space Grotesk, tracked, with a gold hairline before it */
+  .eyebrow {
+    @apply inline-flex items-center gap-space-sm font-label text-label-eyebrow uppercase text-secondary;
+  }
+  .eyebrow::before { content: ''; @apply block h-px w-6 shrink-0 bg-current opacity-80; }
+  .eyebrow-center::after { content: ''; @apply block h-px w-6 shrink-0 bg-current opacity-80; }
+
+  .label-badge { @apply font-label text-label-badge uppercase; }
+
+  /* Gold hairline divider */
+  .hairline { background: linear-gradient(90deg, transparent, var(--color-gold-antique), transparent); height: 1px; }
+
+  /* Directional icons flip in RTL */
+  [dir='rtl'] .flip-rtl { transform: scaleX(-1); }
+
+  /* Subtle paper grain on canvases */
+  .grain { position: relative; isolation: isolate; }
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .25 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Gandhara arch mask for featured media */
+  .arch-mask { border-radius: 999px 999px 1rem 1rem / 220px 220px 1rem 1rem; }
+
+  /* Animated underline for nav links */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0.75rem;
+    bottom: 0.35rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+  [dir='rtl'] .nav-link::after { transform-origin: left; }
+  .nav-link:hover::after, .nav-link[aria-current='page']::after { transform: scaleX(1); transform-origin: left; }
+  [dir='rtl'] .nav-link:hover::after, [dir='rtl'] .nav-link[aria-current='page']::after { transform-origin: right; }
+
+  /* Button fill-slide hover */
+  .btn-fill { position: relative; overflow: hidden; isolation: isolate; }
+  .btn-fill::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--btn-fill, rgb(0 0 0 / 0.18));
+    transform: translateY(101%);
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .btn-fill:hover::before, .btn-fill:focus-visible::before { transform: translateY(0); }
+
+  /* Form controls (Stitch input spec) */
+  .field {
+    @apply w-full rounded-lg border border-border-sand-medium bg-surface px-space-md py-2.5 font-body text-body-md text-on-surface placeholder:text-text-muted-sand/80 transition-[border-color,box-shadow];
+    min-height: 44px;
+  }
+  .field:focus { outline: none; border-color: var(--color-gold-antique); box-shadow: 0 0 0 3px rgb(212 169 75 / 0.25); }
+  .field[aria-invalid='true'] { border-color: var(--color-error); }
+  .field-label { @apply mb-1 block font-label text-label-badge uppercase text-on-surface; }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960' fill='%23795902'%3E%3Cpath d='M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    background-position: right 0.75rem center;
+    padding-inline-end: 2.5rem;
+  }
+  [dir='rtl'] select.field { background-position: left 0.75rem center; }
+}
+
+/* ==========================================================================
+   Motion pre-states (only when JS motion is active, so no-JS users see content)
+   ========================================================================== */
+.js-motion [data-reveal], .js-motion [data-hero-fade] { opacity: 0; }
+.js-motion [data-reveal-clip] { clip-path: inset(100% 0 0 0); }
+.js-motion [data-split] { opacity: 0; }
+.js-motion [data-split].is-split { opacity: 1; }
+/* SplitText line masks: a little room for descenders / Nastaliq */
+[data-split] .line-mask { padding-block: 0.06em; margin-block: -0.06em; }
+html[lang^='ur'] [data-split] .line-mask { padding-block: 0.3em; margin-block: -0.3em; }
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+
+/* Intro overlay (shown once per session) */
+#intro { position: fixed; inset: 0; z-index: 100; display: none; place-items: center; background: var(--color-night); }
+.js-intro #intro { display: grid; }
+
+/* Native dialog (Book a Visit) enter animation */
+.tg-dialog[open] { animation: dialog-in 0.5s var(--ease-out-expo) both; }
+.tg-dialog[open]::backdrop { animation: backdrop-in 0.4s ease both; }
+@keyframes dialog-in { from { opacity: 0; transform: translateY(24px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Leaflet custom marker */
+.tg-pin { display: block; position: relative; width: 22px; height: 22px; }
+.tg-pin::before, .tg-pin::after { content: ''; position: absolute; inset: 0; border-radius: 9999px; }
+.tg-pin::before { background: var(--color-terracotta); border: 3px solid #fff9ed; box-shadow: 0 4px 14px rgb(26 29 23 / 0.45); z-index: 1; }
+.tg-pin::after { background: var(--color-terracotta); animation: var(--animate-pulse-ring); }
+.tg-dot { display: block; width: 14px; height: 14px; border-radius: 9999px; background: var(--color-gold-antique); border: 2px solid #1a1d17; box-shadow: 0 2px 8px rgb(26 29 23 / 0.35); }
+.leaflet-container { font-family: var(--font-body) !important; background: var(--color-surface-container) !important; }
+.leaflet-popup-content-wrapper { border-radius: 0.75rem !important; background: var(--color-card) !important; color: var(--color-ink) !important; }
+.leaflet-popup-content { margin: 12px 16px !important; font-size: 13px; line-height: 1.5; }
+
+/* Reduced motion: show everything, no animation */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  .js-motion [data-reveal], .js-motion [data-hero-fade], .js-motion [data-reveal-clip], .js-motion [data-split] { opacity: 1 !important; clip-path: none !important; transform: none !important; }
+}

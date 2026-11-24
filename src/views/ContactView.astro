@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import InquiryForm from '../components/react/InquiryForm.jsx';
+import LocationMap from '../components/react/LocationMap.jsx';
+import { navLabels } from '../data/navigation';
+import { plotOptions } from '../data/plots';
+import { site, waLink } from '../data/site';
+import { mapProps } from '../lib/map';
+import { getDict, tl } from '../lib/i18n';
+import type { Lang } from '../data/types';
+
+const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
+const t = getDict(lang);
+const c = t.contact;
+const opts = plotOptions.map((o) => ({ value: o.value, label: tl(o.label, lang) }));
+---
+
+<BaseLayout title={c.seoTitle} description={c.seoDescription}>
+  <link slot="head" rel="preconnect" href="https://tile.openstreetmap.org" />
+  <PageHero lang={lang} eyebrow={c.eyebrow} title={c.title} sub={c.sub} crumb={tl(navLabels.contact, lang)} />
+
+  <section class="container-x py-space-2xl md:py-space-3xl">
+    <div class="grid grid-cols-1 gap-space-xl lg:grid-cols-12">
+      <div class="rounded-2xl border border-border-sand-medium/70 bg-surface-cream-card p-space-lg shadow-xl sm:p-space-xl lg:col-span-7" data-reveal>
+        <h2 class="font-display text-headline-md text-on-surface">{t.form.contactTitle}</h2>
+        <p class="mt-1 mb-space-lg font-body text-body-sm text-on-surface-variant">{t.form.contactSub}</p>
+        <InquiryForm client:load strings={t.form} plotOptions={opts} waNumber={site.whatsapp.number} />
+      </div>
+
+      <aside class="space-y-space-lg lg:col-span-5">
+        <div class="rounded-2xl border border-secondary-fixed/30 bg-dark-brown-surface p-space-lg text-surface-bright shadow-xl sm:p-space-xl" data-reveal>
+          <h2 class="font-display text-headline-sm">{c.officeTitle}</h2>
+          <div class="mt-space-md space-y-space-md font-body text-body-sm">
+            <div class="flex gap-3">
+              <Icon name="location_on" size={22} class="mt-0.5 text-secondary-fixed" />
+              <div>
+                <p class="font-label text-label-badge uppercase text-text-muted-sand">{c.officeLocation}</p>
+                <div class="mt-0.5 text-surface-variant">{lang === 'ur' ? t.location.schemeAddress : site.address.line}</div>
+                <div>
+                  <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer" class="mt-1 inline-flex min-h-10 items-center gap-1 font-label text-label-badge uppercase text-secondary-fixed hover:text-white">
+                    {t.common.viewOnGoogleMaps}
+                    <Icon name="arrow_forward" size={14} flip />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <Icon name="schedule" size={22} class="mt-0.5 text-secondary-fixed" />
+              <div>
+                <p class="font-label text-label-badge uppercase text-text-muted-sand">{t.hours.label}</p>
+                <div class="mt-0.5 text-surface-variant">{t.hours.weekdays}</div>
+                <div class="text-surface-variant">{t.hours.sunday}</div>
+              </div>
+            </div>
+            {
+              site.phones.map((p) => (
+                <div class="flex gap-3">
+                  <Icon name="call" size={22} class="mt-0.5 text-secondary-fixed" />
+                  <div>
+                    <p class="font-label text-label-badge uppercase text-text-muted-sand">{p.primary ? t.common.phone : t.common.secondaryPhone}</p>
+                    <div>
+                      <a href={`tel:${p.tel}`} class="inline-flex min-h-10 items-center font-display text-headline-sm text-surface-bright hover:text-secondary-fixed" dir="ltr">
+                        {p.display}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+            <div class="flex gap-3">
+              <Icon name="chat" size={22} class="mt-0.5 text-brand-whatsapp" />
+              <div>
+                <p class="font-label text-label-badge uppercase text-text-muted-sand">{t.common.whatsapp}</p>
+                <div>
+                  <a href={waLink()} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center font-display text-headline-sm text-surface-bright hover:text-secondary-fixed" dir="ltr">
+                    {site.whatsapp.display}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-space-lg grid gap-2 sm:grid-cols-2">
+            <Button variant="whatsapp" href={waLink()} external icon="chat" full>{t.common.whatsappSales}</Button>
+            <Button variant="heritage" href={`tel:${site.phones[0]!.tel}`} icon="call" full>{t.common.callUs}</Button>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-border-sand-medium bg-surface-cream-card p-space-sm shadow-md" data-reveal>
+          <LocationMap client:visible {...mapProps(lang)} showChips={false} height={280} zoom={14} />
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

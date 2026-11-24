@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Badge from '../components/ui/Badge.astro';
+import Icon from '../components/ui/Icon.astro';
+import DocumentCard from '../components/sections/DocumentCard.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { approvals } from '../data/approvals';
+import { navLabels } from '../data/navigation';
+import { getDict, tl } from '../lib/i18n';
+import type { Lang } from '../data/types';
+
+const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
+const t = getDict(lang);
+const a = t.approvals;
+---
+
+<BaseLayout title={a.seoTitle} description={a.seoDescription}>
+  <PageHero lang={lang} eyebrow={a.eyebrow} title={a.title} sub={a.sub} crumb={tl(navLabels.approvals, lang)} />
+
+  <section class="relative overflow-hidden bg-dark-brown-surface py-space-2xl text-surface-bright md:py-space-3xl" aria-labelledby="docs-title">
+    <svg class="pointer-events-none absolute inset-0 h-full w-full opacity-5" aria-hidden="true">
+      <defs><pattern id="ap-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"></path></pattern></defs>
+      <rect width="100%" height="100%" fill="url(#ap-grid)"></rect>
+    </svg>
+    <div class="container-x relative">
+      <div class="mb-space-xl flex items-start gap-space-sm rounded-xl border border-secondary-fixed/30 bg-dark-brown-elevated/70 p-space-md" data-reveal>
+        <Icon name="verified" size={24} class="mt-0.5 text-secondary-fixed" />
+        <p class="font-body text-body-sm text-surface-variant"><strong class="text-surface-bright">{a.noticeTitle}</strong> {a.notice}</p>
+      </div>
+
+      <div class="mb-space-lg flex flex-wrap items-center justify-between gap-3">
+        <h2 id="docs-title" class="eyebrow text-secondary-fixed" data-reveal="eyebrow">{a.listLabel}</h2>
+        <Badge tone="seal-dark" icon="description">{a.listCount}</Badge>
+      </div>
+
+      <div class="grid grid-cols-1 gap-space-xl lg:grid-cols-2">
+        {approvals.map((doc) => <DocumentCard doc={doc} lang={lang} detailed />)}
+      </div>
+    </div>
+  </section>
+
+  <CTABand lang={lang} eyebrow={t.cta.eyebrow} title={t.cta.title} text={t.cta.text} button={t.common.bookSiteVisit} />
+  <Lightbox />
+</BaseLayout>

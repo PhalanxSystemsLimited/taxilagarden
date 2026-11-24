@@ -1,0 +1,66 @@
+---
+/**
+ * Eyebrow (with gold hairline) + title + optional subtitle — the Stitch section header.
+ * The title is revealed line-by-line by the motion layer (data-split).
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  sub?: string;
+  align?: 'start' | 'center';
+  tone?: 'light' | 'dark';
+  level?: 'h1' | 'h2' | 'h3';
+  size?: 'lg' | 'md' | 'display';
+  class?: string;
+  id?: string;
+}
+const {
+  eyebrow,
+  title,
+  sub,
+  align = 'start',
+  tone = 'light',
+  level = 'h2',
+  size = 'lg',
+  class: className = '',
+  id,
+} = Astro.props;
+const Heading = level;
+const sizes = {
+  display: 'text-headline-display-mobile md:text-headline-display',
+  lg: 'text-headline-lg-mobile md:text-headline-lg',
+  md: 'text-headline-md',
+};
+const dark = tone === 'dark';
+---
+
+<div class:list={[align === 'center' ? 'mx-auto max-w-3xl text-center' : 'max-w-2xl', className]}>
+  {
+    eyebrow && (
+      <p
+        class:list={['eyebrow mb-3', align === 'center' && 'eyebrow-center justify-center', dark ? 'text-secondary-fixed' : 'text-secondary']}
+        data-reveal="eyebrow"
+      >
+        {eyebrow}
+      </p>
+    )
+  }
+  <Heading
+    id={id}
+    class:list={['font-display text-balance', sizes[size], dark ? 'text-surface-bright' : 'text-on-surface']}
+    data-split
+  >
+    {title}
+  </Heading>
+  {
+    sub && (
+      <p
+        class:list={['mt-3 font-body text-body-md text-pretty', dark ? 'text-surface-variant' : 'text-on-surface-variant']}
+        data-reveal
+      >
+        {sub}
+      </p>
+    )
+  }
+  <slot />
+</div>

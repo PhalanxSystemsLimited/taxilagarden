@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import DistanceList from '../components/sections/DistanceList.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import LocationMap from '../components/react/LocationMap.jsx';
+import { navLabels } from '../data/navigation';
+import { site } from '../data/site';
+import { mapProps } from '../lib/map';
+import { getDict, tl } from '../lib/i18n';
+import type { Lang } from '../data/types';
+
+const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
+const t = getDict(lang);
+const l = t.location;
+---
+
+<BaseLayout title={l.seoTitle} description={l.seoDescription}>
+  <link slot="head" rel="preconnect" href="https://tile.openstreetmap.org" />
+  <PageHero lang={lang} eyebrow={l.eyebrow} title={l.title} sub={l.sub} crumb={tl(navLabels.location, lang)} />
+
+  <section class="container-x py-space-2xl" aria-label={l.mapLabel}>
+    <div class="grid grid-cols-1 gap-space-xl lg:grid-cols-12">
+      <div class="lg:col-span-8" data-reveal>
+        <div class="rounded-2xl border border-border-sand-medium bg-surface-cream-card p-space-sm shadow-tier2 sm:p-space-md">
+          <LocationMap client:visible {...mapProps(lang)} height={520} />
+        </div>
+      </div>
+
+      <aside class="space-y-space-lg lg:col-span-4">
+        <div class="rounded-2xl border border-secondary-fixed/30 bg-dark-brown-surface p-space-lg text-surface-bright shadow-xl" data-reveal>
+          <p class="flex items-center gap-2 font-label text-label-badge uppercase text-secondary-fixed">
+            <Icon name="pin_drop" size={18} />
+            {l.schemeLocation}
+          </p>
+          <p class="mt-2 font-display text-headline-sm">{l.schemeAddress}</p>
+          <p class="mt-space-md font-label text-label-badge uppercase text-text-muted-sand">{t.common.gps}</p>
+          <p class="font-body text-body-md text-secondary-fixed" dir="ltr">{site.geo.lat.toFixed(4)}° N, {site.geo.lng.toFixed(4)}° E</p>
+          <div class="mt-space-lg flex flex-col gap-2">
+            <Button variant="primary" href={site.mapsUrl} external icon="navigation" full>{t.common.getDirections}</Button>
+            <Button variant="heritage" href={site.mapsUrl} external icon="map" full>{t.common.openInGoogleMaps}</Button>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="eyebrow mb-space-sm">{l.distancesTitle}</h2>
+          <DistanceList lang={lang} />
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <CTABand lang={lang} eyebrow={t.cta.eyebrow} title={t.cta.title} text={t.cta.text} button={t.common.bookSiteVisit} />
+</BaseLayout>

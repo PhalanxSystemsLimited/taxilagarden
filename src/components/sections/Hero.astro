@@ -1,0 +1,78 @@
+---
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+import StatStrip from './StatStrip.astro';
+import { heroImage } from '../../lib/images';
+import { waLink } from '../../data/site';
+import { getDict, routeHref } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const img = await heroImage();
+---
+
+<section class="relative isolate w-full overflow-hidden bg-primary-container pt-[168px] pb-24 text-surface-bright md:pb-32" data-hero aria-labelledby="hero-title">
+  <!-- Background photo with slow Ken Burns + Stitch scrim -->
+  <div class="absolute inset-0 -z-10" aria-hidden="true">
+    <img
+      src={img.src}
+      srcset={img.srcSet.attribute}
+      sizes="100vw"
+      width={img.attributes.width}
+      height={img.attributes.height}
+      alt=""
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+      class="h-full w-full animate-kenburns object-cover object-center"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-primary-container/85 via-primary-container/70 to-primary-container"></div>
+    <svg class="pointer-events-none absolute inset-0 h-full w-full text-gold-antique-light opacity-10" preserveAspectRatio="none" viewBox="0 0 100 100">
+      <path d="M0,0 C30,40 70,60 100,100 M100,0 C70,40 30,60 0,100" fill="none" stroke="currentColor" stroke-width="0.3"></path>
+    </svg>
+  </div>
+
+  <div class="container-x relative flex flex-col items-center text-center">
+    <p
+      class="mb-space-lg inline-flex items-center gap-space-xs rounded-full border border-secondary-fixed/40 bg-surface-cream-highlight/15 px-space-md py-1.5 font-label text-label-eyebrow uppercase text-secondary-fixed shadow-sm backdrop-blur-md"
+      data-hero-fade
+    >
+      <Icon name="verified" size={16} />
+      {t.home.hero.badge}
+    </p>
+
+    <h1
+      id="hero-title"
+      class="mb-space-md max-w-4xl font-display text-headline-display-mobile tracking-tight text-balance text-surface-bright sm:text-headline-display md:text-[68px] md:leading-[1.1]"
+      data-split
+      data-hero-title
+    >
+      {t.home.hero.titleA}{" "}<span class="font-normal italic text-secondary-fixed">{t.home.hero.titleB}</span>
+    </h1>
+
+    <p class="mb-space-xl max-w-2xl font-body text-body-lead text-surface-variant" data-hero-rise>
+      {t.home.hero.sub}
+    </p>
+
+    <div class="mb-space-2xl flex w-full max-w-2xl flex-col items-stretch justify-center gap-space-sm sm:flex-row sm:flex-wrap sm:items-center sm:gap-space-md md:mb-space-3xl" data-hero-fade>
+      <Button variant="primary" size="lg" href={routeHref('plots', lang)} iconEnd="arrow_forward" magnetic>
+        {t.common.viewPlotInventory}
+      </Button>
+      <Button variant="whatsapp" size="lg" href={waLink()} external icon="chat">{t.common.whatsappSales}</Button>
+      <Button variant="heritage" size="lg" href={routeHref('contact', lang)} inquiry icon="calendar_today">
+        {t.common.bookSiteVisit}
+      </Button>
+    </div>
+
+    <StatStrip lang={lang} />
+  </div>
+
+  <!-- curved bottom edge -->
+  <svg class="absolute inset-x-0 -bottom-px h-10 w-full text-background md:h-16" viewBox="0 0 1440 64" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 64h1440V18C1200 52 960 64 720 64S240 52 0 18Z" fill="currentColor"></path>
+  </svg>
+</section>

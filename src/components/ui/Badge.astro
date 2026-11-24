@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+
+type Tone = 'night' | 'olive' | 'brown' | 'gold' | 'sand' | 'seal' | 'seal-dark' | 'planned' | 'olive-soft' | 'gold-soft';
+interface Props {
+  tone?: Tone;
+  icon?: string;
+  class?: string;
+}
+const { tone = 'seal', icon, class: className = '' } = Astro.props;
+
+const tones: Record<Tone, string> = {
+  night: 'bg-primary-container text-secondary-fixed',
+  olive: 'bg-nature-olive text-white',
+  brown: 'bg-dark-brown-elevated text-secondary-fixed',
+  gold: 'bg-secondary text-surface-bright',
+  sand: 'bg-border-sand-medium/40 text-text-muted-dark',
+  seal: 'bg-surface-cream-highlight text-secondary border border-gold-antique-light/70',
+  'seal-dark': 'bg-surface-cream-highlight/15 text-secondary-fixed border border-secondary-fixed/40',
+  planned: 'bg-transparent text-text-muted-dark border border-dashed border-text-muted-sand/70',
+  'olive-soft': 'bg-nature-olive/15 text-nature-olive',
+  'gold-soft': 'bg-secondary-fixed/15 text-secondary-fixed',
+};
+---
+
+<span class:list={['inline-flex items-center gap-1 rounded-full px-3 py-1 font-label text-label-badge uppercase', tones[tone], className]}>
+  {icon && <Icon name={icon} size={14} />}
+  <slot />
+</span>

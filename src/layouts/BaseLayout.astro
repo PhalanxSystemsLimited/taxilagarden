@@ -1,0 +1,122 @@
+---
+import '../styles/global.css';
+import playfair600 from '@fontsource/playfair-display/files/playfair-display-latin-600-normal.woff2?url';
+import manrope400 from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
+import nastaliq400 from '@fontsource/noto-nastaliq-urdu/files/noto-nastaliq-urdu-arabic-400-normal.woff2?url';
+import SEO from '../components/layout/SEO.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import FloatingActions from '../components/layout/FloatingActions.astro';
+import Logo from '../components/layout/Logo.astro';
+import BookVisitModal from '../components/react/BookVisitModal.jsx';
+import { site, waLink } from '../data/site';
+import { plotOptions } from '../data/plots';
+import { dirOf, getDict, htmlLang, tl } from '../lib/i18n';
+import type { Lang } from '../data/types';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
+const t = getDict(lang);
+const { title, description = t.meta.defaultDescription, noindex = false } = Astro.props;
+
+const modalStrings = { ...t.form, close: t.common.close };
+const modalPlots = plotOptions.map((o) => ({ value: o.value, label: tl(o.label, lang) }));
+---
+
+<!doctype html>
+<html lang={htmlLang(lang)} dir={dirOf(lang)} class="js-motion">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#1A1D17" />
+    <meta name="format-detection" content="telephone=no" />
+    <script is:inline>
+      // Motion pre-state: only hide reveal targets when motion will actually run.
+      (function () {
+        var d = document.documentElement;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          d.classList.remove('js-motion');
+          return;
+        }
+        try {
+          if (!sessionStorage.getItem('tghs-intro')) d.classList.add('js-intro');
+        } catch (e) {}
+        // Safety net: never leave content hidden if the motion bundle fails to load.
+        setTimeout(function () {
+          if (!window.__motionReady) d.classList.remove('js-motion', 'js-intro');
+        }, 3500);
+      })();
+    </script>
+    {
+      lang === 'ur' ? (
+        <link rel="preload" href={nastaliq400} as="font" type="font/woff2" crossorigin />
+      ) : (
+        <>
+          <link rel="preload" href={playfair600} as="font" type="font/woff2" crossorigin />
+          <link rel="preload" href={manrope400} as="font" type="font/woff2" crossorigin />
+        </>
+      )
+    }
+    <slot name="head" />
+    <SEO title={title} description={description} lang={lang} noindex={noindex} />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only z-[200] rounded-lg bg-terracotta px-4 py-3 font-label text-label-badge uppercase text-white focus:not-sr-only focus:fixed focus:start-4 focus:top-4"
+    >
+      {t.common.skipToContent}
+    </a>
+
+    <div id="intro" aria-hidden="true" inert>
+      <div class="flex flex-col items-center gap-5">
+        <div data-intro-logo><Logo lang={lang} tone="dark" /></div>
+        <span data-intro-line class="block h-px w-40 origin-left bg-gold-antique-light rtl:origin-right"></span>
+      </div>
+    </div>
+
+    <Header lang={lang} />
+
+    <main id="main" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+
+    <Footer lang={lang} />
+    <FloatingActions lang={lang} />
+
+    <BookVisitModal
+      client:interaction
+      strings={modalStrings}
+      plotOptions={modalPlots}
+      waNumber={site.whatsapp.number}
+      waDirectUrl={waLink()}
+    />
+
+    <script>
+      // Any [data-inquiry] element opens the Book-a-Visit modal (value = plot to preselect).
+      // Without JS these are plain links to the Contact page.
+      document.addEventListener('click', (e) => {
+        const trigger = (e.target as HTMLElement).closest<HTMLElement>('[data-inquiry]');
+        if (!trigger) return;
+        e.preventDefault();
+        const plot = trigger.dataset.inquiry ?? '';
+        const w = window as unknown as { __tghsModalReady?: boolean; __tghsPendingInquiry?: string };
+        if (w.__tghsModalReady) window.dispatchEvent(new CustomEvent('tghs:inquiry', { detail: { plot } }));
+        else w.__tghsPendingInquiry = plot;
+      });
+    </script>
+    <script>
+      import '../lib/motion';
+    </script>
+  </body>
+</html>

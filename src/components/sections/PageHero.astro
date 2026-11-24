@@ -1,0 +1,53 @@
+---
+/** Inner-page hero: dark Stitch band (night-olive + filigree), eyebrow, H1, subtitle, breadcrumb. */
+import Icon from '../ui/Icon.astro';
+import { getDict, routeHref } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+  eyebrow: string;
+  title: string;
+  sub?: string;
+  crumb: string;
+}
+const { lang, eyebrow, title, sub, crumb } = Astro.props;
+const t = getDict(lang);
+---
+
+<section class="relative isolate overflow-hidden bg-primary-container pt-[168px] pb-20 text-surface-bright md:pb-28" data-hero>
+  <div class="absolute inset-0 -z-10" aria-hidden="true">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgb(212_169_75/0.16),transparent_60%)]"></div>
+    <svg class="absolute inset-0 h-full w-full text-gold-antique-light opacity-10" preserveAspectRatio="none" viewBox="0 0 100 100">
+      <path d="M0,0 C30,40 70,60 100,100 M100,0 C70,40 30,60 0,100" fill="none" stroke="currentColor" stroke-width="0.3"></path>
+    </svg>
+    <svg class="absolute inset-0 h-full w-full text-secondary-fixed opacity-[0.04]" aria-hidden="true">
+      <defs>
+        <pattern id="ph-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"></path>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#ph-grid)"></rect>
+    </svg>
+  </div>
+
+  <div class="container-x">
+    <nav aria-label={lang === 'ur' ? 'بریڈ کرمب' : 'Breadcrumb'} class="mb-space-lg" data-hero-fade>
+      <ol class="flex items-center gap-2 font-label text-label-badge uppercase text-surface-variant">
+        <li><a href={routeHref('home', lang)} class="inline-flex min-h-8 items-center hover:text-secondary-fixed">{t.common.home}</a></li>
+        <li aria-hidden="true"><Icon name="chevron_right" size={16} flip class="text-secondary-fixed/60" /></li>
+        <li aria-current="page" class="text-secondary-fixed">{crumb}</li>
+      </ol>
+    </nav>
+    <p class="eyebrow mb-3 text-secondary-fixed" data-hero-fade>{eyebrow}</p>
+    <h1 class="max-w-4xl font-display text-headline-display-mobile text-balance text-surface-bright md:text-headline-display" data-split data-hero-title>
+      {title}
+    </h1>
+    {sub && <p class="mt-space-md max-w-2xl font-body text-body-lead text-surface-variant" data-hero-rise>{sub}</p>}
+    <slot />
+  </div>
+
+  <svg class="absolute inset-x-0 -bottom-px h-10 w-full text-background md:h-14" viewBox="0 0 1440 64" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 64h1440V18C1200 52 960 64 720 64S240 52 0 18Z" fill="currentColor"></path>
+  </svg>
+</section>

@@ -1,0 +1,186 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+import Icon from '../components/ui/Icon.astro';
+import PillarGrid from '../components/sections/PillarGrid.astro';
+import PlotCard from '../components/sections/PlotCard.astro';
+import RoadHierarchy from '../components/sections/RoadHierarchy.astro';
+import BlockList from '../components/sections/BlockList.astro';
+import AmenityGrid from '../components/sections/AmenityGrid.astro';
+import DocumentCard from '../components/sections/DocumentCard.astro';
+import GalleryGrid from '../components/sections/GalleryGrid.astro';
+import DistanceList from '../components/sections/DistanceList.astro';
+import InquirySection from '../components/sections/InquirySection.astro';
+import Lightbox from '../components/Lightbox.astro';
+import LocationMap from '../components/react/LocationMap.jsx';
+import { plots } from '../data/plots';
+import { approvals } from '../data/approvals';
+import { galleryById } from '../data/gallery';
+import { site } from '../data/site';
+import { heroImage } from '../lib/images';
+import { mapProps } from '../lib/map';
+import { getDict, routeHref } from '../lib/i18n';
+import visionImg from '../assets/images/horse-monument.jpg';
+import type { Lang } from '../data/types';
+
+const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
+const t = getDict(lang);
+const h = t.home;
+const hero = await heroImage();
+const topo = ['entrance-gate', 'site-office', 'mosque-hills'].map(galleryById);
+---
+
+<BaseLayout title={h.seoTitle}>
+  <link slot="head" rel="preconnect" href="https://tile.openstreetmap.org" />
+  <link slot="head" rel="preload" as="image" type="image/webp" imagesrcset={hero.srcSet.attribute} imagesizes="100vw" fetchpriority="high" />
+
+  <Hero lang={lang} />
+
+  <!-- THE VISION & ORIGINS -->
+  <section class="container-x py-space-2xl md:py-space-3xl" aria-labelledby="vision-title">
+    <div class="grid grid-cols-1 items-center gap-space-2xl lg:grid-cols-12">
+      <div class="relative lg:col-span-5">
+        <div class="relative rounded-2xl border border-border-sand-medium/40 bg-surface-container p-space-sm shadow-xl">
+          <div class="arch-mask relative h-[380px] overflow-hidden sm:h-[460px]" data-reveal-clip>
+            <Image
+              src={visionImg}
+              alt={lang === 'ur' ? 'سرسبز چوک پر سفید گھوڑے کی یادگار، کھجور کے پودوں کے ساتھ' : 'White stallion monument on a landscaped roundabout at Taxila Gardens'}
+              width={visionImg.width}
+              sizes="(min-width: 1024px) 480px, 100vw"
+              class="h-full w-full object-cover"
+              data-parallax="8"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-container via-transparent to-transparent opacity-80"></div>
+            <div class="absolute inset-x-5 bottom-5 rounded-lg border border-secondary-fixed/30 bg-dark-brown-surface/90 p-space-md text-surface-bright backdrop-blur-md">
+              <span class="block font-label text-label-badge uppercase text-secondary-fixed">{h.vision.captionEyebrow}</span>
+              <p class="font-display text-headline-sm text-surface-bright">{h.vision.caption}</p>
+            </div>
+          </div>
+        </div>
+        <div class="absolute -bottom-6 -end-4 hidden items-center gap-space-sm rounded-xl border border-surface-bright/20 bg-nature-olive p-space-md text-white shadow-lg sm:flex" data-reveal>
+          <Icon name="verified" size={28} />
+          <div>
+            <div class="font-label text-label-badge uppercase">{h.vision.chipTitle}</div>
+            <div class="font-body text-body-sm">{h.vision.chipBody}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-space-md lg:col-span-7">
+        <SectionHeading eyebrow={h.vision.eyebrow} title={h.vision.title} id="vision-title" />
+        <p class="font-body text-body-md leading-relaxed text-on-surface-variant" data-reveal>{h.vision.p1}</p>
+        <p class="font-body text-body-md leading-relaxed text-on-surface-variant" data-reveal>{h.vision.p2}</p>
+        <div class="flex flex-wrap items-center gap-x-space-lg gap-y-2 pt-space-sm" data-reveal>
+          <Button variant="ghost" href={routeHref('about', lang)} iconEnd="arrow_forward">{h.vision.readStory}</Button>
+          <Button variant="ghost" href={routeHref('approvals', lang)} iconEnd="verified_user" class="text-terracotta!">{h.vision.legal}</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY PILLARS -->
+  <section class="border-y border-border-sand-light/60 bg-surface-container-low py-space-2xl" aria-labelledby="pillars-title">
+    <div class="container-x">
+      <SectionHeading eyebrow={h.pillars.eyebrow} title={h.pillars.title} sub={h.pillars.sub} align="center" size="md" id="pillars-title" class="mb-space-2xl" />
+      <PillarGrid lang={lang} />
+    </div>
+  </section>
+
+  <!-- PLOT INVENTORY (all 5) -->
+  <section class="container-x py-space-2xl md:py-space-3xl" id="inventory" aria-labelledby="plots-title">
+    <div class="mb-space-2xl flex flex-col justify-between gap-space-md md:flex-row md:items-end">
+      <SectionHeading eyebrow={h.plots.eyebrow} title={h.plots.title} sub={h.plots.sub} id="plots-title" />
+      <Badge tone="seal" icon="verified" class="self-start md:self-auto">{h.plots.badge}</Badge>
+    </div>
+    <ul class="grid grid-cols-1 gap-space-lg md:grid-cols-2 lg:grid-cols-3 lg:gap-space-xl">
+      {plots.map((plot) => <li><PlotCard plot={plot} lang={lang} /></li>)}
+      <li class="flex flex-col justify-between rounded-2xl border border-dashed border-border-sand-medium bg-surface-cream-highlight/50 p-space-lg" data-reveal>
+        <div>
+          <Icon name="info" size={28} class="mb-space-md text-secondary" />
+          <p class="font-display text-headline-sm text-on-surface">{t.plots.policyTitle.replace(':', '')}</p>
+          <p class="mt-2 font-body text-body-sm text-on-surface-variant">{t.plots.policy}</p>
+        </div>
+        <div class="mt-space-lg">
+          <Button variant="dark" href={routeHref('plots', lang)} iconEnd="arrow_forward">{h.plots.cta}</Button>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- MASTER PLAN & ROADS -->
+  <section class="border-t border-border-sand-light bg-surface-container py-space-2xl md:py-space-3xl" aria-labelledby="roads-title">
+    <div class="container-x">
+      <SectionHeading eyebrow={h.roads.eyebrow} title={h.roads.title} sub={h.roads.sub} align="center" id="roads-title" class="mb-space-2xl" />
+      <div class="mb-space-2xl"><RoadHierarchy lang={lang} /></div>
+      <BlockList lang={lang} />
+      <div class="mt-space-xl text-center" data-reveal>
+        <Button variant="ghost" href={routeHref('masterPlan', lang)} iconEnd="arrow_forward" class="text-secondary!">{h.roads.cta}</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AMENITIES -->
+  <section class="container-x py-space-2xl md:py-space-3xl" aria-labelledby="amenities-title">
+    <SectionHeading eyebrow={h.amenities.eyebrow} title={h.amenities.title} sub={h.amenities.sub} align="center" id="amenities-title" class="mb-space-2xl" />
+    <AmenityGrid lang={lang} />
+    <div class="mt-space-xl text-center" data-reveal>
+      <Button variant="ghost" href={routeHref('amenities', lang)} iconEnd="arrow_forward" class="text-secondary!">{h.amenities.cta}</Button>
+    </div>
+  </section>
+
+  <!-- APPROVALS TRUST BAND -->
+  <section class="relative overflow-hidden bg-dark-brown-surface py-space-2xl text-surface-bright md:py-space-3xl" id="noc-documents" aria-labelledby="approvals-title">
+    <svg class="pointer-events-none absolute inset-0 h-full w-full opacity-5" aria-hidden="true">
+      <defs><pattern id="noc-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"></path></pattern></defs>
+      <rect width="100%" height="100%" fill="url(#noc-grid)"></rect>
+    </svg>
+    <div class="container-x relative">
+      <SectionHeading eyebrow={h.approvals.eyebrow} title={h.approvals.title} sub={h.approvals.sub} align="center" tone="dark" id="approvals-title" class="mb-space-2xl" />
+      <div class="grid grid-cols-1 gap-space-xl lg:grid-cols-2">
+        {approvals.map((doc) => <DocumentCard doc={doc} lang={lang} />)}
+      </div>
+      <div class="mt-space-xl text-center" data-reveal>
+        <Button variant="heritage" href={routeHref('approvals', lang)} iconEnd="arrow_forward">{h.approvals.cta}</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SITE TOPOGRAPHY -->
+  <section class="container-x py-space-2xl md:py-space-3xl" aria-labelledby="topo-title">
+    <div class="mb-space-2xl flex flex-col justify-between gap-space-md md:flex-row md:items-end">
+      <SectionHeading eyebrow={h.gallery.eyebrow} title={h.gallery.title} sub={h.gallery.sub} id="topo-title" />
+      <Button variant="ghost" href={routeHref('gallery', lang)} iconEnd="arrow_forward" class="self-start text-secondary! md:self-auto">{h.gallery.cta}</Button>
+    </div>
+    <GalleryGrid items={topo} lang={lang} layout="cards" />
+  </section>
+
+  <!-- LOCATION -->
+  <section class="border-t border-border-sand-light bg-surface-container-low py-space-2xl md:py-space-3xl" aria-labelledby="location-title">
+    <div class="container-x grid grid-cols-1 items-start gap-space-2xl lg:grid-cols-12">
+      <div class="space-y-space-md lg:col-span-5">
+        <SectionHeading eyebrow={h.location.eyebrow} title={h.location.title} sub={h.location.sub} id="location-title" />
+        <DistanceList lang={lang} />
+        <div class="flex flex-wrap items-center gap-space-md pt-2" data-reveal>
+          <Button variant="dark" href={site.mapsUrl} external icon="navigation">{t.common.getDirections}</Button>
+          <span class="font-body text-body-sm text-text-muted-dark" dir="ltr">GPS: 33.7820° N, 72.7937° E</span>
+        </div>
+      </div>
+      <div class="lg:col-span-7" data-reveal>
+        <div class="rounded-2xl border border-border-sand-medium bg-surface-cream-card p-space-sm shadow-md">
+          <LocationMap client:visible {...mapProps(lang)} showChips={false} height={460} />
+        </div>
+        <div class="mt-space-md text-end">
+          <Button variant="ghost" href={routeHref('location', lang)} iconEnd="arrow_forward" class="text-secondary!">{h.location.cta}</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <InquirySection lang={lang} />
+  <Lightbox />
+</BaseLayout>
