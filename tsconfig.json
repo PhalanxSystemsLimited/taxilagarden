@@ -7,9 +7,8 @@
     "jsxImportSource": "react",
     "allowJs": true,
     "checkJs": false,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   }
 }
