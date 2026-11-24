@@ -97,7 +97,8 @@ export const en = {
     name: 'Full Name',
     namePlaceholder: 'e.g. Malik Muhammad Aslam',
     phone: 'Mobile / WhatsApp Number',
-    phonePlaceholder: '+92 300 0000000',
+    phonePlaceholder: '0300 1234567',
+    phoneHint: 'e.g. 0300 1234567 or +92 300 1234567',
     plot: 'Plot Size of Interest',
     message: 'Your Message or Specific Inquiry',
     messagePlaceholder:

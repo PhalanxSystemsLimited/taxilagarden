@@ -1,6 +1,6 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import Icon from './Icon.jsx';
-import { buildInquiryMessage, normalizePkMobile, waUrl } from '../../lib/whatsapp.js';
+import { buildInquiryMessage, formatPkMobileInput, normalizePkMobile, toLocalPkFormat, waUrl } from '../../lib/whatsapp.js';
 
 /**
  * Inquiry form → WhatsApp (no backend).
@@ -40,6 +40,55 @@ export default function InquiryForm({ strings: s, plotOptions, waNumber, initial
     if (sentUrl) successRef.current?.focus();
   }, [sentUrl]);
 
+  // Caret position to restore after the phone number is re-formatted.
+  const caretRef = useRef(/** @type {number | null} */ (null));
+  useLayoutEffect(() => {
+    const el = phoneRef.current;
+    if (el && caretRef.current !== null && document.activeElement === el) {
+      el.setSelectionRange(caretRef.current, caretRef.current);
+    }
+    caretRef.current = null;
+  }, [values.phone]);
+
+  /** Position in `formatted` just after the n-th digit. */
+  const caretAfterDigits = (/** @type {string} */ formatted, /** @type {number} */ n) => {
+    if (n <= 0) return formatted.startsWith('+') ? 1 : 0;
+    let seen = 0;
+    for (let i = 0; i < formatted.length; i++) {
+      if (/\d/.test(formatted[i])) seen++;
+      if (seen === n) return i + 1;
+    }
+    return formatted.length;
+  };
+
+  /** Apply a new raw phone value: format it and keep the caret next to the same digit. */
+  const setPhone = (/** @type {string} */ raw, /** @type {number} */ caret) => {
+    let digitsBefore = raw.slice(0, caret).replace(/\D/g, '').length;
+    // "00 92…" collapses to "+92…": two digits disappear from in front of the caret.
+    if (raw.replace(/\D/g, '').startsWith('0092')) digitsBefore = Math.max(0, digitsBefore - 2);
+    const formatted = formatPkMobileInput(raw);
+    caretRef.current = caretAfterDigits(formatted, digitsBefore);
+    setValues((v) => ({ ...v, phone: formatted }));
+    setErrors((er) => ({ ...er, phone: undefined }));
+  };
+
+  const onPhoneChange = (/** @type {any} */ e) => setPhone(e.target.value, e.target.selectionStart ?? e.target.value.length);
+
+  // Backspace/Delete next to an auto-inserted space removes the neighbouring digit instead of "doing nothing".
+  const onPhoneKeyDown = (/** @type {React.KeyboardEvent<HTMLInputElement>} */ e) => {
+    const el = e.currentTarget;
+    const start = el.selectionStart ?? 0;
+    if (start !== el.selectionEnd) return;
+    const v = el.value;
+    if (e.key === 'Backspace' && start > 0 && v[start - 1] === ' ') {
+      e.preventDefault();
+      setPhone(v.slice(0, start - 2) + v.slice(start), start - 2);
+    } else if (e.key === 'Delete' && v[start] === ' ') {
+      e.preventDefault();
+      setPhone(v.slice(0, start) + v.slice(start + 2), start);
+    }
+  };
+
   /** @param {'name'|'phone'|'plot'|'message'} key */
   const update = (key) => (/** @type {any} */ e) => {
     setValues((v) => ({ ...v, [key]: e.target.value }));
@@ -63,7 +112,8 @@ export default function InquiryForm({ strings: s, plotOptions, waNumber, initial
     if (!validate()) return;
     const url = waUrl(
       waNumber,
-      buildInquiryMessage({ name: values.name, phone: values.phone, plot: values.plot, message: values.message }),
+      // Sales team always receives one standard format: "0300 9087462"
+      buildInquiryMessage({ name: values.name, phone: toLocalPkFormat(values.phone) ?? values.phone, plot: values.plot, message: values.message }),
     );
     window.open(url, '_blank', 'noopener,noreferrer');
     setSentUrl(url);
@@ -158,18 +208,23 @@ export default function InquiryForm({ strings: s, plotOptions, waNumber, initial
             dir="ltr"
             className="field rtl:text-end"
             placeholder={s.phonePlaceholder}
+            maxLength={16}
             value={values.phone}
-            onChange={update('phone')}
+            onChange={onPhoneChange}
+            onKeyDown={onPhoneKeyDown}
             aria-invalid={errors.phone ? 'true' : 'false'}
-            aria-describedby={errors.phone ? `${ids.phone}-e` : undefined}
+            aria-describedby={errors.phone ? `${ids.phone}-e ${ids.phone}-hint` : `${ids.phone}-hint`}
             required
           />
-          {errors.phone && (
+          {errors.phone ? (
             <p id={`${ids.phone}-e`} className="mt-1 flex items-start gap-1 font-body text-body-sm text-error">
               <Icon name="error" size={16} className="mt-0.5" />
               {errors.phone}
             </p>
-          )}
+          ) : null}
+          <p id={`${ids.phone}-hint`} className={`mt-1 font-body text-[12px] leading-5 text-text-muted-dark ${errors.phone ? 'sr-only' : ''}`}>
+            {s.phoneHint}
+          </p>
         </div>
       </div>
 
