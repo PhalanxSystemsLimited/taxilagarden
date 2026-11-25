@@ -31,8 +31,8 @@ export const gallery: GalleryItem[] = [
       ur: 'مرکزی داخلے کا فضائی منظر — گارڈ پوسٹس، بوم بیریئرز اور درختوں سے آراستہ بلیوارڈ۔',
     },
     alt: {
-      en: 'Aerial view of the Taxila Gardens main entrance with guard houses, boom barriers and a landscaped boulevard',
-      ur: 'ٹیکسلا گارڈنز کے مرکزی داخلے کا فضائی منظر، گارڈ ہاؤسز، بوم بیریئرز اور سرسبز بلیوارڈ',
+      en: 'Aerial view of the Taxila Satellite Township main entrance with guard houses, boom barriers and a landscaped boulevard',
+      ur: 'ٹیکسلا سیٹلائٹ ٹاؤن شپ کے مرکزی داخلے کا فضائی منظر، گارڈ ہاؤسز، بوم بیریئرز اور سرسبز بلیوارڈ',
     },
   },
   {

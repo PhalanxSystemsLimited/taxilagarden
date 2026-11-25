@@ -7,6 +7,7 @@ import Button from '../components/ui/Button.astro';
 import Icon from '../components/ui/Icon.astro';
 import PillarGrid from '../components/sections/PillarGrid.astro';
 import CTABand from '../components/sections/CTABand.astro';
+import DeveloperProjects from '../components/sections/DeveloperProjects.astro';
 import { site, waLink } from '../data/site';
 import { getDict, routeHref, tl } from '../lib/i18n';
 import { navLabels } from '../data/navigation';
@@ -36,9 +37,14 @@ const a = t.about;
           <blockquote class="font-display text-headline-sm italic leading-relaxed text-surface-bright">
             “{a.quote}”
           </blockquote>
-          <figcaption class="mt-space-md flex items-center gap-2 font-label text-label-badge uppercase text-secondary-fixed">
-            <span class="h-px w-6 bg-current"></span>{a.quoteCite}
-          </figcaption>
+          {
+            a.quoteCite && (
+              <figcaption class="mt-space-md flex items-center gap-2 font-label text-label-badge uppercase text-secondary-fixed">
+                <span class="h-px w-6 bg-current" />
+                {a.quoteCite}
+              </figcaption>
+            )
+          }
         </figure>
 
         <article class="overflow-hidden rounded-2xl border border-border-sand-medium/70 bg-surface-cream-card shadow-tier2 lg:sticky lg:top-28" data-reveal>
@@ -69,6 +75,11 @@ const a = t.about;
       <SectionHeading eyebrow={t.home.pillars.eyebrow} title={t.home.pillars.title} sub={t.home.pillars.sub} align="center" size="md" id="pillars-title" class="mb-space-2xl" />
       <PillarGrid lang={lang} />
     </div>
+  </section>
+
+  <section class="container-x py-space-2xl md:py-space-3xl" aria-labelledby="projects-title">
+    <SectionHeading eyebrow={a.projectsEyebrow} title={a.projectsTitle} sub={a.projectsSub} id="projects-title" class="mb-space-xl" />
+    <DeveloperProjects lang={lang} />
   </section>
 
   <CTABand lang={lang} eyebrow={t.cta.eyebrow} title={t.cta.title} text={t.cta.text} button={t.common.bookSiteVisit} />

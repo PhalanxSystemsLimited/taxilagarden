@@ -34,12 +34,12 @@ const jsonLd = {
       priceRange: 'Price on Inquiry',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'Near Taxila Hills & HITEC',
+        streetAddress: 'Canal Road, Village & P.O. Toffkian',
         addressLocality: site.address.locality,
         addressRegion: site.address.region,
         addressCountry: site.address.country,
       },
-      geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+      // geo coordinates omitted until the client supplies the exact site pin
       hasMap: site.mapsUrl,
       areaServed: site.areaServed.map((name) => ({ '@type': 'City', name })),
       openingHoursSpecification: [
@@ -65,7 +65,6 @@ const jsonLd = {
       name: site.name,
       description: t.meta.defaultDescription,
       address: { '@type': 'PostalAddress', addressLocality: site.address.locality, addressRegion: site.address.region, addressCountry: 'PK' },
-      geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
       hasMap: site.mapsUrl,
     },
   ],

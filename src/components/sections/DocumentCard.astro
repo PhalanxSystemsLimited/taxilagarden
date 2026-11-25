@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Icon from '../ui/Icon.astro';
 import type { ApprovalDoc } from '../../data/approvals';
 import { fullImage } from '../../lib/images';
-import { formatDate, getDict, tl } from '../../lib/i18n';
+import { getDict, tl } from '../../lib/i18n';
 import type { Lang } from '../../data/types';
 
 interface Props {
@@ -68,14 +68,16 @@ const title = tl(doc.title, lang);
         <h3 class="mt-1 font-display text-headline-sm text-surface-bright">{title}</h3>
       </div>
       <dl class="mb-space-lg space-y-space-sm font-body text-body-sm text-surface-variant">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <dt class="font-label text-label-badge uppercase text-text-muted-sand">{tl(doc.referenceLabel, lang)}</dt>
-          <dd class="font-semibold text-surface-bright" dir={doc.id === 'noc-letter' ? 'ltr' : undefined}>{tl(doc.reference, lang)}</dd>
-        </div>
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <dt class="font-label text-label-badge uppercase text-text-muted-sand">{t.common.sanctionDate}</dt>
-          <dd class="font-semibold text-secondary-fixed">{formatDate(doc.date, lang)}</dd>
-        </div>
+        {
+          doc.rows.map((r, i) => (
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <dt class="font-label text-label-badge uppercase text-text-muted-sand">{tl(r.label, lang)}</dt>
+              <dd class:list={['font-semibold', i === 1 ? 'text-secondary-fixed' : 'text-surface-bright']} dir={r.ltr ? 'ltr' : undefined}>
+                {tl(r.value, lang)}
+              </dd>
+            </div>
+          ))
+        }
       </dl>
       <p class="border-t border-secondary-fixed/15 pt-space-sm font-body text-body-sm text-surface-variant">{tl(doc.description, lang)}</p>
       {

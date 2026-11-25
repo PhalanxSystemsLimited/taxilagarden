@@ -1,6 +1,6 @@
 ---
 import { site } from '../../data/site';
-import { getDict, formatDate } from '../../lib/i18n';
+import { getDict } from '../../lib/i18n';
 import type { Lang } from '../../data/types';
 
 interface Props {
@@ -9,14 +9,15 @@ interface Props {
 }
 const { lang, class: className = '' } = Astro.props;
 const t = getDict(lang);
-const approval = formatDate(site.facts.layoutApprovalDate, lang, true);
-const approvalPrefix = approval.replace(/\s*2016$/, '');
+const f = site.facts;
+const ur = lang === 'ur';
 
-const stats = [
-  { value: site.facts.landKanal, decimals: 2, label: t.stats.land, gold: true, grouping: true },
-  { value: site.facts.plots, decimals: 0, label: t.stats.plots, gold: false, grouping: true },
-  { value: 2016, decimals: 0, prefix: approvalPrefix, label: t.stats.approved, gold: true, grouping: false },
-  { value: site.facts.mainBoulevardFt, decimals: 0, suffix: lang === 'ur' ? ' فٹ' : ' ft', label: t.stats.boulevard, gold: false, grouping: true },
+type Stat = { label: string; gold: boolean; count?: number; suffix?: string; text?: string };
+const stats: Stat[] = [
+  { count: f.area.kanal, suffix: ur ? ` کنال ${f.area.marla} مرلہ` : ` K ${f.area.marla} M`, label: t.stats.land, gold: true },
+  { count: f.plots, label: t.stats.plots, gold: false },
+  { count: f.homesBuilt, label: t.stats.homes, gold: true },
+  { text: t.stats.nocValue, label: t.stats.noc, gold: false },
 ];
 ---
 
@@ -32,12 +33,17 @@ const stats = [
       stats.map((s, i) => (
         <div class:list={['flex flex-col-reverse items-center p-2 text-center', i >= 2 && 'border-t border-secondary-fixed/15 pt-4 md:border-t-0 md:pt-2']}>
           <dt class="mt-1 font-label text-label-eyebrow uppercase text-surface-variant">{s.label}</dt>
-          <dd class:list={['font-display text-[26px] leading-tight sm:text-stat-value', s.gold ? 'text-secondary-fixed' : 'text-surface-bright']} dir={lang === 'ur' ? 'rtl' : 'ltr'}>
-            {s.prefix && <span>{s.prefix} </span>}
-            <span data-count={s.value} data-decimals={s.decimals} data-grouping={String(s.grouping)} class="tabular-nums">
-              {s.value.toLocaleString('en-US', { minimumFractionDigits: s.decimals, maximumFractionDigits: s.decimals, useGrouping: s.grouping })}
-            </span>
-            {s.suffix && <span>{s.suffix}</span>}
+          <dd class:list={['font-display text-[26px] leading-tight sm:text-stat-value', s.gold ? 'text-secondary-fixed' : 'text-surface-bright']} dir={ur ? 'rtl' : 'ltr'}>
+            {
+              s.count !== undefined ? (
+                <>
+                  <span data-count={s.count} class="tabular-nums">{s.count}</span>
+                  {s.suffix && <span class="text-[0.6em]">{s.suffix}</span>}
+                </>
+              ) : (
+                <span class="text-[0.8em]">{s.text}</span>
+              )
+            }
           </dd>
         </div>
       ))

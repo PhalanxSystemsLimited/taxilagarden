@@ -1,4 +1,4 @@
-# Taxila Gardens — Hostinger (Apache / LiteSpeed) config for the static Astro build.
+# Taxila Satellite Township — Hostinger (Apache / LiteSpeed) config for the static Astro build.
 # Upload the CONTENTS of frontend/dist/ into public_html/ (this file included).
 
 Options -Indexes

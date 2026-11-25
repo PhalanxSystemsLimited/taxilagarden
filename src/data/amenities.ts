@@ -12,14 +12,18 @@ export interface Amenity {
   wide?: boolean;
 }
 
+/**
+ * Aligned with the master layout plan's schedule of land use and the on-site photographs.
+ * Amenity land: 67.384 Kanal (22 Kanal transferred) — see site.ts.
+ */
 export const amenities: Amenity[] = [
   {
     icon: 'mosque',
     category: { en: 'Spiritual', ur: 'روحانی' },
-    title: { en: 'Grand Jamia Mosque', ur: 'عظیم جامع مسجد' },
+    title: { en: 'Jamia Mosque', ur: 'جامع مسجد' },
     description: {
-      en: 'Architectural centerpiece integrating Gandhara stone-relief motifs with domed Islamic prayer halls and serene courtyards.',
-      ur: 'گندھارا کے سنگی نقش و نگار اور گنبد دار اسلامی عبادت گاہوں کا امتزاج، پُرسکون صحنوں کے ساتھ اسکیم کا مرکزی تعمیراتی شاہکار۔',
+      en: 'A domed mosque with carved jali screens and an arched gateway, at the heart of the community.',
+      ur: 'منقش جالیوں اور محرابی دروازے والی گنبد دار مسجد، کمیونٹی کے دل میں۔',
     },
     planned: false,
     variant: 'dark',
@@ -28,81 +32,67 @@ export const amenities: Amenity[] = [
   {
     icon: 'park',
     category: { en: 'Recreation', ur: 'تفریح' },
-    title: { en: 'Gandhara Heritage Theme Parks', ur: 'گندھارا ہیریٹیج تھیم پارکس' },
+    title: { en: 'Parks & Open Spaces', ur: 'پارکس و کھلی جگہیں' },
     description: {
-      en: 'Botanical gardens, reflecting fountains, native Margalla flora, jogging tracks.',
-      ur: 'نباتاتی باغات، فوارے، مارگلہ کے مقامی پودے اور جاگنگ ٹریک۔',
+      en: '8.44% of the township is set aside for parks and open spaces in the master plan.',
+      ur: 'ماسٹر پلان میں ٹاؤن شپ کا 8.44 فیصد رقبہ پارکس اور کھلی جگہوں کے لیے مختص ہے۔',
     },
     planned: false,
     variant: 'olive',
   },
   {
-    icon: 'security',
-    category: { en: 'Security', ur: 'سیکیورٹی' },
-    title: { en: '24/7 Gated Security & Surveillance', ur: 'چوبیس گھنٹے گیٹڈ سیکیورٹی اور نگرانی' },
-    description: {
-      en: 'Stone perimeter walls, RFID access barriers, HD CCTV, patrolling units.',
-      ur: 'پتھر کی چار دیواری، آر ایف آئی ڈی رسائی بیریئرز، ایچ ڈی سی سی ٹی وی اور گشتی ٹیمیں۔',
-    },
-    planned: false,
-    variant: 'cream',
-  },
-  {
     icon: 'storefront',
     category: { en: 'Commercial', ur: 'کمرشل' },
-    title: { en: 'Commercial Boulevard & Retail', ur: 'کمرشل بلیوارڈ اور ریٹیل' },
+    title: { en: 'Commercial Areas', ur: 'کمرشل ایریاز' },
     description: {
-      en: 'Grocery, bakeries, pharmacies, banking, cafés on the 100 ft boulevard.',
-      ur: '100 فٹ بلیوارڈ پر گروسری، بیکریاں، فارمیسیاں، بینکنگ اور کیفے۔',
+      en: 'Designated commercial areas for everyday shopping and services within the township.',
+      ur: 'روزمرہ خریداری اور خدمات کے لیے ٹاؤن شپ کے اندر مخصوص کمرشل ایریاز۔',
     },
     planned: false,
     variant: 'cream',
   },
   {
-    icon: 'power',
+    icon: 'security',
+    category: { en: 'Security', ur: 'سیکیورٹی' },
+    title: { en: 'Gated Main Entrance', ur: 'گیٹڈ مرکزی داخلہ' },
+    description: {
+      en: 'A gated main entrance with guard posts and boom barriers.',
+      ur: 'گارڈ پوسٹس اور بوم بیریئرز کے ساتھ گیٹڈ مرکزی داخلہ۔',
+    },
+    planned: false,
+    variant: 'cream',
+  },
+  {
+    icon: 'add_road',
     category: { en: 'Infrastructure', ur: 'انفراسٹرکچر' },
-    title: { en: 'Underground Utilities Network', ur: 'زیرِ زمین یوٹیلیٹیز نیٹ ورک' },
+    title: { en: 'Road Network', ur: 'سڑکوں کا نظام' },
     description: {
-      en: 'Underground power lines, fiber-optic ducts, filtered water reservoirs, storm drainage.',
-      ur: 'زیرِ زمین بجلی کی لائنیں، فائبر آپٹک ڈکٹس، صاف پانی کے ذخائر اور برساتی نکاسی۔',
+      en: 'A quarter of the land (25.37%) is given to roads connecting Blocks A, B, C and E.',
+      ur: 'رقبے کا ایک چوتھائی (25.37 فیصد) بلاک اے، بی، سی اور ای کو ملانے والی سڑکوں کے لیے مختص ہے۔',
     },
-    planned: true,
+    planned: false,
     variant: 'cream',
   },
   {
-    icon: 'school',
-    category: { en: 'Education', ur: 'تعلیم' },
-    title: { en: 'Premier Educational Campus', ur: 'معیاری تعلیمی کیمپس' },
+    icon: 'account_balance',
+    category: { en: 'Civic', ur: 'شہری' },
+    title: { en: 'Public Buildings', ur: 'سرکاری عمارات' },
     description: {
-      en: 'Reserved land for primary & secondary school campus.',
-      ur: 'پرائمری اور سیکنڈری اسکول کیمپس کے لیے مختص زمین۔',
+      en: 'Sites reserved in the master plan for public and community buildings.',
+      ur: 'ماسٹر پلان میں سرکاری اور کمیونٹی عمارات کے لیے مختص جگہیں۔',
     },
-    planned: true,
+    planned: false,
     variant: 'highlight',
-    wide: true,
   },
   {
-    icon: 'sports_basketball',
-    category: { en: 'Recreation', ur: 'تفریح' },
-    title: { en: 'Sports Enclave & Community Club', ur: 'اسپورٹس انکلیو اور کمیونٹی کلب' },
+    icon: 'yard',
+    category: { en: 'Community', ur: 'کمیونٹی' },
+    title: { en: 'Community Graveyard', ur: 'کمیونٹی قبرستان' },
     description: {
-      en: "Floodlit courts (badminton, basketball), kids' equipment, community hall.",
-      ur: 'روشن کورٹس (بیڈمنٹن، باسکٹ بال)، بچوں کے کھیل کا سامان اور کمیونٹی ہال۔',
+      en: 'A graveyard designated within the township’s approved layout.',
+      ur: 'ٹاؤن شپ کے منظور شدہ لے آؤٹ میں مخصوص قبرستان۔',
     },
-    planned: true,
-    variant: 'cream',
-    wide: true,
-  },
-  {
-    icon: 'local_hospital',
-    category: { en: 'Healthcare', ur: 'صحت' },
-    title: { en: 'Medical Center & First-Aid Clinic', ur: 'میڈیکل سینٹر اور فرسٹ ایڈ کلینک' },
-    description: {
-      en: '24-hour dispensary, urgent care, ambulance docking.',
-      ur: 'چوبیس گھنٹے ڈسپنسری، ہنگامی طبی امداد اور ایمبولینس کی سہولت۔',
-    },
-    planned: true,
+    planned: false,
     variant: 'highlight',
-    wide: true,
   },
 ];

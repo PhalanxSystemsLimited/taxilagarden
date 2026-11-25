@@ -15,86 +15,60 @@ export interface Plot {
   featured?: boolean;
 }
 
+/**
+ * Plot categories confirmed by the client (25 Nov 2026).
+ * sq ft = width × depth; Kanal = Marla ÷ 20.
+ */
 export const plots: Plot[] = [
   {
     value: '5 Marla',
     label: { en: '5 Marla', ur: '5 مرلہ' },
     short: '5M',
-    dimensions: '25 × 45',
-    sqft: 1125,
+    dimensions: '25 × 50',
+    sqft: 1250,
     marla: 5,
     kanal: 0.25,
     badge: { en: 'Residential', ur: 'رہائشی' },
     badgeTone: 'night',
     description: {
-      en: 'Well-proportioned for compact modern residential construction.',
-      ur: 'جدید اور مختصر رہائشی تعمیر کے لیے متوازن تناسب والا پلاٹ۔',
+      en: 'A well-proportioned 25 × 50 ft plot, ideal for a compact modern family home.',
+      ur: '25 × 50 فٹ کا متوازن پلاٹ، جدید اور مختصر خاندانی گھر کے لیے موزوں۔',
     },
   },
   {
-    value: '7 Marla',
-    label: { en: '7 Marla', ur: '7 مرلہ' },
-    short: '7M',
-    dimensions: '30 × 55',
-    sqft: 1650,
-    marla: 7.33,
-    kanal: 0.37,
-    badge: { en: 'Executive', ur: 'ایگزیکٹو' },
+    value: '6 Marla',
+    label: { en: '6 Marla', ur: '6 مرلہ' },
+    short: '6M',
+    dimensions: '30 × 50',
+    sqft: 1500,
+    marla: 6,
+    kanal: 0.3,
+    badge: { en: 'Family', ur: 'فیملی' },
     badgeTone: 'olive',
     description: {
-      en: 'Ample layout for multi-bedroom homes and double car porches.',
-      ur: 'کئی کمروں والے گھروں اور ڈبل کار پورچ کے لیے کشادہ لے آؤٹ۔',
+      en: 'A wider 30 × 50 ft plot with room for a more spacious home layout.',
+      ur: '30 × 50 فٹ کا کشادہ پلاٹ، زیادہ وسیع گھر کے نقشے کی گنجائش کے ساتھ۔',
     },
   },
   {
-    value: '8 Marla',
-    label: { en: '8 Marla', ur: '8 مرلہ' },
-    short: '8M',
-    dimensions: '30 × 60',
-    sqft: 1800,
-    marla: 8,
-    kanal: 0.4,
-    badge: { en: 'Residential', ur: 'رہائشی' },
-    badgeTone: 'night',
-    description: {
-      en: 'Generous 60ft depth allowing custom architectural layouts.',
-      ur: '60 فٹ کی کشادہ گہرائی، جو اپنی پسند کے تعمیراتی نقشے کی گنجائش دیتی ہے۔',
-    },
-  },
-  {
-    value: '10 Marla',
-    label: { en: '10 Marla', ur: '10 مرلہ' },
-    short: '10M',
-    dimensions: '35 × 65',
-    sqft: 2275,
-    marla: 10.11,
-    kanal: 0.5,
+    value: '7.7 Marla',
+    label: { en: '7.7 Marla', ur: '7.7 مرلہ' },
+    short: '7.7M',
+    dimensions: '31.25 × 59.71',
+    sqft: 1866,
+    marla: 7.7,
+    kanal: 0.385,
     badge: { en: 'Premium', ur: 'پریمیم' },
     badgeTone: 'brown',
     description: {
-      en: 'Premium residential plot accommodating luxury villas and lawns.',
-      ur: 'پرتعیش ولاز اور لان کے لیے موزوں پریمیم رہائشی پلاٹ۔',
-    },
-  },
-  {
-    value: '1 Kanal',
-    label: { en: '1 Kanal', ur: '1 کنال' },
-    short: '1K',
-    dimensions: '50 × 90',
-    sqft: 4500,
-    marla: 20,
-    kanal: 1,
-    badge: { en: 'Luxury Estate', ur: 'لگژری اسٹیٹ' },
-    badgeTone: 'brown',
-    description: {
-      en: 'Estate plot — the premier residential address in Taxila Gardens.',
-      ur: 'اسٹیٹ پلاٹ — ٹیکسلا گارڈنز کا سب سے نمایاں رہائشی پتہ۔',
+      en: 'Our largest plot category — 31.25 × 59.71 ft, for a larger family home with outdoor space.',
+      ur: 'ہماری سب سے بڑی پلاٹ کیٹیگری — 31.25 × 59.71 فٹ، کھلی جگہ کے ساتھ بڑے خاندانی گھر کے لیے۔',
     },
     featured: true,
   },
 ];
 
-/** The single option list used by every form (brief §6.3). */
+/** The single option list used by every form. */
 export const plotOptions: { value: string; label: L }[] = [
   ...plots.map((p) => ({ value: p.value, label: p.label })),
   { value: 'Commercial', label: { en: 'Commercial', ur: 'کمرشل' } },

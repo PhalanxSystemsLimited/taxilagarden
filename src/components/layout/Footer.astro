@@ -26,7 +26,7 @@ const socials = Object.entries(site.socials).filter(([, url]) => Boolean(url));
         <p class="max-w-md font-body text-body-md text-surface-variant">{t.footer.blurb}</p>
         <div class="flex flex-wrap items-center gap-space-sm pt-space-xs">
           <Badge tone="seal-dark" icon="verified">{t.footer.sanctioned}</Badge>
-          <Badge tone="olive" icon="eco" class="bg-nature-olive/30! border border-nature-olive">{t.footer.delivered}</Badge>
+          <Badge tone="olive" icon="home" class="bg-nature-olive/30! border border-nature-olive">{t.footer.delivered}</Badge>
         </div>
         {
           socials.length > 0 && (
@@ -63,7 +63,11 @@ const socials = Object.entries(site.socials).filter(([, url]) => Boolean(url));
         <address class="space-y-2 font-body text-body-sm not-italic text-primary-fixed-dim">
           <p class="flex items-start gap-space-sm">
             <Icon name="location_on" size={18} class="mt-0.5 text-secondary-fixed" />
-            <span>{lang === 'ur' ? t.location.schemeAddress : site.address.line}</span>
+            <span><strong class="font-semibold text-surface-variant">{t.common.siteOffice}:</strong> {tl(site.address.site, lang)}</span>
+          </p>
+          <p class="flex items-start gap-space-sm">
+            <Icon name="corporate_fare" size={18} class="mt-0.5 text-secondary-fixed" />
+            <span><strong class="font-semibold text-surface-variant">{t.common.headOffice}:</strong> {tl(site.address.head, lang)}</span>
           </p>
           <p class="flex items-start gap-space-sm">
             <Icon name="schedule" size={18} class="mt-0.5 text-secondary-fixed" />
@@ -73,7 +77,7 @@ const socials = Object.entries(site.socials).filter(([, url]) => Boolean(url));
             site.phones.map((p) => (
               <a href={`tel:${p.tel}`} class="flex min-h-10 items-center gap-space-sm transition-colors hover:text-white">
                 <Icon name="call" size={18} class="text-secondary-fixed" />
-                <span dir="ltr">{p.display}</span>
+                <span><span dir="ltr">{p.display}</span> <span class="text-primary-fixed-dim/70">· {tl(p.label, lang)}</span></span>
               </a>
             ))
           }
@@ -85,7 +89,7 @@ const socials = Object.entries(site.socials).filter(([, url]) => Boolean(url));
             site.email && (
               <a href={`mailto:${site.email}`} class="flex min-h-10 items-center gap-space-sm hover:text-white">
                 <Icon name="mail" size={18} class="text-secondary-fixed" />
-                <span>{site.email}</span>
+                <span dir="ltr">{site.email}</span>
               </a>
             )
           }

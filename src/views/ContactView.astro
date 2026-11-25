@@ -37,14 +37,21 @@ const opts = plotOptions.map((o) => ({ value: o.value, label: tl(o.label, lang) 
             <div class="flex gap-3">
               <Icon name="location_on" size={22} class="mt-0.5 text-secondary-fixed" />
               <div>
-                <p class="font-label text-label-badge uppercase text-text-muted-sand">{c.officeLocation}</p>
-                <div class="mt-0.5 text-surface-variant">{lang === 'ur' ? t.location.schemeAddress : site.address.line}</div>
+                <p class="font-label text-label-badge uppercase text-text-muted-sand">{t.common.siteOffice}</p>
+                <div class="mt-0.5 text-surface-variant">{tl(site.address.site, lang)}</div>
                 <div>
                   <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer" class="mt-1 inline-flex min-h-10 items-center gap-1 font-label text-label-badge uppercase text-secondary-fixed hover:text-white">
                     {t.common.viewOnGoogleMaps}
                     <Icon name="arrow_forward" size={14} flip />
                   </a>
                 </div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <Icon name="corporate_fare" size={22} class="mt-0.5 text-secondary-fixed" />
+              <div>
+                <p class="font-label text-label-badge uppercase text-text-muted-sand">{t.common.headOffice}</p>
+                <div class="mt-0.5 text-surface-variant">{tl(site.address.head, lang)}</div>
               </div>
             </div>
             <div class="flex gap-3">
@@ -60,7 +67,7 @@ const opts = plotOptions.map((o) => ({ value: o.value, label: tl(o.label, lang) 
                 <div class="flex gap-3">
                   <Icon name="call" size={22} class="mt-0.5 text-secondary-fixed" />
                   <div>
-                    <p class="font-label text-label-badge uppercase text-text-muted-sand">{p.primary ? t.common.phone : t.common.secondaryPhone}</p>
+                    <p class="font-label text-label-badge uppercase text-text-muted-sand">{tl(p.label, lang)}</p>
                     <div>
                       <a href={`tel:${p.tel}`} class="inline-flex min-h-10 items-center font-display text-headline-sm text-surface-bright hover:text-secondary-fixed" dir="ltr">
                         {p.display}
@@ -77,6 +84,17 @@ const opts = plotOptions.map((o) => ({ value: o.value, label: tl(o.label, lang) 
                 <div>
                   <a href={waLink()} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center font-display text-headline-sm text-surface-bright hover:text-secondary-fixed" dir="ltr">
                     {site.whatsapp.display}
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <Icon name="mail" size={22} class="mt-0.5 text-secondary-fixed" />
+              <div>
+                <p class="font-label text-label-badge uppercase text-text-muted-sand">{t.common.email}</p>
+                <div>
+                  <a href={`mailto:${site.email}`} class="inline-flex min-h-10 items-center break-all font-body text-body-md font-semibold text-surface-bright hover:text-secondary-fixed" dir="ltr">
+                    {site.email}
                   </a>
                 </div>
               </div>

@@ -1,9 +1,9 @@
 {
-  "name": "tghs-website",
+  "name": "tst-website",
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Taxila Gardens Housing Scheme — static marketing website (Astro + React islands + Tailwind).",
+  "description": "Taxila Satellite Township — static marketing website (Astro + React islands + Tailwind).",
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",

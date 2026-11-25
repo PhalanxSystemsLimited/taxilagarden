@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import Button from '../components/ui/Button.astro';
 import Icon from '../components/ui/Icon.astro';
-import DistanceList from '../components/sections/DistanceList.astro';
+import OfficeAddresses from '../components/sections/OfficeAddresses.astro';
 import CTABand from '../components/sections/CTABand.astro';
 import LocationMap from '../components/react/LocationMap.jsx';
 import { navLabels } from '../data/navigation';
@@ -36,18 +36,18 @@ const l = t.location;
             {l.schemeLocation}
           </p>
           <p class="mt-2 font-display text-headline-sm">{l.schemeAddress}</p>
-          <p class="mt-space-md font-label text-label-badge uppercase text-text-muted-sand">{t.common.gps}</p>
-          <p class="font-body text-body-md text-secondary-fixed" dir="ltr">{site.geo.lat.toFixed(4)}° N, {site.geo.lng.toFixed(4)}° E</p>
+          <p class="mt-space-md flex items-center gap-2 font-body text-body-sm text-surface-variant">
+            <Icon name="school" size={18} class="text-secondary-fixed" />
+            {l.mapPopupSub}
+          </p>
           <div class="mt-space-lg flex flex-col gap-2">
-            <Button variant="primary" href={site.mapsUrl} external icon="navigation" full>{t.common.getDirections}</Button>
+            <Button variant="primary" href={`tel:${site.phones[0]!.tel}`} icon="call" full>{t.common.callUs} <span dir="ltr">{site.phones[0]!.display}</span></Button>
             <Button variant="heritage" href={site.mapsUrl} external icon="map" full>{t.common.openInGoogleMaps}</Button>
           </div>
+          <p class="mt-space-md font-body text-[12px] text-text-muted-sand">{l.mapAttributionNote}</p>
         </div>
 
-        <div>
-          <h2 class="eyebrow mb-space-sm">{l.distancesTitle}</h2>
-          <DistanceList lang={lang} />
-        </div>
+        <OfficeAddresses lang={lang} />
       </aside>
     </div>
   </section>

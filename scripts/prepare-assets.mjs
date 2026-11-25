@@ -87,10 +87,10 @@ const overlay = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="63
   </defs>
   <rect width="1200" height="630" fill="url(#g)"/>
   <rect x="80" y="395" width="64" height="2" fill="#D4A94B"/>
-  <text x="80" y="380" font-family="Georgia, 'Times New Roman', serif" font-size="74" font-weight="600" fill="#FFF9ED">Taxila Gardens</text>
-  <text x="80" y="460" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="46" fill="#FFDF9E">Housing Scheme</text>
-  <text x="80" y="535" font-family="Arial, Helvetica, sans-serif" font-size="22" letter-spacing="4" fill="#E8E2D6">GANDHARA HERITAGE LIVING · DELIVERED · TMA HARIPUR APPROVED 2016</text>
-  <text x="80" y="140" font-family="Arial, Helvetica, sans-serif" font-size="20" letter-spacing="5" fill="#D4A94B">LANDMARK GROUP</text>
+  <text x="80" y="380" font-family="Georgia, 'Times New Roman', serif" font-size="74" font-weight="600" fill="#FFF9ED">Taxila Satellite</text>
+  <text x="80" y="460" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="46" fill="#FFDF9E">Township</text>
+  <text x="80" y="535" font-family="Arial, Helvetica, sans-serif" font-size="22" letter-spacing="4" fill="#E8E2D6">ADJACENT TO UET TAXILA · NOC APPROVED · TMA KHANPUR</text>
+  <text x="80" y="140" font-family="Arial, Helvetica, sans-serif" font-size="20" letter-spacing="5" fill="#D4A94B">A PROJECT OF MINAWA GROUP</text>
 </svg>`;
 await sharp(await readFile(path.join(imgOut, 'mosque-gateway.jpg')))
   .resize(1200, 630, { fit: 'cover', position: 'centre' })

@@ -1,0 +1,39 @@
+---
+/** Schedule of land use (master layout plan) — horizontal bars, animated on scroll. */
+import Icon from '../ui/Icon.astro';
+import { landUse } from '../../data/landuse';
+import { getDict, tl } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+  compact?: boolean;
+}
+const { lang, compact = false } = Astro.props;
+const t = getDict(lang);
+const max = Math.max(...landUse.map((l) => l.percent));
+---
+
+<div class="rounded-2xl border border-border-sand-medium/60 bg-surface-cream-card p-space-lg shadow-tier1" data-reveal>
+  <ul class:list={['grid gap-x-space-xl gap-y-space-md', !compact && 'md:grid-cols-2']}>
+    {
+      landUse.map((l) => (
+        <li>
+          <div class="mb-1.5 flex items-center justify-between gap-3 font-body text-body-sm">
+            <span class="flex items-center gap-2 text-on-surface">
+              <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-cream-highlight text-secondary">
+                <Icon name={l.icon} size={18} />
+              </span>
+              {tl(l.label, lang)}
+            </span>
+            <span class="font-label text-label-badge text-secondary" dir="ltr">{l.percent}%</span>
+          </div>
+          <div class="h-2 w-full overflow-hidden rounded-full bg-surface-container-highest" aria-hidden="true">
+            <div class="h-full origin-left rounded-full bg-secondary rtl:origin-right" style={`width:${(l.percent / max) * 100}%`} data-bar />
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="mt-space-md font-body text-[12px] text-text-muted-dark">{t.masterPlan.landUseNote}</p>
+</div>

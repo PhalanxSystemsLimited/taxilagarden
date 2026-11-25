@@ -1,5 +1,7 @@
 ---
-import { getDict } from '../../lib/i18n';
+/** Blocks A, B, C & E — plots and homes built per block (from the data sheet). */
+import { site } from '../../data/site';
+import { fmt, getDict } from '../../lib/i18n';
 import type { Lang } from '../../data/types';
 
 interface Props {
@@ -7,18 +9,35 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = getDict(lang);
+const urLetters: Record<string, string> = { A: 'اے', B: 'بی', C: 'سی', E: 'ای' };
 ---
 
 <div class="rounded-2xl border border-secondary-fixed/30 bg-dark-brown-surface p-space-lg text-surface-bright shadow-xl sm:p-space-xl" data-reveal>
   <ul class="grid grid-cols-1 gap-space-lg sm:grid-cols-2 md:grid-cols-4">
     {
-      t.blocks.map((b) => (
-        <li class="border-secondary-fixed/15 md:border-s md:ps-space-lg md:first:border-s-0 md:first:ps-0">
-          <span class="block font-label text-label-badge uppercase text-secondary-fixed">{b.tag}</span>
-          <h3 class="mt-1 font-display text-headline-sm text-surface-bright">{b.title}</h3>
-          <p class="mt-1 font-body text-body-sm text-surface-variant">{b.text}</p>
-        </li>
-      ))
+      site.blocks.map((b) => {
+        const pct = Math.round((b.homesBuilt / b.plots) * 100);
+        return (
+          <li class="border-secondary-fixed/15 md:border-s md:ps-space-lg md:first:border-s-0 md:first:ps-0">
+            <span class="block font-label text-label-badge uppercase text-secondary-fixed">
+              {t.blocks.block} {lang === 'ur' ? urLetters[b.id] : b.id}
+            </span>
+            <p class="mt-1 font-display text-headline-md text-surface-bright">
+              <span dir="ltr" data-count={b.plots}>{b.plots}</span> <span class="text-body-md text-surface-variant">{t.blocks.plots}</span>
+            </p>
+            <p class="font-body text-body-sm text-surface-variant">
+              <span dir="ltr" class="font-semibold text-secondary-fixed">{b.homesBuilt}</span> {t.blocks.homesBuilt}
+            </p>
+            <div
+              class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-dark-brown-elevated"
+              role="img"
+              aria-label={fmt(t.blocks.progressLabel, { built: b.homesBuilt, plots: b.plots })}
+            >
+              <div class="h-full origin-left rounded-full bg-gold-antique-light rtl:origin-right" style={`width:${pct}%`} data-bar />
+            </div>
+          </li>
+        );
+      })
     }
   </ul>
 </div>

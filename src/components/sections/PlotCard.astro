@@ -32,9 +32,9 @@ const marlaText = Number.isInteger(plot.marla) ? plot.marla.toFixed(1) : String(
     )
   }
   <div class="p-space-lg">
-    <div class="mb-space-md flex items-center justify-between gap-2">
+    <div class:list={['mb-space-md flex items-center justify-between gap-2', plot.featured && 'mt-5']}>
       <Badge tone={plot.badgeTone}>{tl(plot.badge, lang)}</Badge>
-      <span class:list={['font-label text-label-eyebrow font-semibold text-secondary', plot.featured && 'me-24 sm:me-28']} dir="ltr">
+      <span class="whitespace-nowrap font-label text-label-eyebrow font-semibold text-secondary" dir="ltr">
         {plot.dimensions} ft
       </span>
     </div>

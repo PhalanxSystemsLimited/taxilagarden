@@ -1,61 +1,100 @@
 /**
  * Global site facts. Edit here and every page updates.
+ * Source: Taxila Satellite Township "Housing Society Information & Data Sheet" (prices intentionally excluded).
  * Numbers & phone formats are shown in Western digits in both languages.
  */
+import type { L } from './types';
 
 /**
  * ⚠️ CONFIRM WITH CLIENT: the domain has not been bought yet.
  * Replace this with the final domain (no trailing slash) before going live,
  * then rebuild. It drives canonical URLs, Open Graph tags, hreflang, sitemap.xml and robots.txt.
  */
-export const SITE_URL = 'https://www.taxilagardens.example';
+export const SITE_URL = 'https://www.taxilasatellitetownship.example';
 
 export const site = {
-  name: 'Taxila Gardens Housing Scheme',
-  shortName: 'Taxila Gardens',
-  abbreviation: 'TGHS',
-  developer: 'Landmark Group',
+  name: 'Taxila Satellite Township',
+  shortName: 'Taxila Satellite Township',
+  abbreviation: 'TST',
+  developer: 'Minawa Group',
 
   facts: {
-    landKanal: 360.32,
-    plots: 699,
-    layoutApprovalDate: '2016-02-28',
-    approvalAuthority: 'TMA Haripur',
-    nocNumber: 'No. 1634 / TMA (H)',
-    nocDate: '2016-04-29',
-    mainBoulevardFt: 100,
+    area: { kanal: 164, marla: 10 }, // 164 Kanal 10 Marla
+    amenitiesKanal: 67.384, // parks, graveyard, roads, etc.
+    amenitiesTransferredKanal: 22,
+    plots: 349,
+    homesBuilt: 99,
+    approvalAuthority: 'TMA Khanpur',
+    nocStatus: 'NOC Approved',
+    district: 'Haripur',
+    tehsil: 'Khanpur',
+    mouza: 'Toffkian',
   },
 
+  /** Site position by block (plots / houses constructed). */
+  blocks: [
+    { id: 'A', plots: 81, homesBuilt: 17 },
+    { id: 'B', plots: 91, homesBuilt: 16 },
+    { id: 'C', plots: 119, homesBuilt: 41 },
+    { id: 'E', plots: 58, homesBuilt: 25 },
+  ],
+
+  /** First entry is the primary number (top bar, "Call" buttons, structured data). */
   phones: [
-    { display: '0333-010 9942', tel: '+923330109942', primary: true },
-    { display: '0333-010 9934', tel: '+923330109934', primary: false },
+    { display: '0331-7000012', tel: '+923317000012', label: { en: 'Site Office (Mobile & WhatsApp)', ur: 'سائٹ آفس (موبائل و واٹس ایپ)' } as L },
+    { display: '051-2320148', tel: '+92512320148', label: { en: 'Head Office', ur: 'ہیڈ آفس' } as L },
+    { display: '051-2320150', tel: '+92512320150', label: { en: 'Head Office', ur: 'ہیڈ آفس' } as L },
   ],
 
   whatsapp: {
-    number: '923330109942', // international format, digits only (used in wa.me links)
-    display: '0333-010 9942',
+    number: '923317000012', // international format, digits only (used in wa.me links) — confirmed by client 25 Nov 2026
+    display: '0331-7000012',
     defaultMessage:
-      'Hello Taxila Gardens Sales Team, I am interested in learning more about available plots and booking procedures.',
+      'Hello Taxila Satellite Township Sales Team, I am interested in learning more about available plots and booking procedures.',
   },
 
+  email: 'taxila.township@gmail.com' as string,
+
   address: {
-    line: 'Taxila Gardens Housing Scheme, Near Taxila Hills & HITEC, Khanpur, Haripur',
-    locality: 'Khanpur',
+    site: {
+      en: 'Canal Road, Taxila Satellite Township, Village & P.O. Toffkian, Tehsil Khanpur, District Haripur',
+      ur: 'کینال روڈ، ٹیکسلا سیٹلائٹ ٹاؤن شپ، گاؤں و ڈاکخانہ توفکیاں، تحصیل خانپور، ضلع ہری پور',
+    } as L,
+    head: {
+      en: 'Office #29 & 30, 4th Floor, Hill View Plaza, Jinnah Avenue, Blue Area, Islamabad',
+      ur: 'دفتر نمبر 29 و 30، چوتھی منزل، ہل ویو پلازہ، جناح ایونیو، بلیو ایریا، اسلام آباد',
+    } as L,
+    locality: 'Toffkian, Khanpur',
     region: 'Haripur, Khyber Pakhtunkhwa',
     country: 'PK',
   },
 
-  geo: { lat: 33.782, lng: 72.7937 },
-  mapsUrl: 'https://maps.app.goo.gl/xbUgZ7K5DpDAJGxr9',
+  /**
+   * ⚠️ AWAITING CLIENT: exact site pin not supplied yet. The map is centred on UET Taxila,
+   * which the scheme is adjacent to. Replace lat/lng (and mapsUrl with a Google Maps share link)
+   * once the client sends the location pin.
+   */
+  geo: { lat: 33.7672, lng: 72.8229 },
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Taxila+Satellite+Township+Toffkian+Taxila',
 
+  /** ⚠️ Office hours are not in the data sheet — confirm with client. */
   hours: {
     weekdays: { days: 'Mo-Sa', opens: '09:00', closes: '18:00' },
   },
 
-  areaServed: ['Taxila', 'Rawalpindi', 'Islamabad', 'Wah Cantt', 'Hasan Abdal'],
+  areaServed: ['Taxila', 'Khanpur', 'Haripur', 'Wah Cantt', 'Rawalpindi', 'Islamabad'],
 
-  /** No email or social accounts exist yet. Fill these in and they will render automatically. */
-  email: '' as string,
+  /** Projects completed by Minawa Group (from the data sheet). */
+  developerProjects: [
+    { name: 'Clara Apartments', location: { en: 'Diplomatic Enclave, Islamabad', ur: 'ڈپلومیٹک انکلیو، اسلام آباد' } as L },
+    { name: 'The Royal Enclave — Executive Apartments', location: { en: 'Diplomatic Enclave, Islamabad', ur: 'ڈپلومیٹک انکلیو، اسلام آباد' } as L },
+    { name: 'Park Tower — Luxury Apartments', location: { en: 'F-10/3, Islamabad', ur: 'ایف-10/3، اسلام آباد' } as L },
+    { name: 'Oakwood Cottages', location: { en: 'Bhurban, Murree', ur: 'بھوربن، مری' } as L },
+    { name: 'Country Club Apartments', location: { en: 'New Murree Expressway, Islamabad', ur: 'نیو مری ایکسپریس وے، اسلام آباد' } as L },
+    { name: 'Wakefield Gardens', location: { en: 'Khanpur, Taxila', ur: 'خانپور، ٹیکسلا' } as L },
+  ],
+
+  /** No social accounts yet. Fill these in and they will render automatically. */
   socials: {
     facebook: '' as string,
     instagram: '' as string,
@@ -68,3 +107,9 @@ export type SocialKey = keyof typeof site.socials;
 
 export const waLink = (message: string = site.whatsapp.defaultMessage) =>
   `https://wa.me/${site.whatsapp.number}?text=${encodeURIComponent(message)}`;
+
+/** "164 Kanal 10 Marla" / "164 کنال 10 مرلہ" */
+export const areaText = (lang: 'en' | 'ur') =>
+  lang === 'ur'
+    ? `${site.facts.area.kanal} کنال ${site.facts.area.marla} مرلہ`
+    : `${site.facts.area.kanal} Kanal ${site.facts.area.marla} Marla`;

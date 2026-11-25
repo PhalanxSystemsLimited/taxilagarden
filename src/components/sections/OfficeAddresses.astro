@@ -1,0 +1,53 @@
+---
+/** Site office + head office cards (from the data sheet). */
+import Icon from '../ui/Icon.astro';
+import { site } from '../../data/site';
+import { getDict, tl } from '../../lib/i18n';
+import type { Lang } from '../../data/types';
+
+interface Props {
+  lang: Lang;
+  tone?: 'light' | 'dark';
+}
+const { lang, tone = 'light' } = Astro.props;
+const t = getDict(lang);
+const dark = tone === 'dark';
+const [sitePhone, ...headPhones] = site.phones;
+
+const offices = [
+  { icon: 'pin_drop', title: t.common.siteOffice, address: tl(site.address.site, lang), phones: [sitePhone!] },
+  { icon: 'corporate_fare', title: t.common.headOffice, address: tl(site.address.head, lang), phones: headPhones },
+];
+---
+
+<ul class="grid gap-space-md" data-reveal>
+  {
+    offices.map((o) => (
+      <li
+        class:list={[
+          'flex gap-space-md rounded-xl border p-space-md',
+          dark ? 'border-secondary-fixed/20 bg-dark-brown-elevated/60' : 'border-border-sand-medium/60 bg-surface-cream-card shadow-sm',
+        ]}
+      >
+        <span class:list={['flex h-10 w-10 shrink-0 items-center justify-center rounded-lg', dark ? 'bg-surface-cream-highlight/15 text-secondary-fixed' : 'bg-surface-cream-highlight text-secondary']}>
+          <Icon name={o.icon} size={20} />
+        </span>
+        <div class="min-w-0">
+          <p class:list={['font-label text-label-badge uppercase', dark ? 'text-secondary-fixed' : 'text-secondary']}>{o.title}</p>
+          <p class:list={['mt-0.5 font-body text-body-sm', dark ? 'text-surface-variant' : 'text-on-surface']}>{o.address}</p>
+          <p class="mt-1 flex flex-wrap gap-x-3">
+            {o.phones.map((p) => (
+              <a
+                href={`tel:${p.tel}`}
+                class:list={['inline-flex min-h-10 items-center gap-1 font-body text-body-sm font-semibold', dark ? 'text-surface-bright hover:text-secondary-fixed' : 'text-on-surface hover:text-secondary']}
+              >
+                <Icon name="call" size={16} class={dark ? 'text-secondary-fixed' : 'text-secondary'} />
+                <span dir="ltr">{p.display}</span>
+              </a>
+            ))}
+          </p>
+        </div>
+      </li>
+    ))
+  }
+</ul>

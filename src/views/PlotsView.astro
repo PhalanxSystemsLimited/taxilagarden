@@ -32,7 +32,7 @@ const p = t.plots;
       <Badge tone="seal" icon="verified">{p.listCount}</Badge>
     </div>
 
-    <ul class="grid grid-cols-1 gap-space-lg md:grid-cols-2 lg:grid-cols-3 lg:gap-space-xl">
+    <ul class="grid grid-cols-1 gap-space-lg md:grid-cols-2 xl:grid-cols-4">
       {plots.map((plot) => <li><PlotCard plot={plot} lang={lang} /></li>)}
       <li class="flex flex-col justify-between rounded-2xl border border-secondary-fixed/30 bg-dark-brown-surface p-space-lg text-surface-bright" data-reveal>
         <div>

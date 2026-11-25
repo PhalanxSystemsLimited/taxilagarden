@@ -77,7 +77,7 @@ export function formatPkMobileInput(raw) {
  */
 export function buildInquiryMessage({ name, phone, plot, message }) {
   return [
-    'Hello Taxila Gardens Sales Team,',
+    'Hello Taxila Satellite Township Sales Team,',
     `Name: ${name.trim()}`,
     `Phone: ${phone.trim()}`,
     `Interested in: ${plot}`,
