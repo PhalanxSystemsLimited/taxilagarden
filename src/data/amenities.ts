@@ -13,7 +13,7 @@ export interface Amenity {
 }
 
 /**
- * Aligned with the master layout plan's schedule of land use and the on-site photographs.
+ * Aligned with the scheme's documented amenity land and the on-site photographs.
  * Amenity land: 67.384 Kanal (22 Kanal transferred) — see site.ts.
  */
 export const amenities: Amenity[] = [
@@ -34,8 +34,8 @@ export const amenities: Amenity[] = [
     category: { en: 'Recreation', ur: 'تفریح' },
     title: { en: 'Parks & Open Spaces', ur: 'پارکس و کھلی جگہیں' },
     description: {
-      en: 'Parks and open spaces set aside in the master plan.',
-      ur: 'ماسٹر پلان میں پارکس اور کھلی جگہوں کے لیے مختص رقبہ۔',
+      en: 'Parks and open spaces set aside within the township.',
+      ur: 'ٹاؤن شپ میں پارکس اور کھلی جگہوں کے لیے مختص رقبہ۔',
     },
     planned: false,
     variant: 'olive',
@@ -78,8 +78,8 @@ export const amenities: Amenity[] = [
     category: { en: 'Civic', ur: 'شہری' },
     title: { en: 'Public Buildings', ur: 'سرکاری عمارات' },
     description: {
-      en: 'Sites reserved in the master plan for public and community buildings.',
-      ur: 'ماسٹر پلان میں سرکاری اور کمیونٹی عمارات کے لیے مختص جگہیں۔',
+      en: 'Sites reserved within the township for public and community buildings.',
+      ur: 'ٹاؤن شپ میں سرکاری اور کمیونٹی عمارات کے لیے مختص جگہیں۔',
     },
     planned: false,
     variant: 'highlight',

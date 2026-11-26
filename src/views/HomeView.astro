@@ -9,14 +9,12 @@ import Icon from '../components/ui/Icon.astro';
 import PillarGrid from '../components/sections/PillarGrid.astro';
 import PlotCard from '../components/sections/PlotCard.astro';
 import AmenityGrid from '../components/sections/AmenityGrid.astro';
-import DocumentCard from '../components/sections/DocumentCard.astro';
 import GalleryGrid from '../components/sections/GalleryGrid.astro';
 import OfficeAddresses from '../components/sections/OfficeAddresses.astro';
 import InquirySection from '../components/sections/InquirySection.astro';
 import Lightbox from '../components/Lightbox.astro';
 import LocationMap from '../components/react/LocationMap.jsx';
 import { plots } from '../data/plots';
-import { approvals } from '../data/approvals';
 import { galleryById } from '../data/gallery';
 import { site } from '../data/site';
 import { heroImage } from '../lib/images';
@@ -100,39 +98,12 @@ const topo = ['entrance-gate', 'site-office', 'mosque-hills'].map(galleryById);
     </ul>
   </section>
 
-  <!-- MASTER PLAN TEASER -->
-  <section class="border-t border-border-sand-light bg-surface-container py-space-2xl md:py-space-3xl" aria-labelledby="masterplan-title">
-    <div class="container-x">
-      <SectionHeading eyebrow={h.masterPlan.eyebrow} title={h.masterPlan.title} align="center" id="masterplan-title" />
-      <div class="mt-space-lg text-center" data-reveal>
-        <Button variant="ghost" href={routeHref('masterPlan', lang)} iconEnd="arrow_forward" class="text-secondary!">{h.masterPlan.cta}</Button>
-      </div>
-    </div>
-  </section>
-
   <!-- AMENITIES -->
   <section class="container-x py-space-2xl md:py-space-3xl" aria-labelledby="amenities-title">
     <SectionHeading eyebrow={h.amenities.eyebrow} title={h.amenities.title} sub={h.amenities.sub} align="center" id="amenities-title" class="mb-space-2xl" />
     <AmenityGrid lang={lang} />
     <div class="mt-space-xl text-center" data-reveal>
       <Button variant="ghost" href={routeHref('amenities', lang)} iconEnd="arrow_forward" class="text-secondary!">{h.amenities.cta}</Button>
-    </div>
-  </section>
-
-  <!-- APPROVALS TRUST BAND -->
-  <section class="relative overflow-hidden bg-dark-brown-surface py-space-2xl text-surface-bright md:py-space-3xl" id="noc-documents" aria-labelledby="approvals-title">
-    <svg class="pointer-events-none absolute inset-0 h-full w-full opacity-5" aria-hidden="true">
-      <defs><pattern id="noc-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"></path></pattern></defs>
-      <rect width="100%" height="100%" fill="url(#noc-grid)"></rect>
-    </svg>
-    <div class="container-x relative">
-      <SectionHeading eyebrow={h.approvals.eyebrow} title={h.approvals.title} sub={h.approvals.sub} align="center" tone="dark" id="approvals-title" class="mb-space-2xl" />
-      <div class="mx-auto grid max-w-3xl grid-cols-1 gap-space-xl">
-        {approvals.map((doc) => <DocumentCard doc={doc} lang={lang} />)}
-      </div>
-      <div class="mt-space-xl text-center" data-reveal>
-        <Button variant="heritage" href={routeHref('approvals', lang)} iconEnd="arrow_forward">{h.approvals.cta}</Button>
-      </div>
     </div>
   </section>
 

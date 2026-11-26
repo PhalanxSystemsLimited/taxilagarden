@@ -1,43 +1,108 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/sections/PageHero.astro';
-import Badge from '../components/ui/Badge.astro';
+import Button from '../components/ui/Button.astro';
 import Icon from '../components/ui/Icon.astro';
-import DocumentCard from '../components/sections/DocumentCard.astro';
 import CTABand from '../components/sections/CTABand.astro';
 import Lightbox from '../components/Lightbox.astro';
-import { approvals } from '../data/approvals';
+import { Image } from 'astro:assets';
+import { fullImage } from '../lib/images';
+import plan from '../assets/images/master-layout-plan.jpg';
 import { navLabels } from '../data/navigation';
-import { getDict, tl } from '../lib/i18n';
+import { areaText, waLink } from '../data/site';
+import { getDict, routeHref, tl } from '../lib/i18n';
 import type { Lang } from '../data/types';
 
 const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
 const t = getDict(lang);
 const a = t.approvals;
+const planFull = await fullImage(plan);
+
+const rows = [
+  { icon: 'account_balance', label: a.authorityLabel, value: a.authorityValue },
+  { icon: 'verified', label: a.statusLabel, value: t.stats.nocValue, gold: true },
+  { icon: 'straighten', label: t.stats.land, value: areaText(lang) },
+  { icon: 'location_on', label: a.locationLabel, value: a.locationValue },
+];
 ---
 
 <BaseLayout title={a.seoTitle} description={a.seoDescription}>
-  <PageHero lang={lang} eyebrow={a.eyebrow} title={a.title} sub={a.sub} crumb={tl(navLabels.approvals, lang)} />
+  <PageHero lang={lang} eyebrow={a.eyebrow} title={a.title} crumb={tl(navLabels.approvals, lang)} />
 
-  <section class="relative overflow-hidden bg-dark-brown-surface py-space-2xl text-surface-bright md:py-space-3xl" aria-labelledby="docs-title">
+  <section class="relative overflow-hidden bg-dark-brown-surface py-space-2xl text-surface-bright md:py-space-3xl" aria-labelledby="noc-title">
     <svg class="pointer-events-none absolute inset-0 h-full w-full opacity-5" aria-hidden="true">
       <defs><pattern id="ap-grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"></path></pattern></defs>
       <rect width="100%" height="100%" fill="url(#ap-grid)"></rect>
     </svg>
+
     <div class="container-x relative">
-      <div class="mb-space-xl flex items-start gap-space-sm rounded-xl border border-secondary-fixed/30 bg-dark-brown-elevated/70 p-space-md" data-reveal>
-        <Icon name="verified" size={24} class="mt-0.5 text-secondary-fixed" />
-        <p class="font-body text-body-sm text-surface-variant"><strong class="text-surface-bright">{a.noticeTitle}</strong> {a.notice}</p>
-      </div>
+      <article class="mx-auto max-w-3xl rounded-2xl border border-secondary-fixed/30 bg-dark-brown-elevated p-space-lg shadow-2xl sm:p-space-xl" data-reveal>
+        <div class="flex flex-col items-start gap-space-md border-b border-secondary-fixed/20 pb-space-lg sm:flex-row sm:items-center">
+          <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-gold-antique-light/60 bg-surface-cream-highlight/15 text-secondary-fixed">
+            <Icon name="verified" size={34} />
+          </span>
+          <div>
+            <p class="font-label text-label-badge uppercase text-secondary-fixed">{a.cardEyebrow}</p>
+            <h2 id="noc-title" class="mt-1 font-display text-headline-md text-surface-bright">{t.stats.nocValue} · {a.authorityValue}</h2>
+          </div>
+        </div>
 
-      <div class="mb-space-lg flex flex-wrap items-center justify-between gap-3">
-        <h2 id="docs-title" class="eyebrow text-secondary-fixed" data-reveal="eyebrow">{a.listLabel}</h2>
-        <Badge tone="seal-dark" icon="description">{a.listCount}</Badge>
-      </div>
+        <dl class="grid gap-space-md py-space-lg sm:grid-cols-2">
+          {
+            rows.map((r) => (
+              <div class="flex gap-3">
+                <Icon name={r.icon} size={22} class="mt-0.5 text-secondary-fixed" />
+                <div>
+                  <dt class="font-label text-label-badge uppercase text-text-muted-sand">{r.label}</dt>
+                  <dd class:list={['mt-0.5 font-body text-body-md font-semibold', r.gold ? 'text-secondary-fixed' : 'text-surface-bright']}>{r.value}</dd>
+                </div>
+              </div>
+            ))
+          }
+        </dl>
 
-      <div class="mx-auto grid max-w-3xl grid-cols-1 gap-space-xl">
-        {approvals.map((doc) => <DocumentCard doc={doc} lang={lang} detailed />)}
-      </div>
+        <div class="flex flex-col gap-2 border-t border-secondary-fixed/20 pt-space-lg sm:flex-row sm:items-center sm:justify-between">
+          <p class="font-body text-body-sm text-surface-variant">{a.cardNote}</p>
+          <div class="flex shrink-0 flex-wrap gap-2">
+            <Button variant="whatsapp" size="sm" href={waLink()} external icon="chat">{t.common.whatsapp}</Button>
+            <Button variant="heritage" size="sm" href={routeHref('contact', lang)} icon="call">{navLabels.contact[lang]}</Button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Master layout plan: click opens the full-resolution scan in the lightbox -->
+      <figure class="mx-auto mt-space-xl max-w-3xl overflow-hidden rounded-2xl border border-secondary-fixed/30 bg-dark-brown-elevated shadow-2xl" data-reveal>
+        <a
+          href={planFull.src}
+          data-pswp
+          data-pswp-width={plan.width}
+          data-pswp-height={plan.height}
+          data-caption={a.planTitle}
+          class="group relative block bg-white"
+          aria-label={`${a.planTitle} — ${a.planHint}`}
+        >
+          <Image
+            src={plan}
+            alt={a.planAlt}
+            width={1200}
+            widths={[600, 900, 1200]}
+            sizes="(min-width: 768px) 768px, 100vw"
+            class="h-auto w-full transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-[1.02]"
+            loading="lazy"
+          />
+          <span class="absolute bottom-3 start-3 inline-flex items-center gap-1.5 rounded-full bg-dark-brown-surface/90 px-3 py-1.5 font-label text-label-badge uppercase text-secondary-fixed backdrop-blur">
+            <Icon name="zoom_in" size={16} />
+            {a.planHint}
+          </span>
+        </a>
+        <figcaption class="flex items-center gap-3 border-t border-secondary-fixed/20 p-space-lg">
+          <Icon name="map" size={22} class="text-secondary-fixed" />
+          <div>
+            <p class="font-label text-label-badge uppercase text-secondary-fixed">{a.planEyebrow}</p>
+            <p class="font-display text-headline-sm text-surface-bright">{a.planTitle}</p>
+          </div>
+        </figcaption>
+      </figure>
     </div>
   </section>
 

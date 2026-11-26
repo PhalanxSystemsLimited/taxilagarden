@@ -20,7 +20,3 @@ export const heroImage = () =>
 /** Full-resolution version for the lightbox (same pixel size as the original). */
 export const fullImage = (src: ImageMetadata, quality = 82) =>
   getImage({ src, width: src.width, format: 'webp', quality });
-
-/** Large but capped version (for the master-plan pan/zoom viewer). */
-export const largeImage = (src: ImageMetadata, max = 3200, quality = 72) =>
-  getImage({ src, width: Math.min(max, src.width), format: 'webp', quality });

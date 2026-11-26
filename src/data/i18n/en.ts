@@ -1,6 +1,6 @@
 /**
  * English copy. Every string on the site lives here (or in the data files).
- * Facts source: Taxila Satellite Township "Housing Society Information & Data Sheet" and the master layout plan.
+ * Facts source: Taxila Satellite Township "Housing Society Information & Data Sheet".
  * Prices are never shown. Plots are presented as categories only (all plots are sold; no sold-out label per client).
  */
 export const en = {
@@ -53,11 +53,6 @@ export const en = {
     fullEstate: 'Full Estate',
     premierAddress: 'Premier Address',
     opensInNewTab: '(opens in a new tab)',
-    inspectDocument: 'Inspect Official Document',
-    zoomHint: 'Click to view full resolution',
-    documentPending: 'Copy available for inspection at our offices',
-    authority: 'Authority',
-    legalRelevance: 'What it confirms',
   },
 
   stats: {
@@ -136,7 +131,7 @@ export const en = {
       chipTitle: 'NOC Approved',
       chipBody: 'TMA Khanpur',
       readStory: 'Read the Full Story',
-      legal: 'Examine Legal Documents',
+      legal: 'View Approvals & NOC',
     },
     pillars: {
       eyebrow: 'Why Taxila Satellite Township',
@@ -150,22 +145,11 @@ export const en = {
       badge: '3 Plot Categories',
       cta: 'View Plot Details',
     },
-    masterPlan: {
-      eyebrow: 'Master Urban Layout',
-      title: 'A Planned Township in Four Blocks',
-      cta: 'Explore the Master Plan',
-    },
     amenities: {
       eyebrow: 'Lifestyle & Amenities',
       title: 'Amenities for Everyday Living',
       sub: '67.384 Kanal of the township is set aside for amenities — parks, a mosque, commercial areas, public buildings, a graveyard and roads.',
       cta: 'View All Amenities',
-    },
-    approvals: {
-      eyebrow: 'Legal Framework & Official NOC',
-      title: 'Official Documents',
-      sub: 'Complete documentation transparency: Taxila Satellite Township is NOC-approved by TMA Khanpur. Inspect the approved master layout plan.',
-      cta: 'View Approvals & NOC',
     },
     gallery: {
       eyebrow: 'Visual Archives',
@@ -185,7 +169,7 @@ export const en = {
     {
       icon: 'verified',
       title: 'NOC Approved',
-      text: 'Approved by TMA Khanpur, with the master layout and amenity land formally documented.',
+      text: 'Approved by TMA Khanpur, with amenity land formally set aside.',
       tag: 'TMA Khanpur',
     },
     {
@@ -211,7 +195,7 @@ export const en = {
   cta: {
     eyebrow: 'Contact Our Team',
     title: 'Schedule a Private Guided Site Tour',
-    text: 'Visit the township, review the master layout with our team, and see the homes built across the community.',
+    text: 'Visit the township, meet our team, and see the homes built across the community.',
     officeLine: 'Minawa Group — Site Office, Canal Road, Toffkian',
     helpline: 'Helpline',
   },
@@ -228,7 +212,7 @@ export const en = {
     body: [
       'Taxila Satellite Township is a residential township developed by Minawa Group, located adjacent to the University of Engineering & Technology (UET) Taxila.',
       'The township lies in Mouza Toffkian, Tehsil Khanpur, District Haripur, with its site office on Canal Road. Its setting beside a major university campus, in the historic Taxila valley, offers a calm residential environment with everyday convenience close at hand.',
-      'Spread over 164 Kanal 10 Marla, the master plan organises residential plots into Blocks A, B, C and E, connected by a planned road network.',
+      'Spread over 164 Kanal 10 Marla, the township organises residential plots into Blocks A, B, C and E, connected by a planned road network.',
       'A substantial 67.384 Kanal is set aside for amenities — parks and open spaces, a mosque, commercial areas, public buildings, a graveyard and roads — of which 22 Kanal has already been transferred.',
       'The scheme is NOC-approved by TMA Khanpur, and the community is already taking shape across the four blocks.',
       'Minawa Group brings experience from completed projects in Islamabad, Murree and Taxila, from apartments in the Diplomatic Enclave to cottages in Bhurban.',
@@ -266,21 +250,6 @@ export const en = {
     colKanal: 'Kanal',
   },
 
-  masterPlan: {
-    seoTitle: 'Master Plan & Layout | Taxila Satellite Township',
-    seoDescription:
-      'Master layout plan of Taxila Satellite Township: 164 Kanal 10 Marla in Blocks A, B, C and E, with roads, parks, mosque, commercial areas and public buildings.',
-    eyebrow: 'Architectural Layout & Master Plan',
-    title: 'Master Plan & Plotting System',
-    sub: 'The master layout with its residential blocks, road network, parks and civic sites.',
-    viewerLabel: 'Master layout plan — pan and zoom',
-    viewerHint: 'Drag to pan · scroll or pinch to zoom',
-    zoomIn: 'Zoom in',
-    zoomOut: 'Zoom out',
-    reset: 'Reset view',
-    fullRes: 'Open full resolution',
-    download: 'Download Master Plan',
-  },
 
   amenities: {
     seoTitle: 'Amenities | Mosque, Parks, Commercial Areas — Taxila Satellite Township',
@@ -299,15 +268,20 @@ export const en = {
   approvals: {
     seoTitle: 'Approvals & NOC | NOC Approved by TMA Khanpur — Taxila Satellite Township',
     seoDescription:
-      'Taxila Satellite Township approvals: NOC approved by TMA Khanpur. View the approved master layout plan.',
+      'Taxila Satellite Township approvals: NOC approved by TMA Khanpur. Located in Mouza Toffkian, Tehsil Khanpur, District Haripur.',
     eyebrow: 'Legal Framework & Official NOC',
     title: 'Approvals & NOC Status',
-    sub: 'Taxila Satellite Township is NOC-approved by TMA Khanpur. Inspect the approved master layout plan below.',
-    noticeTitle: 'Documentation Notice:',
-    notice:
-      'The document below is a copy of the official master layout plan for Taxila Satellite Township. Prospective buyers can inspect the high-resolution copy directly.',
-    listLabel: 'Official Document',
-    listCount: '1 Record',
+    cardEyebrow: 'Regulatory Status',
+    authorityLabel: 'Approving Authority',
+    authorityValue: 'TMA Khanpur',
+    statusLabel: 'Status',
+    locationLabel: 'Location',
+    locationValue: 'Mouza Toffkian, Tehsil Khanpur, District Haripur',
+    cardNote: 'For any questions about the scheme’s approvals, contact our team.',
+    planEyebrow: 'Layout Plan',
+    planTitle: 'Master Layout Plan',
+    planAlt: 'Master layout plan of Taxila Satellite Township showing sectors, plots, roads and parks',
+    planHint: 'Click to view full resolution',
   },
 
   location: {

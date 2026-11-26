@@ -4,10 +4,6 @@ import send from '@material-symbols/svg-400/outlined/send.svg?raw';
 import chat from '@material-symbols/svg-400/outlined/chat.svg?raw';
 import checkCircle from '@material-symbols/svg-400/outlined/check_circle.svg?raw';
 import error from '@material-symbols/svg-400/outlined/error.svg?raw';
-import add from '@material-symbols/svg-400/outlined/add.svg?raw';
-import remove from '@material-symbols/svg-400/outlined/remove.svg?raw';
-import fitScreen from '@material-symbols/svg-400/outlined/fit_screen.svg?raw';
-import openInNew from '@material-symbols/svg-400/outlined/open_in_new.svg?raw';
 import refresh from '@material-symbols/svg-400/outlined/refresh.svg?raw';
 
 const inner = (svg) => svg.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
@@ -18,10 +14,6 @@ const ICONS = {
   chat: inner(chat),
   check_circle: inner(checkCircle),
   error: inner(error),
-  add: inner(add),
-  remove: inner(remove),
-  fit_screen: inner(fitScreen),
-  open_in_new: inner(openInNew),
   refresh: inner(refresh),
 };
 

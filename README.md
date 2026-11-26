@@ -49,7 +49,6 @@ All text and data live in **`src/data/`**. Edit, save and rebuild.
 |---|---|
 | `site.ts` | Name, developer, **phone numbers**, **WhatsApp number + default message**, address, GPS, Google Maps link, hours, email/socials (empty = hidden), **domain** |
 | `plots.ts` | The 5 plot categories (size, dimensions, sq ft, Marla, Kanal, descriptions) and the form's plot list |
-| `approvals.ts` | The two approval documents (NOC letter and master layout) |
 | `amenities.ts` | The 8 amenities. `planned: true` shows the small "Planned" tag |
 | `landmarks.ts` | Map landmarks, distances and pin positions |
 | `gallery.ts` | Gallery photos with titles, captions and alt text |
@@ -85,8 +84,6 @@ Client photos live in `src/assets/images/`. Astro converts them to WebP in sever
   The placeholder card is replaced automatically, and the lightbox shows the full-resolution scan.
 - **Add the real logo:** replace the SVG mark in `src/components/layout/Logo.astro`, and regenerate the favicons
   (edit the SVG in `scripts/prepare-assets.mjs`).
-- **Master-plan PDF:** put it in `public/` (e.g. `public/taxila-gardens-master-plan.pdf`) and set `pdfPath` in
-  `src/views/MasterPlanView.astro`. The download button then appears.
 
 ### Still awaiting the client
 - Exact site location (Google Maps pin): set `geo` and `mapsUrl` in `src/data/site.ts`; the map currently centres on UET Taxila.
@@ -111,7 +108,7 @@ src/
 ├── components/
 │   ├── layout/      ← Header (+ mobile menu), Footer, Logo, SEO, floating WhatsApp/back-to-top
 │   ├── sections/    ← Hero, StatStrip, PlotCard, RoadHierarchy, AmenityGrid, DocumentCard, GalleryGrid, …
-│   ├── react/       ← interactive islands: BookVisitModal, InquiryForm, LocationMap, MasterPlanViewer
+│   ├── react/       ← interactive islands: BookVisitModal, InquiryForm, LocationMap
 │   ├── ui/          ← Button, Badge, Icon, SectionHeading
 │   └── Lightbox.astro (PhotoSwipe)
 ├── lib/             ← i18n helpers, WhatsApp message builder, motion (Lenis + GSAP), image helpers
