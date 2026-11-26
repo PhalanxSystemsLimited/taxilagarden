@@ -1,9 +1,8 @@
 ---
 import Badge from '../ui/Badge.astro';
-import Icon from '../ui/Icon.astro';
 import type { Plot } from '../../data/plots';
 import { formatNumber } from '../../data/plots';
-import { fmt, getDict, routeHref, tl } from '../../lib/i18n';
+import { getDict, tl } from '../../lib/i18n';
 import type { Lang } from '../../data/types';
 
 interface Props {
@@ -57,18 +56,4 @@ const marlaText = Number.isInteger(plot.marla) ? plot.marla.toFixed(1) : String(
     </dl>
   </div>
 
-  <div class="flex flex-wrap items-center justify-between gap-3 border-t border-border-sand-light/50 px-space-lg pt-space-sm pb-space-lg">
-    <div>
-      <span class="block font-label text-label-badge uppercase text-text-muted-dark">{t.common.pricing}</span>
-      <span class="font-display text-headline-sm text-secondary">{t.common.priceOnInquiry}</span>
-    </div>
-    <a
-      href={routeHref('contact', lang)}
-      data-inquiry={plot.value}
-      class="btn-fill inline-flex min-h-11 items-center gap-1.5 rounded-lg bg-terracotta px-space-md py-2.5 font-label text-label-badge uppercase text-white shadow-sm transition-shadow [--btn-fill:var(--color-terracotta-hover)] hover:shadow-lg"
-    >
-      {fmt(t.common.inquirePlot, { size: label })}
-      <Icon name="arrow_forward" size={16} flip />
-    </a>
-  </div>
 </article>

@@ -1,7 +1,7 @@
 /**
  * English copy. Every string on the site lives here (or in the data files).
  * Facts source: Taxila Satellite Township "Housing Society Information & Data Sheet" and the master layout plan.
- * Prices are never shown (always "Price on Inquiry").
+ * Prices are never shown. Plots are presented as categories only (all plots are sold; no sold-out label per client).
  */
 export const en = {
   meta: {
@@ -28,11 +28,8 @@ export const en = {
     chatOnWhatsapp: 'Chat on WhatsApp',
     bookVisit: 'Book a Visit',
     bookSiteVisit: 'Book a Site Visit',
-    viewPlotInventory: 'View Plot Inventory',
+    viewPlotCategories: 'View Plot Categories',
     inquire: 'Inquire',
-    inquirePlot: 'Inquire: {size} Plot',
-    priceOnInquiry: 'Price on Inquiry',
-    pricing: 'Pricing',
     planned: 'Planned',
     getDirections: 'Get Directions',
     openInGoogleMaps: 'Search on Google Maps',
@@ -90,20 +87,20 @@ export const en = {
 
   form: {
     modalEyebrow: 'Direct Sales Inquiry',
-    modalTitle: 'Express Plot Inquiry',
+    modalTitle: 'Quick Inquiry',
     modalTitlePlot: 'Inquiry: {size}',
-    modalSub: 'Share your details and our sales desk will reply on WhatsApp with rate cards and visit slots.',
-    contactTitle: 'Official Inquiry & Booking Request',
-    contactSub: 'Fill in your details below. Direct dispatch to our site office sales desk.',
+    modalSub: 'Share your details and our team will reply on WhatsApp.',
+    contactTitle: 'Inquiry Request',
+    contactSub: 'Fill in your details below and our team will get back to you on WhatsApp.',
     name: 'Full Name',
     namePlaceholder: 'e.g. Malik Muhammad Aslam',
     phone: 'Mobile / WhatsApp Number',
     phonePlaceholder: '0300 1234567',
     phoneHint: 'e.g. 0300 1234567 or +92 300 1234567',
-    plot: 'Plot Size of Interest',
+    plot: 'Plot Category (optional)',
     message: 'Your Message or Specific Inquiry',
     messagePlaceholder:
-      'Tell us about your preferred block, booking questions, or when you would like to visit the site...',
+      'Tell us what you would like to know, or when you would like to visit the site...',
     required: 'required',
     submit: 'Submit Inquiry',
     submitHint: 'Opens WhatsApp with your details pre-filled — no data is stored on this website.',
@@ -147,11 +144,11 @@ export const en = {
       sub: 'Four reasons families and investors choose Taxila Satellite Township.',
     },
     plots: {
-      eyebrow: 'Master Plot Inventory',
-      title: 'Plot Categories & Inventory',
-      sub: 'Explore residential and commercial plots for serene family living and long-term value.',
+      eyebrow: 'Plot Categories',
+      title: 'Plot Categories',
+      sub: 'The plot sizes planned in Taxila Satellite Township.',
       badge: '3 Plot Categories',
-      cta: 'View Full Inventory & Table',
+      cta: 'View Plot Details',
     },
     masterPlan: {
       eyebrow: 'Master Urban Layout',
@@ -212,9 +209,9 @@ export const en = {
   ],
 
   cta: {
-    eyebrow: 'Direct Sales Desk',
+    eyebrow: 'Contact Our Team',
     title: 'Schedule a Private Guided Site Tour',
-    text: 'Inspect available plots in person, review the master layout with our sales advisors, and see the homes already built across the township.',
+    text: 'Visit the township, review the master layout with our team, and see the homes built across the community.',
     officeLine: 'Minawa Group — Site Office, Canal Road, Toffkian',
     helpline: 'Helpline',
   },
@@ -251,16 +248,13 @@ export const en = {
   },
 
   plots: {
-    seoTitle: 'Plots & Inventory | 5, 6 & 7.7 Marla — Taxila Satellite Township',
+    seoTitle: 'Plot Categories | 5, 6 & 7.7 Marla — Taxila Satellite Township',
     seoDescription:
-      'Residential plots at Taxila Satellite Township, adjacent to UET Taxila: 5 Marla (25×50), 6 Marla (30×50) and 7.7 Marla (31.25×59.71), across Blocks A, B, C and E. Price on inquiry.',
-    eyebrow: 'Inventory & Specifications',
-    title: 'Plot Categories & Inventory',
-    sub: 'Explore residential and commercial plots for serene family living and long-term value.',
-    policyTitle: 'Pricing Policy:',
-    policy:
-      "All plot sizes are available with 'Price on Inquiry'. Official rate cards and flexible payment schedules are provided directly by our sales desk.",
-    listLabel: 'Master Plot Categories',
+      'Plot categories at Taxila Satellite Township, adjacent to UET Taxila: 5 Marla (25×50), 6 Marla (30×50) and 7.7 Marla (31.25×59.71), across Blocks A, B, C and E.',
+    eyebrow: 'Plot Specifications',
+    title: 'Plot Categories',
+    sub: 'The residential plot sizes planned in Taxila Satellite Township.',
+    listLabel: 'Plot Categories',
     listCount: '3 Categories',
     compareEyebrow: 'Side-by-side',
     compareTitle: 'Compare Plot Sizes',
@@ -270,9 +264,6 @@ export const en = {
     colSqft: 'Total Area (sq ft)',
     colMarla: 'Marla',
     colKanal: 'Kanal',
-    colPrice: 'Price',
-    commercialTitle: 'Commercial Plots',
-    commercialText: 'Commercial areas are designated in the master plan. Sizes, availability and rate cards are available from the sales desk.',
   },
 
   masterPlan: {
@@ -288,8 +279,6 @@ export const en = {
     zoomOut: 'Zoom out',
     reset: 'Reset view',
     fullRes: 'Open full resolution',
-    allotmentTitle: 'Balloting & Allotment',
-    allotment: 'Official rate cards and flexible installment plans are available upon request from the sales office.',
     download: 'Download Master Plan',
   },
 
@@ -354,7 +343,7 @@ export const en = {
       'Contact Taxila Satellite Township: site office & WhatsApp 0331-7000012, head office 051-2320148 / 051-2320150, taxila.township@gmail.com. Site office: Canal Road, Toffkian. Head office: Blue Area, Islamabad.',
     eyebrow: 'Direct Sales & Offices',
     title: 'Connect with Our Sales Team',
-    sub: 'Reach our site office or head office for inquiries, rate cards, or to arrange a site tour.',
+    sub: 'Reach our site office or head office for inquiries or to arrange a site visit.',
     officeTitle: 'Office Information',
     officeLocation: 'Site Office',
   },

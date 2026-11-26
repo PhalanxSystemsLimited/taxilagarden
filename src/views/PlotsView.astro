@@ -3,14 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import Badge from '../components/ui/Badge.astro';
-import Button from '../components/ui/Button.astro';
-import Icon from '../components/ui/Icon.astro';
 import PlotCard from '../components/sections/PlotCard.astro';
 import PlotCompareTable from '../components/sections/PlotCompareTable.astro';
 import CTABand from '../components/sections/CTABand.astro';
 import { plots } from '../data/plots';
 import { navLabels } from '../data/navigation';
-import { getDict, routeHref, tl } from '../lib/i18n';
+import { getDict, tl } from '../lib/i18n';
 import type { Lang } from '../data/types';
 
 const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
@@ -22,28 +20,13 @@ const p = t.plots;
   <PageHero lang={lang} eyebrow={p.eyebrow} title={p.title} sub={p.sub} crumb={tl(navLabels.plots, lang)} />
 
   <section class="container-x pt-space-2xl pb-space-2xl md:pb-space-3xl" aria-labelledby="plot-list-title">
-    <div class="mb-space-xl flex flex-col items-start gap-space-sm rounded-xl border border-border-sand-medium/60 bg-surface-cream-highlight/60 p-space-md sm:flex-row sm:items-center" data-reveal>
-      <Icon name="info" size={24} class="text-secondary" />
-      <p class="font-body text-body-sm text-on-surface"><strong>{p.policyTitle}</strong> {p.policy}</p>
-    </div>
-
     <div class="mb-space-lg flex flex-wrap items-center justify-between gap-3">
       <h2 id="plot-list-title" class="eyebrow" data-reveal="eyebrow">{p.listLabel}</h2>
       <Badge tone="seal" icon="verified">{p.listCount}</Badge>
     </div>
 
-    <ul class="grid grid-cols-1 gap-space-lg md:grid-cols-2 xl:grid-cols-4">
+    <ul class="grid grid-cols-1 gap-space-lg md:grid-cols-2 lg:grid-cols-3 lg:gap-space-xl">
       {plots.map((plot) => <li><PlotCard plot={plot} lang={lang} /></li>)}
-      <li class="flex flex-col justify-between rounded-2xl border border-secondary-fixed/30 bg-dark-brown-surface p-space-lg text-surface-bright" data-reveal>
-        <div>
-          <Badge tone="brown" icon="storefront">{tl({ en: 'Commercial', ur: 'کمرشل' }, lang)}</Badge>
-          <h3 class="mt-space-md font-display text-headline-md text-surface-bright">{p.commercialTitle}</h3>
-          <p class="mt-2 font-body text-body-sm text-surface-variant">{p.commercialText}</p>
-        </div>
-        <div class="mt-space-lg">
-          <Button variant="primary" href={routeHref('contact', lang)} inquiry="Commercial" iconEnd="arrow_forward">{t.common.inquire}</Button>
-        </div>
-      </li>
     </ul>
   </section>
 

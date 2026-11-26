@@ -1,6 +1,6 @@
 ---
 import { plots, formatNumber } from '../../data/plots';
-import { fmt, getDict, routeHref, tl } from '../../lib/i18n';
+import { getDict, tl } from '../../lib/i18n';
 import type { Lang } from '../../data/types';
 
 interface Props {
@@ -13,12 +13,12 @@ const p = t.plots;
 
 <div class="overflow-hidden rounded-2xl border border-border-sand-medium/70 bg-surface-cream-card shadow-tier1" data-reveal>
   <div class="overflow-x-auto" tabindex="0" role="region" aria-label={p.compareTitle}>
-    <table class="w-full min-w-[640px] border-collapse text-start font-body text-body-sm">
+    <table class="w-full min-w-[520px] border-collapse text-start font-body text-body-sm">
       <caption class="sr-only">{p.compareCaption}</caption>
       <thead class="bg-primary-container text-surface-bright">
         <tr>
           {
-            [p.colSize, p.colDimensions, p.colSqft, p.colMarla, p.colKanal, p.colPrice, ''].map((h) => (
+            [p.colSize, p.colDimensions, p.colSqft, p.colMarla, p.colKanal].map((h) => (
               <th scope="col" class="px-space-md py-3 text-start font-label text-label-badge uppercase text-secondary-fixed">
                 {h}
               </th>
@@ -37,17 +37,6 @@ const p = t.plots;
               <td class="px-space-md py-3 text-on-surface-variant"><span dir="ltr">{formatNumber(plot.sqft)}</span></td>
               <td class="px-space-md py-3 text-on-surface-variant"><span dir="ltr">{plot.marla}</span></td>
               <td class="px-space-md py-3 text-on-surface-variant"><span dir="ltr">{plot.kanal.toFixed(2)}</span></td>
-              <td class="px-space-md py-3 font-semibold text-secondary">{t.common.priceOnInquiry}</td>
-              <td class="px-space-md py-2 text-end">
-                <a
-                  href={routeHref('contact', lang)}
-                  data-inquiry={plot.value}
-                  class="inline-flex min-h-11 items-center rounded-lg border border-terracotta/40 px-space-md font-label text-label-badge uppercase text-terracotta transition-colors hover:bg-terracotta hover:text-white"
-                  aria-label={fmt(t.common.inquirePlot, { size: tl(plot.label, lang) })}
-                >
-                  {t.common.inquire}
-                </a>
-              </td>
             </tr>
           ))
         }

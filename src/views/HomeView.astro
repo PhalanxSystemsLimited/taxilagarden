@@ -89,24 +89,14 @@ const topo = ['entrance-gate', 'site-office', 'mosque-hills'].map(galleryById);
     </div>
   </section>
 
-  <!-- PLOT INVENTORY (all 5) -->
-  <section class="container-x py-space-2xl md:py-space-3xl" id="inventory" aria-labelledby="plots-title">
+  <!-- PLOT CATEGORIES (all sold) -->
+  <section class="container-x py-space-2xl md:py-space-3xl" id="plot-categories" aria-labelledby="plots-title">
     <div class="mb-space-2xl flex flex-col justify-between gap-space-md md:flex-row md:items-end">
       <SectionHeading eyebrow={h.plots.eyebrow} title={h.plots.title} sub={h.plots.sub} id="plots-title" />
       <Badge tone="seal" icon="verified" class="self-start md:self-auto">{h.plots.badge}</Badge>
     </div>
-    <ul class="grid grid-cols-1 gap-space-lg md:grid-cols-2 xl:grid-cols-4">
+    <ul class="grid grid-cols-1 gap-space-lg md:grid-cols-2 lg:grid-cols-3 lg:gap-space-xl">
       {plots.map((plot) => <li><PlotCard plot={plot} lang={lang} /></li>)}
-      <li class="flex flex-col justify-between rounded-2xl border border-dashed border-border-sand-medium bg-surface-cream-highlight/50 p-space-lg" data-reveal>
-        <div>
-          <Icon name="info" size={28} class="mb-space-md text-secondary" />
-          <p class="font-display text-headline-sm text-on-surface">{t.plots.policyTitle.replace(':', '')}</p>
-          <p class="mt-2 font-body text-body-sm text-on-surface-variant">{t.plots.policy}</p>
-        </div>
-        <div class="mt-space-lg">
-          <Button variant="dark" href={routeHref('plots', lang)} iconEnd="arrow_forward">{h.plots.cta}</Button>
-        </div>
-      </li>
     </ul>
   </section>
 

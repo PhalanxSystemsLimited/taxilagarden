@@ -3,14 +3,13 @@ import { getImage } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import Button from '../components/ui/Button.astro';
-import Icon from '../components/ui/Icon.astro';
 import CTABand from '../components/sections/CTABand.astro';
 import MasterPlanViewer from '../components/react/MasterPlanViewer.jsx';
 import { approvals } from '../data/approvals';
 import { navLabels } from '../data/navigation';
 import { areaText } from '../data/site';
 import { fullImage } from '../lib/images';
-import { getDict, routeHref, tl } from '../lib/i18n';
+import { getDict, tl } from '../lib/i18n';
 import plan from '../assets/images/master-layout-plan.jpg';
 import type { Lang } from '../data/types';
 
@@ -62,17 +61,7 @@ const pdfPath = '';
           </dl>
         </div>
 
-        <div class="rounded-2xl border border-dashed border-border-sand-medium bg-surface-cream-highlight/50 p-space-lg" data-reveal>
-          <p class="flex items-center gap-2 font-display text-headline-sm text-on-surface">
-            <Icon name="gavel" size={22} class="text-secondary" />
-            {m.allotmentTitle}
-          </p>
-          <p class="mt-2 font-body text-body-sm text-on-surface-variant">{m.allotment}</p>
-          <div class="mt-space-md flex flex-wrap gap-2">
-            <Button variant="primary" size="sm" href={routeHref('contact', lang)} inquiry="General Inquiry">{t.common.inquire}</Button>
-            {pdfPath && <Button variant="outline" size="sm" href={pdfPath} icon="download" download>{m.download}</Button>}
-          </div>
-        </div>
+        {pdfPath && <Button variant="outline" href={pdfPath} icon="download" download full>{m.download}</Button>}
       </aside>
     </div>
   </section>

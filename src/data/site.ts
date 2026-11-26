@@ -40,7 +40,7 @@ export const site = {
     number: '923317000012', // international format, digits only (used in wa.me links) — confirmed by client 25 Nov 2026
     display: '0331-7000012',
     defaultMessage:
-      'Hello Taxila Satellite Township Sales Team, I am interested in learning more about available plots and booking procedures.',
+      'Hello Taxila Satellite Township Sales Team, I would like to know more about Taxila Satellite Township.',
   },
 
   email: 'taxila.township@gmail.com' as string,

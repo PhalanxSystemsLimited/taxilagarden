@@ -68,10 +68,9 @@ export const plots: Plot[] = [
   },
 ];
 
-/** The single option list used by every form. */
+/** The single option list used by every form (all plots sold — field is optional, defaults to General Inquiry). */
 export const plotOptions: { value: string; label: L }[] = [
   ...plots.map((p) => ({ value: p.value, label: p.label })),
-  { value: 'Commercial', label: { en: 'Commercial', ur: 'کمرشل' } },
   { value: 'General Inquiry', label: { en: 'General Inquiry', ur: 'عمومی معلومات' } },
 ];
 
