@@ -15,23 +15,21 @@ const ur = lang === 'ur';
 type Stat = { label: string; gold: boolean; count?: number; suffix?: string; text?: string };
 const stats: Stat[] = [
   { count: f.area.kanal, suffix: ur ? ` کنال ${f.area.marla} مرلہ` : ` K ${f.area.marla} M`, label: t.stats.land, gold: true },
-  { count: f.plots, label: t.stats.plots, gold: false },
-  { count: f.homesBuilt, label: t.stats.homes, gold: true },
   { text: t.stats.nocValue, label: t.stats.noc, gold: false },
 ];
 ---
 
 <div
   class:list={[
-    'w-full max-w-5xl rounded-xl border border-secondary-fixed/20 bg-dark-brown-surface/80 p-space-md shadow-2xl backdrop-blur-xl sm:p-space-lg',
+    'w-full max-w-xl rounded-xl border border-secondary-fixed/20 bg-dark-brown-surface/80 p-space-md shadow-2xl backdrop-blur-xl sm:p-space-lg',
     className,
   ]}
   data-hero-fade
 >
-  <dl class="grid grid-cols-2 gap-y-4 md:grid-cols-4 md:divide-x md:divide-secondary-fixed/15 rtl:md:divide-x-reverse">
+  <dl class="grid grid-cols-2 divide-x divide-secondary-fixed/15 rtl:divide-x-reverse">
     {
-      stats.map((s, i) => (
-        <div class:list={['flex flex-col-reverse items-center p-2 text-center', i >= 2 && 'border-t border-secondary-fixed/15 pt-4 md:border-t-0 md:pt-2']}>
+      stats.map((s) => (
+        <div class="flex flex-col-reverse items-center p-2 text-center">
           <dt class="mt-1 font-label text-label-eyebrow uppercase text-surface-variant">{s.label}</dt>
           <dd class:list={['font-display text-[26px] leading-tight sm:text-stat-value', s.gold ? 'text-secondary-fixed' : 'text-surface-bright']} dir={ur ? 'rtl' : 'ltr'}>
             {
@@ -41,7 +39,7 @@ const stats: Stat[] = [
                   {s.suffix && <span class="text-[0.6em]">{s.suffix}</span>}
                 </>
               ) : (
-                <span class="text-[0.8em]">{s.text}</span>
+                <span class="text-[0.8em] rtl:text-[0.62em]">{s.text}</span>
               )
             }
           </dd>

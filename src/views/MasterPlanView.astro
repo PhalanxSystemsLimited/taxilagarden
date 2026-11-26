@@ -2,16 +2,13 @@
 import { getImage } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/ui/SectionHeading.astro';
 import Button from '../components/ui/Button.astro';
 import Icon from '../components/ui/Icon.astro';
-import BlockList from '../components/sections/BlockList.astro';
-import LandUse from '../components/sections/LandUse.astro';
 import CTABand from '../components/sections/CTABand.astro';
 import MasterPlanViewer from '../components/react/MasterPlanViewer.jsx';
 import { approvals } from '../data/approvals';
 import { navLabels } from '../data/navigation';
-import { areaText, site } from '../data/site';
+import { areaText } from '../data/site';
 import { fullImage } from '../lib/images';
 import { getDict, routeHref, tl } from '../lib/i18n';
 import plan from '../assets/images/master-layout-plan.jpg';
@@ -58,14 +55,6 @@ const pdfPath = '';
               <dt class="font-label text-label-badge uppercase text-text-muted-sand">{t.stats.land}</dt>
               <dd class="font-display text-headline-md text-secondary-fixed">{areaText(lang)}</dd>
             </div>
-            <div>
-              <dt class="font-label text-label-badge uppercase text-text-muted-sand">{t.stats.plots}</dt>
-              <dd class="font-display text-stat-value text-surface-bright" dir="ltr"><span data-count={site.facts.plots}>{site.facts.plots}</span></dd>
-            </div>
-            <div>
-              <dt class="font-label text-label-badge uppercase text-text-muted-sand">{t.stats.homes}</dt>
-              <dd class="font-display text-stat-value text-surface-bright" dir="ltr"><span data-count={site.facts.homesBuilt}>{site.facts.homesBuilt}</span></dd>
-            </div>
             <div class="col-span-2">
               <dt class="font-label text-label-badge uppercase text-text-muted-sand">{t.common.authority}</dt>
               <dd class="font-body text-body-md font-semibold text-secondary-fixed">{t.stats.nocValue} · {t.stats.noc}</dd>
@@ -86,18 +75,6 @@ const pdfPath = '';
         </div>
       </aside>
     </div>
-  </section>
-
-  <section class="border-t border-border-sand-light bg-surface-container py-space-2xl md:py-space-3xl" aria-labelledby="landuse-title">
-    <div class="container-x">
-      <SectionHeading eyebrow={m.landUseEyebrow} title={m.landUseTitle} align="center" id="landuse-title" class="mb-space-2xl" />
-      <LandUse lang={lang} />
-    </div>
-  </section>
-
-  <section class="container-x py-space-2xl md:py-space-3xl" aria-labelledby="blocks-title">
-    <SectionHeading eyebrow={m.blocksEyebrow} title={m.blocksTitle} sub={m.blocksSub} id="blocks-title" class="mb-space-xl" />
-    <BlockList lang={lang} />
   </section>
 
   <CTABand lang={lang} />

@@ -8,8 +8,6 @@ import Badge from '../components/ui/Badge.astro';
 import Icon from '../components/ui/Icon.astro';
 import PillarGrid from '../components/sections/PillarGrid.astro';
 import PlotCard from '../components/sections/PlotCard.astro';
-import LandUse from '../components/sections/LandUse.astro';
-import BlockList from '../components/sections/BlockList.astro';
 import AmenityGrid from '../components/sections/AmenityGrid.astro';
 import DocumentCard from '../components/sections/DocumentCard.astro';
 import GalleryGrid from '../components/sections/GalleryGrid.astro';
@@ -112,13 +110,11 @@ const topo = ['entrance-gate', 'site-office', 'mosque-hills'].map(galleryById);
     </ul>
   </section>
 
-  <!-- MASTER PLAN: LAND USE + BLOCKS -->
+  <!-- MASTER PLAN TEASER -->
   <section class="border-t border-border-sand-light bg-surface-container py-space-2xl md:py-space-3xl" aria-labelledby="masterplan-title">
     <div class="container-x">
-      <SectionHeading eyebrow={h.masterPlan.eyebrow} title={h.masterPlan.title} sub={h.masterPlan.sub} align="center" id="masterplan-title" class="mb-space-2xl" />
-      <div class="mb-space-xl"><BlockList lang={lang} /></div>
-      <LandUse lang={lang} />
-      <div class="mt-space-xl text-center" data-reveal>
+      <SectionHeading eyebrow={h.masterPlan.eyebrow} title={h.masterPlan.title} align="center" id="masterplan-title" />
+      <div class="mt-space-lg text-center" data-reveal>
         <Button variant="ghost" href={routeHref('masterPlan', lang)} iconEnd="arrow_forward" class="text-secondary!">{h.masterPlan.cta}</Button>
       </div>
     </div>
@@ -141,7 +137,7 @@ const topo = ['entrance-gate', 'site-office', 'mosque-hills'].map(galleryById);
     </svg>
     <div class="container-x relative">
       <SectionHeading eyebrow={h.approvals.eyebrow} title={h.approvals.title} sub={h.approvals.sub} align="center" tone="dark" id="approvals-title" class="mb-space-2xl" />
-      <div class="grid grid-cols-1 gap-space-xl lg:grid-cols-2">
+      <div class="mx-auto grid max-w-3xl grid-cols-1 gap-space-xl">
         {approvals.map((doc) => <DocumentCard doc={doc} lang={lang} />)}
       </div>
       <div class="mt-space-xl text-center" data-reveal>

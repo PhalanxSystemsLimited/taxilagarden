@@ -22,22 +22,12 @@ export const site = {
     area: { kanal: 164, marla: 10 }, // 164 Kanal 10 Marla
     amenitiesKanal: 67.384, // parks, graveyard, roads, etc.
     amenitiesTransferredKanal: 22,
-    plots: 349,
-    homesBuilt: 99,
     approvalAuthority: 'TMA Khanpur',
     nocStatus: 'NOC Approved',
     district: 'Haripur',
     tehsil: 'Khanpur',
     mouza: 'Toffkian',
   },
-
-  /** Site position by block (plots / houses constructed). */
-  blocks: [
-    { id: 'A', plots: 81, homesBuilt: 17 },
-    { id: 'B', plots: 91, homesBuilt: 16 },
-    { id: 'C', plots: 119, homesBuilt: 41 },
-    { id: 'E', plots: 58, homesBuilt: 25 },
-  ],
 
   /** First entry is the primary number (top bar, "Call" buttons, structured data). */
   phones: [

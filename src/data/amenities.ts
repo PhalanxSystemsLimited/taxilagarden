@@ -34,8 +34,8 @@ export const amenities: Amenity[] = [
     category: { en: 'Recreation', ur: 'تفریح' },
     title: { en: 'Parks & Open Spaces', ur: 'پارکس و کھلی جگہیں' },
     description: {
-      en: '8.44% of the township is set aside for parks and open spaces in the master plan.',
-      ur: 'ماسٹر پلان میں ٹاؤن شپ کا 8.44 فیصد رقبہ پارکس اور کھلی جگہوں کے لیے مختص ہے۔',
+      en: 'Parks and open spaces set aside in the master plan.',
+      ur: 'ماسٹر پلان میں پارکس اور کھلی جگہوں کے لیے مختص رقبہ۔',
     },
     planned: false,
     variant: 'olive',
@@ -67,8 +67,8 @@ export const amenities: Amenity[] = [
     category: { en: 'Infrastructure', ur: 'انفراسٹرکچر' },
     title: { en: 'Road Network', ur: 'سڑکوں کا نظام' },
     description: {
-      en: 'A quarter of the land (25.37%) is given to roads connecting Blocks A, B, C and E.',
-      ur: 'رقبے کا ایک چوتھائی (25.37 فیصد) بلاک اے، بی، سی اور ای کو ملانے والی سڑکوں کے لیے مختص ہے۔',
+      en: 'A planned road network connecting Blocks A, B, C and E.',
+      ur: 'بلاک اے، بی، سی اور ای کو ملانے والا منظم سڑکوں کا نظام۔',
     },
     planned: false,
     variant: 'cream',
