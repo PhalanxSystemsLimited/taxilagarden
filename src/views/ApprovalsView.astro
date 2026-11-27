@@ -8,6 +8,7 @@ import Lightbox from '../components/Lightbox.astro';
 import { Image } from 'astro:assets';
 import { fullImage } from '../lib/images';
 import plan from '../assets/images/master-layout-plan.jpg';
+import clearance from '../assets/images/land-distribution-clearance.jpg';
 import { navLabels } from '../data/navigation';
 import { areaText, waLink } from '../data/site';
 import { getDict, routeHref, tl } from '../lib/i18n';
@@ -16,7 +17,18 @@ import type { Lang } from '../data/types';
 const lang: Lang = Astro.currentLocale === 'ur' ? 'ur' : 'en';
 const t = getDict(lang);
 const a = t.approvals;
-const planFull = await fullImage(plan);
+const docs = [
+  { img: plan, full: await fullImage(plan), icon: 'map', eyebrow: a.planEyebrow, title: a.planTitle, alt: a.planAlt, meta: '' },
+  {
+    img: clearance,
+    full: await fullImage(clearance, 88),
+    icon: 'verified',
+    eyebrow: a.certEyebrow,
+    title: a.certTitle,
+    alt: a.certAlt,
+    meta: 'No. 1948-49 / TMA (Khanpur)',
+  },
+];
 
 const rows = [
   { icon: 'account_balance', label: a.authorityLabel, value: a.authorityValue },
@@ -70,39 +82,46 @@ const rows = [
         </div>
       </article>
 
-      <!-- Master layout plan: click opens the full-resolution scan in the lightbox -->
-      <figure class="mx-auto mt-space-xl max-w-3xl overflow-hidden rounded-2xl border border-secondary-fixed/30 bg-dark-brown-elevated shadow-2xl" data-reveal>
-        <a
-          href={planFull.src}
-          data-pswp
-          data-pswp-width={plan.width}
-          data-pswp-height={plan.height}
-          data-caption={a.planTitle}
-          class="group relative block bg-white"
-          aria-label={`${a.planTitle} — ${a.planHint}`}
-        >
-          <Image
-            src={plan}
-            alt={a.planAlt}
-            width={1200}
-            widths={[600, 900, 1200]}
-            sizes="(min-width: 768px) 768px, 100vw"
-            class="h-auto w-full transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-[1.02]"
-            loading="lazy"
-          />
-          <span class="absolute bottom-3 start-3 inline-flex items-center gap-1.5 rounded-full bg-dark-brown-surface/90 px-3 py-1.5 font-label text-label-badge uppercase text-secondary-fixed backdrop-blur">
-            <Icon name="zoom_in" size={16} />
-            {a.planHint}
-          </span>
-        </a>
-        <figcaption class="flex items-center gap-3 border-t border-secondary-fixed/20 p-space-lg">
-          <Icon name="map" size={22} class="text-secondary-fixed" />
-          <div>
-            <p class="font-label text-label-badge uppercase text-secondary-fixed">{a.planEyebrow}</p>
-            <p class="font-display text-headline-sm text-surface-bright">{a.planTitle}</p>
-          </div>
-        </figcaption>
-      </figure>
+      <!-- Documents side by side: master layout plan (left) + TMA clearance certificate (right). Click → full resolution. -->
+      <div class="mx-auto mt-space-xl grid max-w-5xl grid-cols-1 gap-space-lg md:grid-cols-2" data-pswp-gallery>
+        {
+          docs.map((d) => (
+            <figure class="flex flex-col overflow-hidden rounded-2xl border border-secondary-fixed/30 bg-dark-brown-elevated shadow-2xl" data-reveal>
+              <a
+                href={d.full.src}
+                data-pswp
+                data-pswp-width={d.img.width}
+                data-pswp-height={d.img.height}
+                data-caption={d.title}
+                class="group relative block aspect-[3/4] overflow-hidden bg-white"
+                aria-label={`${d.title} — ${a.planHint}`}
+              >
+                <Image
+                  src={d.img}
+                  alt={d.alt}
+                  width={Math.min(d.img.width, 900)}
+                  widths={[450, 700, 900].filter((w) => w <= d.img.width)}
+                  sizes="(min-width: 768px) 480px, 100vw"
+                  class="h-full w-full object-contain transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-[1.02]"
+                  loading="lazy"
+                />
+                <span class="absolute bottom-3 start-3 inline-flex items-center gap-1.5 rounded-full bg-dark-brown-surface/90 px-3 py-1.5 font-label text-label-badge uppercase text-secondary-fixed backdrop-blur">
+                  <Icon name="zoom_in" size={16} />
+                  {a.planHint}
+                </span>
+              </a>
+              <figcaption class="flex flex-1 items-start gap-3 border-t border-secondary-fixed/20 p-space-lg">
+                <Icon name={d.icon} size={22} class="mt-0.5 text-secondary-fixed" />
+                <div>
+                  <p class="font-label text-label-badge uppercase text-secondary-fixed">{d.eyebrow}</p>
+                  <p class="font-display text-headline-sm text-surface-bright">{d.title}</p>
+                  {d.meta && <p class="mt-1 font-body text-body-sm text-surface-variant" dir="ltr">{d.meta}</p>}
+                </div>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
     </div>
   </section>
 

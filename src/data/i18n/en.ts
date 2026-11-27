@@ -282,6 +282,9 @@ export const en = {
     planTitle: 'Master Layout Plan',
     planAlt: 'Master layout plan of Taxila Satellite Township showing sectors, plots, roads and parks',
     planHint: 'Click to view full resolution',
+    certEyebrow: 'TMA Khanpur',
+    certTitle: 'Land Distribution Clearance Certificate',
+    certAlt: 'Land Distribution Clearance Certificate issued by Tehsil Municipal Administration Khanpur for Taxila Satellite Township',
   },
 
   location: {
