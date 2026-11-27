@@ -50,10 +50,6 @@ export const site = {
       en: 'Canal Road, Taxila Satellite Township, Village & P.O. Toffkian, Tehsil Khanpur, District Haripur',
       ur: 'کینال روڈ، ٹیکسلا سیٹلائٹ ٹاؤن شپ، گاؤں و ڈاکخانہ توفکیاں، تحصیل خانپور، ضلع ہری پور',
     } as L,
-    head: {
-      en: 'Office #29 & 30, 4th Floor, Hill View Plaza, Jinnah Avenue, Blue Area, Islamabad',
-      ur: 'دفتر نمبر 29 و 30، چوتھی منزل، ہل ویو پلازہ، جناح ایونیو، بلیو ایریا، اسلام آباد',
-    } as L,
     locality: 'Toffkian, Khanpur',
     region: 'Haripur, Khyber Pakhtunkhwa',
     country: 'PK',

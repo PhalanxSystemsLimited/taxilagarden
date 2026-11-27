@@ -66,10 +66,6 @@ const socials = Object.entries(site.socials).filter(([, url]) => Boolean(url));
             <span><strong class="font-semibold text-surface-variant">{t.common.siteOffice}:</strong> {tl(site.address.site, lang)}</span>
           </p>
           <p class="flex items-start gap-space-sm">
-            <Icon name="corporate_fare" size={18} class="mt-0.5 text-secondary-fixed" />
-            <span><strong class="font-semibold text-surface-variant">{t.common.headOffice}:</strong> {tl(site.address.head, lang)}</span>
-          </p>
-          <p class="flex items-start gap-space-sm">
             <Icon name="schedule" size={18} class="mt-0.5 text-secondary-fixed" />
             <span>{t.hours.weekdaysShort}<br />{t.hours.sunday}</span>
           </p>

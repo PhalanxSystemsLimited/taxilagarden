@@ -1,5 +1,5 @@
 ---
-/** Site office + head office cards (from the data sheet). */
+/** Site office (address + phone) and head office (phones only) cards. */
 import Icon from '../ui/Icon.astro';
 import { site } from '../../data/site';
 import { getDict, tl } from '../../lib/i18n';
@@ -16,7 +16,7 @@ const [sitePhone, ...headPhones] = site.phones;
 
 const offices = [
   { icon: 'pin_drop', title: t.common.siteOffice, address: tl(site.address.site, lang), phones: [sitePhone!] },
-  { icon: 'corporate_fare', title: t.common.headOffice, address: tl(site.address.head, lang), phones: headPhones },
+  { icon: 'corporate_fare', title: t.common.headOffice, address: '', phones: headPhones },
 ];
 ---
 
@@ -34,7 +34,7 @@ const offices = [
         </span>
         <div class="min-w-0">
           <p class:list={['font-label text-label-badge uppercase', dark ? 'text-secondary-fixed' : 'text-secondary']}>{o.title}</p>
-          <p class:list={['mt-0.5 font-body text-body-sm', dark ? 'text-surface-variant' : 'text-on-surface']}>{o.address}</p>
+          {o.address && <p class:list={['mt-0.5 font-body text-body-sm', dark ? 'text-surface-variant' : 'text-on-surface']}>{o.address}</p>}
           <p class="mt-1 flex flex-wrap gap-x-3">
             {o.phones.map((p) => (
               <a

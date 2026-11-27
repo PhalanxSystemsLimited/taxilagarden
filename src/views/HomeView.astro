@@ -100,7 +100,7 @@ const topo = ['entrance-gate', 'site-office', 'mosque-hills'].map(galleryById);
 
   <!-- AMENITIES -->
   <section class="container-x py-space-2xl md:py-space-3xl" aria-labelledby="amenities-title">
-    <SectionHeading eyebrow={h.amenities.eyebrow} title={h.amenities.title} sub={h.amenities.sub} align="center" id="amenities-title" class="mb-space-2xl" />
+    <SectionHeading eyebrow={h.amenities.eyebrow} title={h.amenities.title} align="center" id="amenities-title" class="mb-space-2xl" />
     <AmenityGrid lang={lang} />
     <div class="mt-space-xl text-center" data-reveal>
       <Button variant="ghost" href={routeHref('amenities', lang)} iconEnd="arrow_forward" class="text-secondary!">{h.amenities.cta}</Button>

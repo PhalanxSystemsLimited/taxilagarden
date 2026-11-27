@@ -125,7 +125,7 @@ export const en = {
       eyebrow: 'The Vision & Origins',
       title: 'Ancient Serenity Meets Modern Living',
       p1: 'Taxila Satellite Township is a residential township by Minawa Group, adjacent to the University of Engineering & Technology (UET) Taxila. It lies in Mouza Toffkian, Tehsil Khanpur, District Haripur, with its site office on Canal Road — in the historic Taxila valley, home to the heritage of ancient Gandhara.',
-      p2: 'Spread over 164 Kanal 10 Marla, the township is planned in Blocks A, B, C and E, with 67.384 Kanal set aside for amenities — parks and open spaces, a mosque, commercial areas, public buildings and roads. The scheme is NOC-approved by TMA Khanpur.',
+      p2: 'Spread over 164 Kanal 10 Marla, the township is planned in Blocks A, B, C and E, with area set aside for amenities — parks and open spaces, a mosque, commercial areas, public buildings and roads. The scheme is NOC-approved by TMA Khanpur.',
       captionEyebrow: 'Taxila Satellite Township',
       caption: 'Landscaped Monument Roundabout',
       chipTitle: 'NOC Approved',
@@ -148,7 +148,6 @@ export const en = {
     amenities: {
       eyebrow: 'Lifestyle & Amenities',
       title: 'Amenities for Everyday Living',
-      sub: '67.384 Kanal of the township is set aside for amenities — parks, a mosque, commercial areas, public buildings, a graveyard and roads.',
       cta: 'View All Amenities',
     },
     gallery: {
@@ -290,7 +289,7 @@ export const en = {
   location: {
     seoTitle: 'Location | Adjacent to UET Taxila — Taxila Satellite Township',
     seoDescription:
-      'Taxila Satellite Township is adjacent to UET Taxila, on Canal Road, Village & P.O. Toffkian, Tehsil Khanpur, District Haripur. Head office: Blue Area, Islamabad.',
+      'Taxila Satellite Township is adjacent to UET Taxila, on Canal Road, Village & P.O. Toffkian, Tehsil Khanpur, District Haripur.',
     eyebrow: 'Location',
     title: 'Adjacent to UET Taxila',
     sub: 'In Mouza Toffkian, Tehsil Khanpur, District Haripur — in the historic Taxila valley, near the Taxila Museum and the region’s heritage sites.',
@@ -317,7 +316,7 @@ export const en = {
   contact: {
     seoTitle: 'Contact Sales & Offices | Taxila Satellite Township',
     seoDescription:
-      'Contact Taxila Satellite Township: site office & WhatsApp 0331-7000012, head office 051-2320148 / 051-2320150, taxila.township@gmail.com. Site office: Canal Road, Toffkian. Head office: Blue Area, Islamabad.',
+      'Contact Taxila Satellite Township: site office & WhatsApp 0331-7000012, head office 051-2320148 / 051-2320150, taxila.township@gmail.com. Site office: Canal Road, Toffkian.',
     eyebrow: 'Direct Sales & Offices',
     title: 'Connect with Our Sales Team',
     sub: 'Reach our site office or head office for inquiries or to arrange a site visit.',
